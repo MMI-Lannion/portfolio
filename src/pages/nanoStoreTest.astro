@@ -1,0 +1,25 @@
+---
+import CartFlyoutToggle from "../components/CartFlyoutToggle";
+import CartFlyout from "../components/CartFlyout";
+import AddToCartForm from "../components/AddToCartForm";
+---
+
+<!doctype html>
+<html lang="en">
+  <head></head>...
+  <body>
+    <header>
+      <nav>
+        <a href="/">Astro storefront</a>
+        <CartFlyoutToggle client:load />
+      </nav>
+    </header>
+    <main>
+      <AddToCartForm client:load>
+        <!-- ... -->
+      </AddToCartForm>
+    </main>
+    <CartFlyout client:load />
+  </body>
+
+</html>
