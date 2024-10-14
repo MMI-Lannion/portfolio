@@ -10,7 +10,10 @@
     "astro": "astro"
   },
   "dependencies": {
-    "astro": "^5.0.0-beta.4"
+    "@astrojs/react": "^3.6.2",
+    "astro": "^5.0.0-beta.4",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
   },
   "packageManager": "yarn@1.22.22+sha1.ac34549e6aa8e7ead463a7407e1c7390f61a6610",
   "devDependencies": {
