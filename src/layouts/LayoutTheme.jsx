@@ -1,9 +1,16 @@
-import { Theme } from '@radix-ui/themes';
+import Themes from "./Themes";
+import { Header } from "@/components/Header";
+// import { Footer } from "@/components/Footer";
+import { Box, Separator } from "@radix-ui/themes";
 
-export default function LayoutTheme() {
+export function LayoutTheme({ children }) {
   return (
-    <Theme>
-        <h1>Hello World!</h1>
-    </Theme>
+    <Themes>
+      <Box pb="8">
+        <Header />
+      </Box>
+      <Box m="4">{children}</Box>
+      {/* <Footer /> */}
+    </Themes>
   );
 }
