@@ -19,10 +19,12 @@ export function Header() {
         </Flex>
         {/* Lien de connexion utilisateur à droite */}
         <Flex width="200px" justify="end">
-          <Button href="/login" color="white" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+          <Link href="/login">
+          <Button color="white" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
             <PersonIcon /> {/* Icon for Login */}
             Login
           </Button>
+          </Link>
         </Flex>
       </Flex>
     </Box>
