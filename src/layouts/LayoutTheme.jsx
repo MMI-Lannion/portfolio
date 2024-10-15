@@ -1,9 +1,9 @@
-import * as Tabs from '@radix-ui/react-tabs';
+import { Theme } from '@radix-ui/themes';
 
 export default function LayoutTheme() {
   return (
-    <Tabs.Root defaultValue="tab1">
+    <Theme>
         <h1>Hello World!</h1>
-    </Tabs.Root>
+    </Theme>
   );
 }
