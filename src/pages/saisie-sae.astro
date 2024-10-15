@@ -1,9 +1,38 @@
 ---
+import { Combobox } from "@/components/Combobox";
 import Layout from "../layouts/Layout.astro";
-import {Link, Heading} from '@radix-ui/themes';
+import { Link, Heading, Box } from "@radix-ui/themes";
+import TextAreaComponent from "../components/TextAreaComponent";
+
+
 ---
 
-<Layout title="Saisie sae"></Layout>
-<Heading>Saisie SAE</Heading>
-<Link href="../auto-evaluation">Prochaine étape</Link>
+<Layout title="Saisie sae">
 
+    <Heading as="h1" size="7">Formulaire de saisie</Heading>
+    <Heading as="h2" size="7">(Synthèse de la SAE)</Heading>
+    <Heading as="h3" size="3">Saisir la SAE</Heading>
+    <Combobox></Combobox>
+    
+    <Heading as="h3" size="3">Créer le Treemap</Heading>
+
+    <!-- Treempap -->
+
+    <Heading as="h3" size="3">Description du projet</Heading>
+
+    <Heading as="h4" size="2">Contexte et objectifs</Heading>
+    <TextAreaComponent client:load></TextAreaComponent>
+
+    <Heading as="h4" size="2">Démarche de projet &rsaquo; Etapes de réalisation </Heading>
+    <TextAreaComponent client:load></TextAreaComponent>
+
+    <Heading as="h4" size="2">Livrables attendus (les nommer)</Heading>
+    <TextAreaComponent client:load></TextAreaComponent>
+
+    <Heading as="h3" size="3">Indiquer une preuve (ou plusieurs) de vos réalisations (jpeg, pdf, video...)</Heading>
+    
+    <!-- Treempap -->
+
+    <Link href="../auto-evaluation">Prochaine étape</Link>
+    
+</Layout>
