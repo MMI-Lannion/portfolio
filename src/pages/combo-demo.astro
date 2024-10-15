@@ -1,8 +1,10 @@
 ---
 import Layout from "@/layouts/Layout.astro";
 import { Combobox } from "@components/Combobox";
+import { Radar } from "@components/Radar";
 ---
 
 <Layout title="Select">
   <Combobox client:load />
+  <Radar client:only />
 </Layout>
