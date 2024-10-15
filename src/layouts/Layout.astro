@@ -1,4 +1,7 @@
 ---
+
+import LayoutTheme from './LayoutTheme.jsx';
+
 interface Props {
 	title: string;
 }
@@ -17,7 +20,9 @@ const { title } = Astro.props;
 		<title>{title}</title>
 	</head>
 	<body>
+		<LayoutTheme> 
 		<slot />
+		</LayoutTheme> 
 	</body>
 </html>
 <style is:global>
