@@ -2,7 +2,7 @@
 import { Combobox } from "@/components/Combobox";
 import TableActionPlan from "../components/TableActionPlan";
 import Layout from "../layouts/Layout.astro";
-import { Link, Heading, Flex } from "@radix-ui/themes";
+import { Link, Heading, Flex, Badge, Separator, Box } from "@radix-ui/themes";
 import TextAreaComponent from "@/components/TextAreaComponent";
 
 const handleChange = (e) => {
@@ -11,30 +11,38 @@ const handleChange = (e) => {
 ---
 
 <Layout title="Plan d'actions">
-  <Heading>Plan d'actions d'améliorations</Heading>
+  <Box mb="4">
+    <Flex gap="1" align="center" mb="2">
+      <Heading as="h1" size="6">Plan d'actions d'améliorations</Heading>
+      <Badge size="3" color="indigo">3</Badge>
+    </Flex>
+    <Separator
+      style={{ width: "20%", background: "#000" }}
+      size="4"
+      orientation="horizontal"
+    />
+  </Box>
 
-  <Flex direction="column" gap="1">
-    <p>
-      Positionnez le ou les compétences que vous souhaitez améliorer sur l'un
-      des 4 cadrans de couleurs.
-    </p>
-    <p>Décrire l'action que vous allez mener.</p>
+  <Flex direction="column" gap="4">
+    <Flex direction="column" gap="1">
+      <Heading as="h3" size="3">Mes axes d'améliorations :</Heading>
+      <TableActionPlan client:load onChange={handleChange} />
+    </Flex>
 
-    <TableActionPlan client:load onChange={handleChange} />
-  </Flex>
+    <Flex direction="column" gap="1">
+      <Heading as="h3" size="3">Compétence clé :</Heading>
+      <Combobox />
+    </Flex>
 
-  <Flex direction="column" gap="1">
-    <h3>Séléctionner 1 ou 2 compétences</h3>
-    <Combobox />
-    <Combobox />
-  </Flex>
+    <Flex direction="column" gap="1">
+      <Heading as="h3" size="3">Sous-Compétence :</Heading>
+      <Combobox />
+    </Flex>
 
-  <Flex direction="column" gap="1">
-    <h3>
-      Décrire les actions à mener pour s'améliorer selon la ou les compétences
-      choisies (issues de l'auto-évaluation)
-    </h3>
-    <TextAreaComponent />
+    <Flex direction="column" gap="1">
+      <Heading as="h3" size="3"> Actions à mener </Heading>
+      <TextAreaComponent />
+    </Flex>
   </Flex>
 
   <Flex justify="end">

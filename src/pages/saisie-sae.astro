@@ -2,7 +2,8 @@
 import { Combobox } from "@/components/Combobox";
 import Layout from "../layouts/Layout.astro";
 import { Link, Heading, Box, Flex, Separator, Badge } from "@radix-ui/themes";
-import TextAreaComponent from "../components/TextAreaComponent";
+import TextAreaComponent from "@/components/TextAreaComponent";
+import { TreeMap } from "@/components/TreeMap";
 ---
 
 <Layout title="Saisie sae">
@@ -26,8 +27,8 @@ import TextAreaComponent from "../components/TextAreaComponent";
 
     <Flex direction="column" gap="1">
       <Heading as="h3" size="3">Graphique en Tree Map :</Heading>
+      <TreeMap />
     </Flex>
-    <!-- Treempap -->
 
     <Flex direction="column" gap="1">
       <Heading as="h3" size="3">Description :</Heading>
