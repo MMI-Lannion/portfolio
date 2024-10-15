@@ -20,9 +20,7 @@ import { Label } from '@radix-ui/react-label';
 
         <Label htmlFor="password" size="2" marginBottom="1" display="block">Password</Label>
         <Flex align="center">
-            <TextArea id="password" name="password" required placeholder="Enter your password" type={showPassword ? 'text' : 'password'} style={{ width: '100%', padding: '8px', border: '1px solid #ccc', borderRadius: '4px' }} />
             <Button type="button" variant="solid" onClick={() => setShowPassword(!showPassword)} style={{ marginLeft: '8px' }}>
-              {showPassword ? <EyeClosedIcon /> : <EyeOpenIcon />}
             </Button>
           </Flex>
       </Box>
