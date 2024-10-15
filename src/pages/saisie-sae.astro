@@ -1,38 +1,64 @@
 ---
 import { Combobox } from "@/components/Combobox";
 import Layout from "../layouts/Layout.astro";
-import { Link, Heading, Box } from "@radix-ui/themes";
+import { Link, Heading, Box, Flex, Separator, Badge } from "@radix-ui/themes";
 import TextAreaComponent from "../components/TextAreaComponent";
-
-
 ---
 
 <Layout title="Saisie sae">
+  <Box mb="4">
+    <Flex gap="1" align="center" mb="2">
+      <Heading as="h1" size="6">Synthèse</Heading>
+      <Badge size="3" color="orange">1</Badge>
+    </Flex>
+    <Separator
+      style={{ width: "10%", background: "#000" }}
+      size="4"
+      orientation="horizontal"
+    />
+  </Box>
 
-    <Heading as="h1" size="7">Formulaire de saisie</Heading>
-    <Heading as="h2" size="7">(Synthèse de la SAE)</Heading>
-    <Heading as="h3" size="3">Saisir la SAE</Heading>
-    <Combobox></Combobox>
-    
-    <Heading as="h3" size="3">Créer le Treemap</Heading>
+  <Flex direction="column" gap="4">
+    <Flex direction="column" gap="1">
+      <Heading as="h3" size="3">Choisir Votre SEA :</Heading>
+      <Combobox />
+    </Flex>
 
+    <Flex direction="column" gap="1">
+      <Heading as="h3" size="3">Graphique en Tree Map :</Heading>
+    </Flex>
     <!-- Treempap -->
 
-    <Heading as="h3" size="3">Description du projet</Heading>
+    <Flex direction="column" gap="1">
+      <Heading as="h3" size="3">Description :</Heading>
+    </Flex>
 
-    <Heading as="h4" size="2">Contexte et objectifs</Heading>
-    <TextAreaComponent client:load></TextAreaComponent>
+    <Flex direction="column" gap="1">
+      <Heading as="h4" size="2">Contexte et Objectifs :</Heading>
+      <TextAreaComponent client:load />
+    </Flex>
 
-    <Heading as="h4" size="2">Démarche de projet &rsaquo; Etapes de réalisation </Heading>
-    <TextAreaComponent client:load></TextAreaComponent>
+    <Flex direction="column" gap="1">
+      <Heading as="h4" size="2"
+        >Démarche de Projet &rsaquo; Etapes de Réalisation
+      </Heading>
+      <TextAreaComponent client:load />
+    </Flex>
 
-    <Heading as="h4" size="2">Livrables attendus (les nommer)</Heading>
-    <TextAreaComponent client:load></TextAreaComponent>
+    <Flex direction="column" gap="1">
+      <Heading as="h4" size="2">Livrables :</Heading>
+      <TextAreaComponent client:load />
+    </Flex>
 
-    <Heading as="h3" size="3">Indiquer une preuve (ou plusieurs) de vos réalisations (jpeg, pdf, video...)</Heading>
-    
-    <!-- Treempap -->
+    <Flex direction="column" gap="1">
+      <Heading as="h3" size="3"
+        >Indiquer une preuve (ou plusieurs) de vos réalisations (jpeg, pdf,
+        video...)</Heading
+      >
+    </Flex>
+  </Flex>
 
-    <Link href="../auto-evaluation">Prochaine étape</Link>
-    
+  <!-- Treempap -->
+
+  <Link href="../auto-evaluation">Prochaine étape</Link>
 </Layout>
