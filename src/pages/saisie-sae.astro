@@ -1,9 +1,10 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import {Link, Heading} from '@radix-ui/themes';
+import InputFile from "@/components/InputFile";
 ---
 
 <Layout title="Saisie sae"></Layout>
 <Heading>Saisie SAE</Heading>
 <Link href="../auto-evaluation">Prochaine étape</Link>
-
+<InputFile client:load/>
