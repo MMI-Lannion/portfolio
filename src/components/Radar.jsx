@@ -2,6 +2,7 @@ import PlotFigure from "@/PlotFigure";
 import penguins from "./data.json";
 import * as Plot from "@observablehq/plot";
 import * as d3 from "d3";
+import React from "react";
 
 import phones from "./phones.json";
 

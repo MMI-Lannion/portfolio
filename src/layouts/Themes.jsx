@@ -3,7 +3,7 @@ import "@radix-ui/themes/styles.css";
 
 export default function Themes({ children }) {
   return (
-    <Theme radius="full" accentColor="indigo">
+    <Theme appearance="light" accentColor="pink">
       {children}
     </Theme>
   );
