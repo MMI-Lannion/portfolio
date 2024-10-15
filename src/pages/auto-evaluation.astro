@@ -1,10 +1,18 @@
 ---
 import Layout from "../layouts/Layout.astro";
-import {Link, Heading} from '@radix-ui/themes';
+import { Link, Heading, Flex } from '@radix-ui/themes';
+import AutoEvaluation from "@components/AutoEvaluation";
 ---
 
-<Layout title="Auto évaluation"></Layout>
-<Heading>AUto évaluation</Heading>
-<Link href="../saisie-sae">Retour</Link>
-<Link href="../plan-actions">Prochaine étape</Link>
-
+<Layout title="Welcome to Astro.">
+    <main>
+      <Heading>Auto évaluation</Heading>
+      <AutoEvaluation>
+        <!-- ... -->
+      </AutoEvaluation>
+    </main>
+    <Flex justify="end">
+      <Link href="../saisie-sae">Retour</Link>
+      <Link href="../plan-actions">Prochaine étape</Link>
+    </Flex>
+</Layout>
