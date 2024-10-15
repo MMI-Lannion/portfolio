@@ -1,14 +1,44 @@
 ---
+import { Combobox } from "@/components/Combobox";
 import TableActionPlan from "../components/TableActionPlan";
 import Layout from "../layouts/Layout.astro";
-import { Link, Heading } from "@radix-ui/themes";
+import { Link, Heading, Flex } from "@radix-ui/themes";
+import TextAreaComponent from "@/components/TextAreaComponent";
+
+const handleChange = (e) => {
+  console.log(e);
+};
 ---
 
 <Layout title="Plan d'actions">
-  <Heading>Plan d'actions</Heading>
+  <Heading>Plan d'actions d'améliorations</Heading>
 
-  <TableActionPlan />
+  <Flex direction="column" gap="1">
+    <p>
+      Positionnez le ou les compétences que vous souhaitez améliorer sur l'un
+      des 4 cadrans de couleurs.
+    </p>
+    <p>Décrire l'action que vous allez mener.</p>
 
-  <Link href="../auto-evaluation">Retour</Link>
-  <Link href="../dashboard">Prochaine étape</Link>
+    <TableActionPlan client:load onChange={handleChange} />
+  </Flex>
+
+  <Flex direction="column" gap="1">
+    <h3>Séléctionner 1 ou 2 compétences</h3>
+    <Combobox />
+    <Combobox />
+  </Flex>
+
+  <Flex direction="column" gap="1">
+    <h3>
+      Décrire les actions à mener pour s'améliorer selon la ou les compétences
+      choisies (issues de l'auto-évaluation)
+    </h3>
+    <TextAreaComponent />
+  </Flex>
+
+  <Flex justify="end">
+    <Link href="../auto-evaluation">Retour</Link>
+    <Link href="../dashboard">Prochaine étape</Link>
+  </Flex>
 </Layout>
