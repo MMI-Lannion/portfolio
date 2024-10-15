@@ -1,5 +1,13 @@
 ---
-import LayoutTheme from './LayoutTheme.jsx';
+import { LayoutTheme } from "./LayoutTheme";
+
+interface Props {
+  title: string;
+}
+
+const { title } = Astro.props;
+
+import "@radix-ui/themes/styles.css";
 ---
 
 <!doctype html>
@@ -13,10 +21,8 @@ import LayoutTheme from './LayoutTheme.jsx';
     <title>{Astro.props.title}</title>
   </head>
   <body>
-    <LayoutTheme client:load> <!-- Ajoute client:load pour l'hydratation côté client -->
+    <LayoutTheme>
       <slot />
     </LayoutTheme>
   </body>
 </html>
-
-

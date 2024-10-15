@@ -1,15 +1,16 @@
-import React from 'react';
-import { Theme } from '@radix-ui/themes';
-import TextEditor from '../components/TextEditor.jsx';
+import Themes from "./Themes";
+import { Header } from "@/components/Header";
+// import { Footer } from "@/components/Footer";
+import { Box, Separator } from "@radix-ui/themes";
 
-const LayoutTheme = () => {
+export function LayoutTheme({ children }) {
   return (
-
-
-    <Theme scheme="dark">
-            <TextEditor />
-    </Theme>
+    <Themes>
+      <Box pb="8">
+        <Header />
+      </Box>
+      <Box m="4">{children}</Box>
+      {/* <Footer /> */}
+    </Themes>
   );
-};
-
-export default LayoutTheme;
+}

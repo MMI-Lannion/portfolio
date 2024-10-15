@@ -1,1 +1,14 @@
-<div>plan-actions</div>
+---
+import TableActionPlan from "../components/TableActionPlan";
+import Layout from "../layouts/Layout.astro";
+import { Link, Heading } from "@radix-ui/themes";
+---
+
+<Layout title="Plan d'actions">
+  <Heading>Plan d'actions</Heading>
+
+  <TableActionPlan />
+
+  <Link href="../auto-evaluation">Retour</Link>
+  <Link href="../dashboard">Prochaine étape</Link>
+</Layout>
