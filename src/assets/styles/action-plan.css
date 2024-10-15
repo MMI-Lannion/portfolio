@@ -1,0 +1,39 @@
+.flex-container {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.flex-item {
+    min-height: 150px;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+}
+
+.flex-item.yellow {
+    background-color: #FED410;
+}
+
+.flex-item.purple {
+    background-color: #971289;
+}
+
+.flex-item.teal {
+    background-color: #01D1AF;
+}
+
+.flex-item.grey {
+    background-color: #D9D9D9;
+}
+
+.flex-item-text {
+    color: #fff;
+    margin: 0;
+    text-align: center;
+}
+
+.flex-item-span {
+    color: #fff;
+    font-size: 1.5em;
+}
