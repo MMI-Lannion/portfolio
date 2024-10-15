@@ -1,9 +1,11 @@
 ---
 import { Combobox } from "@/components/Combobox";
+import { ButtonNext } from "@/components/ButtonNext";
 import Layout from "../layouts/Layout.astro";
 import { Link, Heading, Box, Flex, Separator, Badge } from "@radix-ui/themes";
 import TextAreaComponent from "@/components/TextAreaComponent";
 import { TreeMap } from "@/components/TreeMap";
+import InputFile from "@/components/InputFile";
 ---
 
 <Layout title="Saisie sae">
@@ -54,12 +56,14 @@ import { TreeMap } from "@/components/TreeMap";
     <Flex direction="column" gap="1">
       <Heading as="h3" size="3"
         >Indiquer une preuve (ou plusieurs) de vos réalisations (jpeg, pdf,
-        video...)</Heading
+        video, doc, docx, odt)</Heading
       >
+      <InputFile />
     </Flex>
   </Flex>
 
   <!-- Treempap -->
-
-  <Link href="../auto-evaluation">Prochaine étape</Link>
+  <Flex justify="end">
+    <ButtonNext href="../auto-evaluation" />
+  </Flex>
 </Layout>
