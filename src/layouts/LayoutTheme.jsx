@@ -1,9 +1,15 @@
+import React from 'react';
 import { Theme } from '@radix-ui/themes';
+import TextEditor from '../components/TextEditor.jsx';
 
-export default function LayoutTheme() {
+const LayoutTheme = () => {
   return (
-    <Theme>
-        <h1>Hello World!</h1>
+
+
+    <Theme scheme="dark">
+            <TextEditor />
     </Theme>
   );
-}
+};
+
+export default LayoutTheme;
