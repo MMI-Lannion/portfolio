@@ -1,32 +1,14 @@
 ---
 import Layout from "../layouts/Layout.astro";
-import { Link, Heading, Box, Button, Flex } from '@radix-ui/themes';
-import { Label } from '@radix-ui/react-label';
-
-
+import { Flex, Heading } from '@radix-ui/themes';
+import LoginForm from '../components/LoginForm.jsx';
 ---
 
 <Layout title="Login">
-<Flex align="center" justify="center" css={{ height: '100vh' }}>
-  <Flex gap="2" padding="4" gapmaxWidth="400px" margin="0 auto" backgroundColor="white" borderRadius="medium" boxShadow="medium" direction="column">
-    <Heading size="4" marginBottom="4">Login</Heading>
-    <form>
-    <Flex gap="3" direction="column">
-      <Box>
-        <Label htmlFor="email" size="2" display="block">Email</Label>
-        <input type="email" id="email" name="email" required style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px;" />
-      </Box>
-      <Box>
-
-        <Label htmlFor="password" size="2" marginBottom="1" display="block">Password</Label>
-        <Flex align="center">
-            <Button type="button" variant="solid" onClick={() => setShowPassword(!showPassword)} style={{ marginLeft: '8px' }}>
-            </Button>
-          </Flex>
-      </Box>
-      <Button type="submit" variant="solid" width="100%">Login</Button>
+  <Flex align="center" justify="center" css={{ height: '100vh' }}>
+    <Flex gap="2" padding="4" maxWidth="400px" margin="0 auto" backgroundColor="white" borderRadius="medium" boxShadow="medium" direction="column">
+      <Heading size="4" marginBottom="4">Login</Heading>
+      <LoginForm />
     </Flex>
-    </form>
-</Flex>
-</Flex>
+  </Flex>
 </Layout>

@@ -11,6 +11,8 @@
   },
   "dependencies": {
     "@astrojs/react": "^3.6.2",
+    "@mantine/core": "^7.13.2",
+    "@mantine/hooks": "^7.13.2",
     "@nanostores/react": "^0.8.0",
     "@observablehq/plot": "^0.6.16",
     "@radix-ui/react-dialog": "^1.1.2",
