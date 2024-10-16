@@ -1,11 +1,11 @@
 import { pointer } from "@observablehq/plot";
 import { Link, Button, Flex } from "@radix-ui/themes";
 
-export function ButtonNext({href}) {
+export function ButtonNext({href, name}) {
   return (
     
     <Link href={href}>
-        <Button>Prochaine étape</Button>
+        <Button>{name}</Button>
     </Link>
     
   );
