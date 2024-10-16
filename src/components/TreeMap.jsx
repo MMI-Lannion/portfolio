@@ -1,10 +1,12 @@
 import PlotFigure from "@/PlotFigure";
 import * as Plot from "@observablehq/plot";
-import { Flex, Heading, TextField } from "@radix-ui/themes";
+import { Flex, Heading } from "@radix-ui/themes";
 import * as Slider from "@radix-ui/react-slider";
+import * as Dialog from "@radix-ui/react-dialog";
 import * as d3 from "d3";
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import "./tree-map.css";
+import { Cross2Icon } from "@radix-ui/react-icons";
 
 // Données pour le treemap
 
@@ -19,23 +21,43 @@ export function TreeMap() {
     ],
   });
 
+  //changement du pourcentage
   const changePercentage = (name, value) => {
     setData((prevData) => {
+      const newValue = value[0];
+      const currentCategory = prevData.children.find((e) => e.name === name);
+      const currentPercentage = currentCategory.percentage;
+  
+      const difference = newValue - currentPercentage;
+  
+      const maxCategory = prevData.children
+        .filter((e) => e.name !== name)
+        .reduce((max, e) => (e.percentage > max.percentage ? e : max), prevData.children[0]);
+  
+      const newMaxPercentage = Math.max(0, maxCategory.percentage - difference);
+  
       return {
-        children: prevData.children.map((e) =>
-          e.name === name ? { ...e, percentage: value[0] } : e
-        ),
+        children: prevData.children.map((e) => {
+          if (e.name === name) {
+            
+            return { ...e, percentage: newValue };
+          } else if (e.name === maxCategory.name) {
+            
+            return { ...e, percentage: newMaxPercentage };
+          }
+          return e;
+        }),
       };
     });
   };
-
-  console.log(d3.hierarchy(data));
+  
+  
 
   // Configuration du layout du treemap
   const createTreemapData = (data) => {
     const root = d3
       .hierarchy(data)
-      .sum((d) => d.percentage) // Utilisation du pourcentage comme valeur
+      .sum((d) => d.percentage)
       .sort((a, b) => b.percentage - a.percentage);
 
     // Génération des coordonnées pour chaque noeud
@@ -44,24 +66,75 @@ export function TreeMap() {
 
     // Mettez à jour les données avec les coordonnées
     leaves.forEach((leaf) => {
-      const { data } = leaf; // On récupère les données de chaque feuille
-      data.x0 = leaf.x0; // Mise à jour des coordonnées
+      const { data } = leaf;
+      data.x0 = leaf.x0;
       data.y0 = leaf.y0;
       data.x1 = leaf.x1;
       data.y1 = leaf.y1;
     });
 
-    return leaves; // Retourne les feuilles mises à jour
+    return leaves;
   };
 
   const treemapData = createTreemapData(data);
+
+  const handleClick = (event, d) => {
+    console.log("test");
+  };
+
+  // const ref = useRef();
+
+  // useEffect(() => {
+  //   if (!ref?.current) {
+  //     return
+  //   }
+
+  //   console.log("test");
+
+  //   const glabel = ref?.current.querySelector(".");
+  //   const handleClick = (e) => {
+
+  //   }
+  // })
 
   return (
     <>
       <Flex gap="5" direction="column">
         <Heading>Treemap</Heading>
 
-        {/* slider comprendre */}
+        <Dialog.Root>
+          <Dialog.Trigger asChild>
+            <button className="Button violet">Edit profile</button>
+          </Dialog.Trigger>
+          <Dialog.Portal>
+            <Dialog.Overlay className="DialogOverlay" />
+            <Dialog.Content className="DialogContent">
+              <Dialog.Title className="DialogTitle">
+                Changer le pourcentage
+              </Dialog.Title>
+              <Dialog.Description className="DialogDescription"></Dialog.Description>
+              <fieldset className="Fieldset"></fieldset>
+              <div
+                style={{
+                  display: "flex",
+                  marginTop: 25,
+                  justifyContent: "flex-end",
+                }}
+              >
+                <Dialog.Close asChild>
+                  <button className="Button green">Save changes</button>
+                </Dialog.Close>
+              </div>
+              <Dialog.Close asChild>
+                <button className="IconButton" aria-label="Close">
+                  <Cross2Icon />
+                </button>
+              </Dialog.Close>
+            </Dialog.Content>
+          </Dialog.Portal>
+        </Dialog.Root>
+
+        {/* Slider Comprendre */}
         <Slider.Root
           className="SliderRoot"
           defaultValue={[
@@ -70,9 +143,7 @@ export function TreeMap() {
           ]}
           max={100}
           step={5}
-          onValueChange={(value) => {
-            changePercentage("Comprendre", value);
-          }}
+          onValueChange={(value) => changePercentage("Comprendre", value)}
         >
           <Slider.Track className="SliderTrack">
             <Slider.Range
@@ -83,7 +154,7 @@ export function TreeMap() {
           <Slider.Thumb className="SliderThumb" aria-label="Volume" />
         </Slider.Root>
 
-        {/* slider concevoir */}
+        {/* Slider Concevoir */}
         <Slider.Root
           className="SliderRoot"
           defaultValue={[
@@ -92,9 +163,7 @@ export function TreeMap() {
           ]}
           max={100}
           step={5}
-          onValueChange={(value) => {
-            changePercentage("Concevoir", value);
-          }}
+          onValueChange={(value) => changePercentage("Concevoir", value)}
         >
           <Slider.Track className="SliderTrack">
             <Slider.Range
@@ -105,19 +174,78 @@ export function TreeMap() {
           <Slider.Thumb className="SliderThumb" aria-label="Volume" />
         </Slider.Root>
 
+        {/* Slider Produire */}
+        <Slider.Root
+          className="SliderRoot"
+          defaultValue={[
+            data.children.find((child) => child.name === "Produire").percentage,
+          ]}
+          max={100}
+          step={5}
+          onValueChange={(value) => changePercentage("Produire", value)}
+        >
+          <Slider.Track className="SliderTrack">
+            <Slider.Range
+              className="SliderRange"
+              style={{ backgroundColor: "yellow" }}
+            />
+          </Slider.Track>
+          <Slider.Thumb className="SliderThumb" aria-label="Volume" />
+        </Slider.Root>
+
+        {/* Slider Développer */}
+        <Slider.Root
+          className="SliderRoot"
+          defaultValue={[
+            data.children.find((child) => child.name === "Développer")
+              .percentage,
+          ]}
+          max={100}
+          step={5}
+          onValueChange={(value) => changePercentage("Développer", value)}
+        >
+          <Slider.Track className="SliderTrack">
+            <Slider.Range
+              className="SliderRange"
+              style={{ backgroundColor: "green" }}
+            />
+          </Slider.Track>
+          <Slider.Thumb className="SliderThumb" aria-label="Volume" />
+        </Slider.Root>
+
+        {/* Slider Entreprendre */}
+        <Slider.Root
+          className="SliderRoot"
+          defaultValue={[
+            data.children.find((child) => child.name === "Entreprendre")
+              .percentage,
+          ]}
+          max={100}
+          step={5}
+          onValueChange={(value) => changePercentage("Entreprendre", value)}
+        >
+          <Slider.Track className="SliderTrack">
+            <Slider.Range
+              className="SliderRange"
+              style={{ backgroundColor: "blue" }}
+            />
+          </Slider.Track>
+          <Slider.Thumb className="SliderThumb" aria-label="Volume" />
+        </Slider.Root>
+
         <PlotFigure
           options={{
             width: 1500,
             height: 500,
             color: { legend: true },
-            axis: null, // Supprimer les axes
+            axis: null,
             marks: [
               // Rectangles pour le treemap
               Plot.rect(treemapData, {
-                x1: "x0", // Position initiale x
-                x2: "x1", // Position finale x
-                y1: "y0", // Position initiale y
-                y2: "y1", // Position finale y
+                x1: "x0",
+                x2: "x1",
+                y1: "y0",
+                y2: "y1",
                 fill: (d) => {
                   switch (d.data.name) {
                     case "Comprendre":
@@ -134,20 +262,21 @@ export function TreeMap() {
                       return "grey";
                   }
                 },
-                title: (d) => `${d.data.name}: ${d.data.percentage}%`, // Titre pour chaque rectangle
+                title: (d) => `${d.data.name} : ${d.data.percentage}%`,
+                onClick: handleClick,
               }),
               // Labels pour chaque section du treemap
               Plot.text(treemapData, {
-                x: (d) => (d.x0 + d.x1) / 2, // Centre du rectangle pour le texte
-                y: (d) => (d.y0 + d.y1) / 2, // Centre du rectangle pour le texte
+                x: (d) => (d.x0 + d.x1) / 2,
+                y: (d) => (d.y0 + d.y1) / 2,
                 dx: 0,
                 dy: 0,
                 text: (d) => {
                   const percentage = d.data.percentage;
                   const name = d.data.name;
-                  return `${name}\n\n${percentage}%`; // Affiche le pourcentage si supérieur à 5%
+                  return `${name}\n\n${percentage}%`;
                 },
-                fill: "#fff", // Couleur du texte
+                fill: "#fff",
                 textAnchor: "middle",
                 fontSize: 20,
               }),
