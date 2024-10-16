@@ -2,6 +2,7 @@ import { atom, computed } from "nanostores";
 
 export const $but = atom("but1");
 export const $filterSea = atom("");
+export const $theme = atom("light");
 
 export const $saes = atom({
   but1: ["but1 1", "but1 2", "apple", "kiwi"],
@@ -15,3 +16,7 @@ export const $butSaes = computed([$saes, $filterSea], (saes) => {
   const butSaes = saes[but];
   return butSaes.filter((e) => e.includes(filter));
 });
+
+export const toggleTheme = () => {
+  $theme.set($theme.get() === "light" ? "dark" : "light");
+};

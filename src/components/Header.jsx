@@ -1,10 +1,14 @@
 import { Box, Text, Link, Flex, Button } from "@radix-ui/themes";
-import { PersonIcon } from "@radix-ui/react-icons"; // Import the icon
+import { MoonIcon, PersonIcon, SunIcon } from "@radix-ui/react-icons"; // Import the icon
+import { $theme, toggleTheme } from "@/store/Store";
+import { useStore } from "@nanostores/react";
 
 export function Header() {
+  const theme = useStore($theme);
+
   return (
     <header>
-      <Box as="header" padding="4" backgroundColor="--accent-1" width="100%">
+      <Box as="header" p="4" backgroundColor="--accent-1" width="100%">
         <Flex
           justify="between"
           alignItems="center"
@@ -28,16 +32,26 @@ export function Header() {
             </Link>
           </Flex>
           {/* Lien de connexion utilisateur à droite */}
-          <Flex width="200px" justify="end">
+          <Flex
+            width="200px"
+            align="baseline"
+            justify="end"
+            direction="row"
+            gap="4"
+          >
             <Link href="/login">
               <Button
                 color="white"
-                style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}
+                variant="ghost"
+                style={{ display: "flex", alignItems: "center" }}
               >
                 <PersonIcon /> {/* Icon for Login */}
-                Login
               </Button>
             </Link>
+
+            <Button variant="ghost" onClick={toggleTheme}>
+              {theme === "dark" ? <SunIcon /> : <MoonIcon />}
+            </Button>
           </Flex>
         </Flex>
       </Box>
