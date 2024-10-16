@@ -5,10 +5,41 @@ import { Radar } from "./Radar";
 import { Flex, Text, Heading } from "@radix-ui/themes";
 
 export default function AutoEvaluation() {
-  // datas to send to radars
-  const datasRadar1 = {};
-  const datasRadar2 = {};
-  const datasRadar3 = {};
+  const test1 = [
+    {
+      name: "test1",
+      label11: 0.22,
+      label12: 0.28,
+      label13: 0.29,
+      label14: 0.17,
+      label15: 0.22,
+      label16: 0.02,
+    },
+  ];
+
+  const test2 = [
+    {
+      name: "test2",
+      label21: 0.29,
+      label22: 0.21,
+      label23: 0.39,
+      label24: 0.27,
+      label25: 0.12,
+      label26: 0.32,
+    },
+  ];
+
+  const test3 = [
+    {
+      name: "test3",
+      label31: 0.02,
+      label32: 0.18,
+      label33: 0.39,
+      label34: 0.27,
+      label35: 0.17,
+      label36: 0.12,
+    },
+  ];
 
   return (
     <Flex gap="4" direction="column">
@@ -21,7 +52,7 @@ export default function AutoEvaluation() {
           échelle de 1 à 5 (1 = Pas du tout maitrisé ; 5 = Tout à fait maitrisé)
         </Text>
 
-        <Radar datasRadar1={datasRadar1} />
+        <Radar datas={test1} />
       </Flex>
 
       <Flex gap="1" direction="column">
@@ -33,7 +64,7 @@ export default function AutoEvaluation() {
           SAE ou de votre projet en ressource
         </Text>
 
-        <Radar datasRadar1={datasRadar1} />
+        <Radar datas={test2} />
       </Flex>
 
       <Flex gap="1" direction="column">
@@ -45,7 +76,7 @@ export default function AutoEvaluation() {
           échelle de 1 à 5 (1 = Pas du tout maitrisé ; 5 = Tout à fait maitrisé)
         </Text>
 
-        <Radar datasRadar1={datasRadar1} />
+        <Radar datas={test3} />
       </Flex>
     </Flex>
   );

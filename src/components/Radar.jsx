@@ -1,21 +1,18 @@
 import PlotFigure from "@/PlotFigure";
-import penguins from "./data.json";
 import * as Plot from "@observablehq/plot";
 import * as d3 from "d3";
-import React from "react";
+import React from "react";  
 
-import phones from "./phones.json";
+export function Radar({ datas }) {
+  const points = datas.flatMap(({ name, ...values }) =>
+    Object.entries(values).map(([key, value]) => ({ name, key, value }))
+  );
 
-const points = phones.flatMap(({ name, ...values }) =>
-  Object.entries(values).map(([key, value]) => ({ name, key, value }))
-);
+  const longitude = d3
+    .scalePoint(new Set(Plot.valueof(points, "key")), [180, -180])
+    .padding(0.5)
+    .align(1);
 
-const longitude = d3
-  .scalePoint(new Set(Plot.valueof(points, "key")), [180, -180])
-  .padding(0.5)
-  .align(1);
-
-export function Radar() {
   return (
     <PlotFigure
       options={{
@@ -50,7 +47,7 @@ export function Radar() {
           }),
 
           // tick labels
-          Plot.text([0.3, 0.4, 0.5], {
+          Plot.text([0.1, 0.2, 0.3, 0.4, 0.5], {
             x: 180,
             y: (d) => 90 - d,
             dx: 2,
