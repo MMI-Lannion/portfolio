@@ -3,6 +3,7 @@
 import React from "react";
 import { Radar } from "./Radar";
 import { Flex, Text, Heading } from "@radix-ui/themes";
+import { SunburstChart } from "./SunburstChart.tsx";
 
 export default function AutoEvaluation() {
   // datas to send to radars
@@ -33,7 +34,7 @@ export default function AutoEvaluation() {
           SAE ou de votre projet en ressource
         </Text>
 
-        <Radar datasRadar1={datasRadar1} />
+        <SunburstChart />
       </Flex>
 
       <Flex gap="1" direction="column">
