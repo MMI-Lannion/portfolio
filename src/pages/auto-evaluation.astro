@@ -3,6 +3,7 @@ import Layout from "../layouts/Layout.astro";
 import { Link, Heading, Flex, Box, Badge, Separator } from "@radix-ui/themes";
 import AutoEvaluation from "@components/AutoEvaluation";
 import { ButtonNext } from "@/components/ButtonNext";
+import LikertScale from "@/components/LikertScale";
 ---
 
 <Layout title="Welcome to Astro.">
@@ -22,6 +23,7 @@ import { ButtonNext } from "@/components/ButtonNext";
     <AutoEvaluation />
   </Box>
 
+  <LikertScale name="test" />
 
   <Flex justify="end" direction="row" m="3" gapX="3">
     <ButtonNext name="Retour" href="../saisie-sae" />
