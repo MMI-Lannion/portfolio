@@ -3,6 +3,7 @@
 import React from "react";
 import { Radar } from "./Radar";
 import { Flex, Text, Heading } from "@radix-ui/themes";
+import { SunburstChart } from "./SunburstChart.tsx";
 
 const test1 = [
   {
@@ -39,6 +40,7 @@ const test3 = [
     label36: 0.12,
   },
 ];
+import { SunburstChart } from "./SunburstChart.tsx";
 
 export default function AutoEvaluation() {
   return (
@@ -64,7 +66,7 @@ export default function AutoEvaluation() {
           SAE ou de votre projet en ressource
         </Text>
 
-        <Radar datas={test2} />
+        <SunburstChart />
       </Flex>
 
       <Flex gap="1" direction="column">
