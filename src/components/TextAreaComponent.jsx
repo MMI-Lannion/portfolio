@@ -3,7 +3,7 @@
 import React from 'react';
 import { TextArea } from "@radix-ui/themes";
 
-export default function TextAreaComponent({ onChange }) {
+export default function TextAreaComponent({ onChange , placeholder }) {
     const [value, setValue] = React.useState('');
   
     const handleInputChange = (e) => {
@@ -30,9 +30,10 @@ export default function TextAreaComponent({ onChange }) {
           resize: 'none',
           lineHeight: '1.5',
           maxHeight: 'calc(1.5em * 4)',
+          maxWidth:'1000px',
           overflowY: 'auto',
         }}
-        placeholder="Your text here..."
+        placeholder={placeholder}
       />
     );
   }
