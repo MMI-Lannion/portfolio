@@ -22,7 +22,7 @@ import "./index.css";
     <title>{Astro.props.title}</title>
   </head>
   <body>
-    <LayoutTheme>
+    <LayoutTheme client:load>
       <slot />
     </LayoutTheme>
   </body>

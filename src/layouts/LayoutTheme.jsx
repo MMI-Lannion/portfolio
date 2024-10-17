@@ -1,7 +1,10 @@
 import Themes from "./Themes";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
-import { Box, Separator } from "@radix-ui/themes";
+import { Box, Container, Separator } from "@radix-ui/themes";
+import { Dialog } from "@/components/Dialog";
+import { useStore } from "@nanostores/react";
+import { $openDialog } from "@/store/Store";
 
 export function LayoutTheme({ children }) {
   return (
