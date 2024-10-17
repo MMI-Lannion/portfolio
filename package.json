@@ -26,11 +26,20 @@
     "@tiptap/starter-kit": "^2.8.0",
     "@types/react": "^18.3.11",
     "@types/react-dom": "^18.3.1",
+    "add": "^2.0.6",
+    "anychart": "^8.13.0",
+    "anychart-react": "^1.4.1",
     "astro": "^5.0.0-beta.4",
     "d3": "^7.9.0",
     "nanostores": "^0.11.3",
+    "plotly.js": "^2.35.2",
+    "plotly.js-dist": "^2.35.2",
+    "prop-types": "^15.8.1",
     "react": "^18.3.1",
-    "react-dom": "^18.3.1"
+    "react-dom": "^18.3.1",
+    "react-plotly.js": "^2.6.0",
+    "react-zoomable-sunburst": "^0.0.5",
+    "yarn": "^1.22.22"
   },
   "packageManager": "yarn@1.22.22+sha1.ac34549e6aa8e7ead463a7407e1c7390f61a6610",
   "devDependencies": {
