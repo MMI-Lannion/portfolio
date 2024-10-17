@@ -6,6 +6,7 @@ import React, { useEffect, useRef, useState } from "react";
 import phones from "./phones.json";
 import { Box } from "@radix-ui/themes";
 import { Dialog } from "./Dialog";
+import LikertScale from "@/components/LikertScale";
 
 const points = phones.flatMap(({ name, ...values }) =>
   Object.entries(values).map(([key, value]) => ({ name, key, value }))
@@ -68,8 +69,8 @@ export function Radar({ datas }) {
         onCancel={() => {
           setOpen(false);
         }}
-        title="Dialog title"
-        content={<Box>Likert Scale</Box>}
+        title={datas[0].name}
+        content={<LikertScale />}
       />
 
       <PlotFigure
