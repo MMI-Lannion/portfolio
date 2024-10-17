@@ -130,6 +130,9 @@ export const SunburstChart = () => {
     (hierarchy);
   root.each(d => d.current = d);
 
+  // modifier le style des titres 
+
+
   // Create the arc generator.
   const arc = d3.arc()
       .startAngle(d => d.x0)
@@ -177,6 +180,30 @@ export const SunburstChart = () => {
       .attr("fill-opacity", d => +labelVisible(d.current))
       .attr("transform", d => labelTransform(d.current))
       .text(d => d.data.name);
+
+// Ajouter un élément div pour le tooltip dans le corps du document
+const tooltip = d3.select("body").append("div")
+.attr("class", "tooltip")
+.style("position", "absolute")
+.style("visibility", "hidden")
+.style("background", "#fff")
+.style("border", "1px solid #ccc")
+.style("padding", "5px")
+.style("border-radius", "3px")
+.style("box-shadow", "0 0 5px rgba(0,0,0,0.3)");
+
+// Ajouter des événements mouseover et mouseout aux éléments path
+path.on("mouseover", function(event, d) {
+  tooltip.style("visibility", "visible")
+    .text(d.data.description); // Assurez-vous que chaque élément de données a une propriété 'description'
+})
+.on("mousemove", function(event) {
+  tooltip.style("top", (event.pageY - 10) + "px")
+    .style("left", (event.pageX + 10) + "px");
+})
+.on("mouseout", function() {
+  tooltip.style("visibility", "hidden");
+});
 
   const parent = svg.append("circle")
       .datum(root)
