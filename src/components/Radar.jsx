@@ -2,10 +2,11 @@ import PlotFigure from "@/PlotFigure";
 import penguins from "./data.json";
 import * as Plot from "@observablehq/plot";
 import * as d3 from "d3";
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 import phones from "./phones.json";
 import { Box } from "@radix-ui/themes";
+import { Dialog } from "./Dialog";
 
 const points = phones.flatMap(({ name, ...values }) =>
   Object.entries(values).map(([key, value]) => ({ name, key, value }))
@@ -18,6 +19,7 @@ const longitude = d3
 
 export function Radar() {
   const ref = useRef();
+  const [open, setOpen] = useState(false);
 
   useEffect(() => {
     if (!ref?.current) {
@@ -27,7 +29,26 @@ export function Radar() {
     const glabel = ref?.current.querySelector(".radar-el-label");
 
     const handleLabelClick = (e) => {
-      console.log("clicking", e);
+      let element = e.target;
+      const nodeName = e.target.nodeName;
+
+      if (nodeName === "tspan") {
+        element = element.parentNode;
+      }
+
+      let label = "";
+      if (element.hasChildNodes()) {
+        let children = element.childNodes;
+
+        for (const node of children) {
+          label += " " + node.textContent;
+        }
+      } else {
+        label = element.textContent;
+      }
+
+      console.log("handleLabelClick", label);
+      setOpen(true);
     };
 
     glabel.addEventListener("click", handleLabelClick);
@@ -35,10 +56,19 @@ export function Radar() {
     return () => {
       glabel.removeEventListener("click", handleLabelClick);
     };
-  }, [ref]);
+  }, [ref, setOpen]);
 
   return (
     <Box ref={ref}>
+      <Dialog
+        open={open}
+        onCancel={() => {
+          setOpen(false);
+        }}
+        title="Dialog title"
+        content={<Box>Likert Scale</Box>}
+      />
+
       <PlotFigure
         options={{
           width: 450,
