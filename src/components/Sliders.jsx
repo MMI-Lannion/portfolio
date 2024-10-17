@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import * as Slider from "@radix-ui/react-slider";
-import { Flex, Heading, Text, Box } from "@radix-ui/themes";
+import { Flex, Heading, Text } from "@radix-ui/themes";
 import "./tree-map.css";
 
 export function Sliders({ data, setData }) {

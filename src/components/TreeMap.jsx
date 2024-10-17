@@ -1,17 +1,18 @@
 import PlotFigure from "@/PlotFigure";
 import * as Plot from "@observablehq/plot";
-import { Flex, Heading } from "@radix-ui/themes";
+import { Button, Flex, Heading, Box } from "@radix-ui/themes";
 import * as d3 from "d3";
 import React, { useState, useEffect } from "react";
 import "./tree-map.css";
 import { Sliders } from "./Sliders";
+import { Dialog } from "./Dialog";
 
 // Données pour le treemap
 
 export function TreeMap() {
   const [data, setData] = useState({
     children: [
-      { key: "Comprendre", color: "red", percentage: 10, keywords: ["key word 1", "key word 2"] },
+      {key: "Comprendre", color: "red", percentage: 10, keywords: ["key word 1", "key word 2"]},
       { key: "Concevoir", color: "orange", percentage: 10, keywords: ["er"] },
       { key: "Produire", color: "yellow", percentage: 10, keywords: [] },
       { key: "Développer", color: "green", percentage: 60, keywords: [] },
@@ -27,18 +28,14 @@ export function TreeMap() {
     setData((prevData) => ({
       children: prevData.children.map((e) => ({
         ...e,
-        percentage: newPercentage%5 === 0 ? newPercentage : 30,
+        percentage: newPercentage % 5 === 0 ? newPercentage : 30,
       })),
     }));
   }, []);
-  
-  
 
   // Configuration du layout du treemap
   const createTreemapData = (data) => {
-    const root = d3
-      .hierarchy(data)
-      .sum((d) => d.percentage)
+    const root = d3.hierarchy(data).sum((d) => d.percentage);
 
     // Génération des coordonnées pour chaque noeud
     const treemapLayout = d3.treemap().size([1500, 1000]).padding(5);
@@ -58,12 +55,28 @@ export function TreeMap() {
 
   const treemapData = createTreemapData(data);
 
+  const [open, setOpen] = useState(false);
+
+  const handleLabelClick = () => {
+    console.log("Bouton cliqué !");
+    setOpen(true);
+  };
+
   return (
     <>
       <Flex gap="5" direction="column">
-        <Heading>Treemap</Heading>
+        <Flex justify="end">
+          <Button onClick={handleLabelClick}>Modifier pourcentages</Button>
+        </Flex>
 
-        <Sliders key="" data={data} setData={setData}/>
+        <Dialog
+          open={open}
+          onCancel={() => {
+            setOpen(false);
+          }}
+          title="Choix des pourcentages"
+          content={<Sliders key="" data={data} setData={setData} />}
+        />
 
         <PlotFigure
           options={{
@@ -106,7 +119,9 @@ export function TreeMap() {
                   const percentage = d.data.percentage;
                   const key = d.data.key;
                   const keywords = d.data.keywords;
-                  return `${key} :\t${parseInt(percentage)}%\n\nMots-clés : ${keywords}`;
+                  return `${key} :\t${parseInt(
+                    percentage
+                  )}%\n\nMots-clés : ${keywords}`;
                 },
                 fill: "#fff",
                 textAnchor: "middle",
@@ -116,5 +131,6 @@ export function TreeMap() {
           }}
         />
       </Flex>
-   </>
-  )}
+    </>
+  );
+}
