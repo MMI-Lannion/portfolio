@@ -8,6 +8,7 @@ interface Props {
 const { title } = Astro.props;
 
 import "@radix-ui/themes/styles.css";
+import "./index.css";
 ---
 
 <!doctype html>
@@ -22,7 +23,7 @@ import "@radix-ui/themes/styles.css";
     <title>{Astro.props.title}</title>
   </head>
   <body>
-    <LayoutTheme>
+    <LayoutTheme client:load>
       <slot />
     </LayoutTheme>
   </body>
