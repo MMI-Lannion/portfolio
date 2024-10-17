@@ -1,23 +1,29 @@
 import PlotFigure from "@/PlotFigure";
-import penguins from "./data.json";
 import * as Plot from "@observablehq/plot";
 import * as d3 from "d3";
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 import phones from "./phones.json";
 import { Box } from "@radix-ui/themes";
+import { Dialog } from "./Dialog";
+import LikertScale from "@/components/LikertScale";
 
 const points = phones.flatMap(({ name, ...values }) =>
   Object.entries(values).map(([key, value]) => ({ name, key, value }))
 );
 
-const longitude = d3
-  .scalePoint(new Set(Plot.valueof(points, "key")), [180, -180])
-  .padding(0.5)
-  .align(1);
+export function Radar({ datas }) {
+  const points = datas.flatMap(({ name, ...values }) =>
+    Object.entries(values).map(([key, value]) => ({ name, key, value }))
+  );
 
-export function Radar() {
+  const longitude = d3
+    .scalePoint(new Set(Plot.valueof(points, "key")), [180, -180])
+    .padding(0.5)
+    .align(1);
+
   const ref = useRef();
+  const [open, setOpen] = useState(false);
 
   useEffect(() => {
     if (!ref?.current) {
@@ -27,7 +33,26 @@ export function Radar() {
     const glabel = ref?.current.querySelector(".radar-el-label");
 
     const handleLabelClick = (e) => {
-      console.log("clicking", e);
+      let element = e.target;
+      const nodeName = e.target.nodeName;
+
+      if (nodeName === "tspan") {
+        element = element.parentNode;
+      }
+
+      let label = "";
+      if (element.hasChildNodes()) {
+        let children = element.childNodes;
+
+        for (const node of children) {
+          label += " " + node.textContent;
+        }
+      } else {
+        label = element.textContent;
+      }
+
+      console.log("handleLabelClick", label);
+      setOpen(true);
     };
 
     glabel.addEventListener("click", handleLabelClick);
@@ -35,10 +60,19 @@ export function Radar() {
     return () => {
       glabel.removeEventListener("click", handleLabelClick);
     };
-  }, [ref]);
+  }, [ref, setOpen]);
 
   return (
     <Box ref={ref}>
+      <Dialog
+        open={open}
+        onCancel={() => {
+          setOpen(false);
+        }}
+        title={datas[0].name}
+        content={<LikertScale />}
+      />
+
       <PlotFigure
         options={{
           width: 450,
@@ -72,7 +106,7 @@ export function Radar() {
             }),
 
             // tick labels
-            Plot.text([0.3, 0.4, 0.5], {
+            Plot.text([0.1, 0.2, 0.3, 0.4, 0.5], {
               x: 180,
               y: (d) => 90 - d,
               dx: 2,
