@@ -2,6 +2,7 @@
 import Layout from "../layouts/Layout.astro";
 import { Link, Heading, Flex, Box, Badge, Separator } from "@radix-ui/themes";
 import AutoEvaluation from "@components/AutoEvaluation";
+import { ButtonNext } from "@/components/ButtonNext";
 ---
 
 <Layout title="Welcome to Astro.">
@@ -18,11 +19,11 @@ import AutoEvaluation from "@components/AutoEvaluation";
   </Box>
 
   <Box>
-    <AutoEvaluation />
+    <AutoEvaluation client:only />
   </Box>
 
-  <Flex justify="end">
-    <Link href="../saisie-sae">Retour</Link>
-    <Link href="../plan-actions">Prochaine étape</Link>
+  <Flex justify="end" direction="row" m="3" gapX="3">
+    <ButtonNext name="Retour" href="../saisie-sae" />
+    <ButtonNext name="Etape 3" href="../plan-actions" />
   </Flex>
 </Layout>

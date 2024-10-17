@@ -1,13 +1,13 @@
 [
-    {
-        "name": "iPhone",
-        "Battery Life": 0.22,
-        "Brand": 0.28,
-        "Contract Cost": 0.29,
-        "Design And Quality": 0.17,
-        "Have Internet Connectivity": 0.22,
-        "Large Screen": 0.02,
-        "Price Of Device": 0.21,
-        "To Be A Smartphone": 0.5
-    }
+  {
+    "name": "iPhone",
+    "Battery Life": 0.22,
+    "Brand": 0.28,
+    "Contract Cost": 0.29,
+    "Design And Quality": 0.17,
+    "Have Internet Connectivity": 0.22,
+    "Large Screen": 0.02,
+    "Price Of Device": 0.21,
+    "To Be A Smartphone": 0.5
+  }
 ]

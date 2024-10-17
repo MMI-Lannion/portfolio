@@ -1,5 +1,5 @@
 ---
-import { Combobox } from "@/components/Combobox";
+import { Combobox } from "@components/Combobox";
 import { ButtonNext } from "@/components/ButtonNext";
 import Layout from "../layouts/Layout.astro";
 import { Link, Heading, Box, Flex, Separator, Badge } from "@radix-ui/themes";
@@ -62,8 +62,7 @@ import InputFile from "@/components/InputFile";
     </Flex>
   </Flex>
 
-  <!-- Treempap -->
-  <Flex justify="end">
-    <ButtonNext href="../auto-evaluation" />
+  <Flex justify="end" direction="row" m="3" gapX="3">
+    <ButtonNext name="Etape 2" href="../auto-evaluation" />
   </Flex>
 </Layout>
