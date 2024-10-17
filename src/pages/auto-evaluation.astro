@@ -4,6 +4,7 @@ import { Link, Heading, Flex, Box, Badge, Separator } from "@radix-ui/themes";
 import AutoEvaluation from "@components/AutoEvaluation";
 import { ButtonNext } from "@/components/ButtonNext";
 import LikertScale from "@/components/LikertScale";
+import LikertScaleEmoji from "@/components/LikertScaleEmoji";
 ---
 
 <Layout title="Welcome to Astro.">
@@ -24,6 +25,7 @@ import LikertScale from "@/components/LikertScale";
   </Box>
 
   <LikertScale name="test" />
+  <LikertScaleEmoji name="test" />
 
   <Flex justify="end" direction="row" m="3" gapX="3">
     <ButtonNext name="Retour" href="../saisie-sae" />
