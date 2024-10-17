@@ -4,6 +4,7 @@ export const $but = atom("but1");
 export const $filterSea = atom("");
 export const $theme = atom("light");
 export const $user = atom({ username: "Alex" });
+export const $openDialog = atom(true);
 
 export const $saes = atom({
   but1: ["but1 1", "but1 2", "apple", "kiwi"],
@@ -21,5 +22,6 @@ export const $butSaes = computed([$saes, $filterSea], (saes) => {
 export const $isLoggedIn = computed($user, (user) => !!user?.username);
 
 export const toggleTheme = () => {
-  $theme.set($theme.get() === "light" ? "dark" : "light");
+  const theme = $theme.get();
+  $theme.set(theme === "light" ? "dark" : "light");
 };

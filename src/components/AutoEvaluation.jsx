@@ -21,7 +21,7 @@ export default function AutoEvaluation() {
           échelle de 1 à 5 (1 = Pas du tout maitrisé ; 5 = Tout à fait maitrisé)
         </Text>
 
-        <Radar datasRadar1={datasRadar1} />
+        {/* <Radar datasRadar1={datasRadar1} /> */}
       </Flex>
 
       <Flex gap="1" direction="column">
