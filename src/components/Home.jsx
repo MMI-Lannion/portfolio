@@ -29,7 +29,7 @@ export function Home() {
           <Flex>
             <Card
               style={{
-                minHeight:"200px",
+                minHeight: "200px",
                 width: "250px",
               }}
             >
@@ -60,32 +60,32 @@ export function Home() {
                   {element.description}
                 </Text>
 
-                  <Flex justify="center" gap="3">
-                {element.completed ? (
-                  <>
-                    <Link href="#">
-                      <Button>
-                        Modifier
-                        <Pencil2Icon />
-                      </Button>
-                    </Link>
-                    <Link href="#">
-                      <Button>
-                        Consulter
-                        <EyeOpenIcon />
-                      </Button>
-                    </Link>
-                  </>
-                ) : (
-                  <>
-                    <Link href="../saisie-sae">
-                      <Button>
-                        Compléter
-                        <Pencil1Icon />
-                      </Button>
-                    </Link>
-                  </>
-                )}
+                <Flex justify="center" gap="3">
+                  {element.completed ? (
+                    <>
+                      <Link href="#">
+                        <Button>
+                          Modifier
+                          <Pencil2Icon />
+                        </Button>
+                      </Link>
+                      <Link href="#">
+                        <Button>
+                          Consulter
+                          <EyeOpenIcon />
+                        </Button>
+                      </Link>
+                    </>
+                  ) : (
+                    <>
+                      <Link href="../saisie-sae">
+                        <Button>
+                          Compléter
+                          <Pencil1Icon />
+                        </Button>
+                      </Link>
+                    </>
+                  )}
                 </Flex>
               </Flex>
             </Card>
