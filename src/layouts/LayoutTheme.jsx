@@ -7,7 +7,6 @@ import { useStore } from "@nanostores/react";
 import { $openDialog } from "@/store/Store";
 
 export function LayoutTheme({ children }) {
-  const openDialog = useStore($openDialog);
   return (
     <Themes>
       <Box pb="2">
