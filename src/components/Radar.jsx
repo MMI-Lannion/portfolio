@@ -3,6 +3,7 @@ import penguins from "./data.json";
 import * as Plot from "@observablehq/plot";
 import * as d3 from "d3";
 import React from "react";
+import DialogPopup from "@/components/DialogPopup";
 
 import phones from "./phones.json";
 
@@ -66,7 +67,7 @@ export function Radar() {
             x: longitude,
             y: 90 - 0.57,
             text: Plot.identity,
-            lineWidth: 5,
+            lineWidth: 5
           }),
 
           // areas
