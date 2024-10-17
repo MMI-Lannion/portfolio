@@ -40,7 +40,6 @@ const test3 = [
     label36: 0.12,
   },
 ];
-import { SunburstChart } from "./SunburstChart.tsx";
 
 export default function AutoEvaluation() {
   return (
