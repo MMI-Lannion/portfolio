@@ -4,43 +4,43 @@ import React from "react";
 import { Radar } from "./Radar";
 import { Flex, Text, Heading } from "@radix-ui/themes";
 
+const test1 = [
+  {
+    name: "test1",
+    label11: 0.22,
+    label12: 0.28,
+    label13: 0.29,
+    label14: 0.17,
+    label15: 0.22,
+    label16: 0.02,
+  },
+];
+
+const test2 = [
+  {
+    name: "test2",
+    label21: 0.29,
+    label22: 0.21,
+    label23: 0.39,
+    label24: 0.27,
+    label25: 0.12,
+    label26: 0.32,
+  },
+];
+
+const test3 = [
+  {
+    name: "test3",
+    label31: 0.02,
+    label32: 0.18,
+    label33: 0.39,
+    label34: 0.27,
+    label35: 0.17,
+    label36: 0.12,
+  },
+];
+
 export default function AutoEvaluation() {
-  const test1 = [
-    {
-      name: "test1",
-      label11: 0.22,
-      label12: 0.28,
-      label13: 0.29,
-      label14: 0.17,
-      label15: 0.22,
-      label16: 0.02,
-    },
-  ];
-
-  const test2 = [
-    {
-      name: "test2",
-      label21: 0.29,
-      label22: 0.21,
-      label23: 0.39,
-      label24: 0.27,
-      label25: 0.12,
-      label26: 0.32,
-    },
-  ];
-
-  const test3 = [
-    {
-      name: "test3",
-      label31: 0.02,
-      label32: 0.18,
-      label33: 0.39,
-      label34: 0.27,
-      label35: 0.17,
-      label36: 0.12,
-    },
-  ];
-
   return (
     <Flex gap="4" direction="column">
       <Flex gap="1" direction="column">
