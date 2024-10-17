@@ -4,6 +4,7 @@ import TableActionPlan from "../components/TableActionPlan";
 import Layout from "../layouts/Layout.astro";
 import { Link, Heading, Flex, Badge, Separator, Box } from "@radix-ui/themes";
 import TextAreaComponent from "@/components/TextAreaComponent";
+import { ButtonNext } from "@/components/ButtonNext";
 
 const handleChange = (e) => {
   console.log(e);
@@ -45,8 +46,9 @@ const handleChange = (e) => {
     </Flex>
   </Flex>
 
-  <Flex justify="end">
-    <Link href="../auto-evaluation">Retour</Link>
-    <Link href="../dashboard">Prochaine étape</Link>
+
+  <Flex justify="end" direction="row" m="3" gapX="3">
+    <ButtonNext name="Retour" href="../auto-evaluation" />
+    <ButtonNext name="Valider" href="../dashboard" />
   </Flex>
 </Layout>
