@@ -2,7 +2,7 @@ import PlotFigure from "@/PlotFigure";
 import * as Plot from "@observablehq/plot";
 import { Flex, Heading } from "@radix-ui/themes";
 import * as d3 from "d3";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./tree-map.css";
 import { Sliders } from "./Sliders";
 
@@ -19,11 +19,20 @@ export function TreeMap() {
     ],
   });
 
-  const totalSkills = data.children.length
-  const newPercentage = 100 / totalSkills
-  data.children.map((e) => {
-    
-  })
+  //Pourcentage en fonction du nombre de bloc de compétence
+  useEffect(() => {
+    const totalSkills = data.children.length;
+    const newPercentage = 100 / totalSkills;
+
+    setData((prevData) => ({
+      children: prevData.children.map((e) => ({
+        ...e,
+        percentage: newPercentage%5 === 0 ? newPercentage : 30,
+      })),
+    }));
+  }, []);
+  
+  
 
   // Configuration du layout du treemap
   const createTreemapData = (data) => {
@@ -70,7 +79,7 @@ export function TreeMap() {
                 y1: "y0",
                 y2: "y1",
                 fill: (d) => {
-                  switch (d.data.key) { // Changement de name à key ici
+                  switch (d.data.key) {
                     case "Comprendre":
                       return "red";
                     case "Concevoir":
@@ -85,7 +94,7 @@ export function TreeMap() {
                       return "grey";
                   }
                 },
-                title: (d) => `${d.data.key} : ${d.data.percentage}%`, // Changement de name à key ici
+                title: (d) => `${d.data.key} : ${d.data.percentage}%`,
               }),
               // Labels pour chaque section du treemap
               Plot.text(treemapData, {
@@ -95,9 +104,9 @@ export function TreeMap() {
                 dy: 0,
                 text: (d) => {
                   const percentage = d.data.percentage;
-                  const key = d.data.key; // Changement de name à key ici
-                  const keywords = d.data.keywords; // Changement de keyWords à keywords ici
-                  return `${key} :\t${percentage}%\n\nMots-clés : ${keywords}`;
+                  const key = d.data.key;
+                  const keywords = d.data.keywords;
+                  return `${key} :\t${parseInt(percentage)}%\n\nMots-clés : ${keywords}`;
                 },
                 fill: "#fff",
                 textAnchor: "middle",

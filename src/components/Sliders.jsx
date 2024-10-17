@@ -1,10 +1,9 @@
 import React, { useState } from "react";
 import * as Slider from "@radix-ui/react-slider";
-import { Flex, Heading, Text } from "@radix-ui/themes";
+import { Flex, Heading, Text, Box } from "@radix-ui/themes";
 import "./tree-map.css";
 
 export function Sliders({ data, setData }) {
-    
   const changeValueSlider = (key, value) => {
     setData((prevData) => {
       console.log(prevData);
@@ -59,42 +58,46 @@ export function Sliders({ data, setData }) {
   return (
     <>
       <Heading>Choix du pourcentage</Heading>
-      {data.children.map((e) => {
-        return (
-          <Text>
-            {e.key} : {e.percentage}%
+      <Flex direction="row" gap="9">
+        <Flex gap="4" direction="column">
+          {data.children.map((e) => {
+            return (
+              <Text>
+                {e.key} : {e.percentage}%
+              </Text>
+            );
+          })}
+          <Text color={total === 100 ? "black" : "red"} size="6">
+            Total : {total}%
           </Text>
-        );
-      })}
-      <Flex direction="row" align="center" gap="4">
-        <Text color={total === 100 ? "black" : "red"} size="6">
-          Total : {total}%
-        </Text>
-        <Text color="red">
-          {total === 100 ? "" : "Attention : le total doit être de 100% !"}
-        </Text>
-      </Flex>
+        </Flex>
 
-      {/* Affichage des sliders */}
-      {data.children.map((e) => {
-        return (
-          <Slider.Root
-            className="SliderRoot"
-            value={[e.percentage]}
-            max={100}
-            step={5}
-            onValueChange={(value) => changeValueSlider(e.key, value)}
-          >
-            <Slider.Track className="SliderTrack">
-              <Slider.Range
-                className="SliderRange"
-                style={{ backgroundColor: e.color }}
-              />
-            </Slider.Track>
-            <Slider.Thumb className="SliderThumb" aria-label="Volume" />
-          </Slider.Root>
-        );
-      })}
+        <Flex gap="4" direction="column">
+          {/* Affichage des sliders */}
+          {data.children.map((e) => {
+            return (
+              <Slider.Root
+                className="SliderRoot"
+                value={[e.percentage]}
+                max={100}
+                step={5}
+                onValueChange={(value) => changeValueSlider(e.key, value)}
+              >
+                <Slider.Track className="SliderTrack">
+                  <Slider.Range
+                    className="SliderRange"
+                    style={{ backgroundColor: e.color }}
+                  />
+                </Slider.Track>
+                <Slider.Thumb className="SliderThumb" aria-label="Volume" />
+              </Slider.Root>
+            );
+          })}
+        </Flex>
+      </Flex>
+      <Text color="red">
+        {total === 100 ? "" : "Attention : le total doit être de 100% !"}
+      </Text>
 
       {/* <Slider.Root
         className="SliderRoot"
