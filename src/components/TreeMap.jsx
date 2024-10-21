@@ -7,48 +7,34 @@ import "./tree-map.css";
 import { Sliders } from "./Sliders";
 import { Dialog } from "./Dialog";
 import { MixerHorizontalIcon, SliderIcon } from "@radix-ui/react-icons";
+import AddWordsToTreeMap from "./AddWordsToTreeMap";
+import { useStore } from "@nanostores/react";
+import { $treemap } from "@/store/Store";
+import { $setPourcentage } from "@/store/Store";
 
 // Données pour le treemap
 
 export function TreeMap() {
-  const [open, setOpen] = useState(false);
-  const [data, setData] = useState({
-    children: [
-      {
-        key: "Comprendre",
-        color: "red",
-        percentage: 10,
-        keywords: ["key word 1", "key word 2"],
-      },
-      { key: "Concevoir", color: "orange", percentage: 10, keywords: ["er"] },
-      { key: "Produire", color: "yellow", percentage: 10, keywords: [] },
-      { key: "Développer", color: "green", percentage: 60, keywords: [] },
-      { key: "Entreprendre", color: "blue", percentage: 10, keywords: [] },
-    ],
-  });
 
-  //Pourcentage en fonction du nombre de bloc de compétence
+  //ouverture des popup
+  const [openPourcentage, setOpenPourcentage] = useState(false);
+  const [openKeyword, setOpenKeyword] = useState(false);
+
+  //données du store
+  const data = useStore($treemap);
+
+  //pourcentage en fonction du nombre de blocs de compétences
   useEffect(() => {
-    const totalSkills = data.children.length;
-    const newPercentage = 100 / totalSkills;
-
-    setData((prevData) => ({
-      children: prevData.children.map((e) => ({
-        ...e,
-        percentage: newPercentage % 5 === 0 ? newPercentage : 30,
-      })),
-    }));
+    $setPourcentage();
   }, []);
 
-  // Configuration du layout du treemap
+  // configuration du layout du treemap
   const createTreemapData = (data) => {
     const root = d3.hierarchy(data).sum((d) => d.percentage);
 
-    // Génération des coordonnées pour chaque noeud
     const treemapLayout = d3.treemap().size([1500, 1000]).padding(5);
     const leaves = treemapLayout(root).leaves();
 
-    // Mettez à jour les données avec les coordonnées
     leaves.forEach((leaf) => {
       const { data } = leaf;
       data.x0 = leaf.x0;
@@ -62,23 +48,72 @@ export function TreeMap() {
 
   const treemapData = createTreemapData(data);
 
+  //clic sur un rectangle
+  // useEffect(() => {
+
+  //   const glabel = document.querySelector(".treemap-rect-label");
+
+  //   const handleLabelClick = (e) => {
+  //     let element = e.target;
+  //     const nodeName = e.target.nodeName;
+
+  //     if (nodeName === "tspan") {
+  //       element = element.parentNode;
+  //     }
+
+  //     let label = "";
+  //     if (element.hasChildNodes()) {
+  //       let children = element.childNodes;
+
+  //       for (const node of children) {
+  //         label += " " + node.textContent;
+  //       }
+  //     } else {
+  //       label = element.textContent;
+  //     }
+
+  //     setOpenKeyword(true);
+  //   };
+
+  //   glabel.addEventListener("click", handleLabelClick);
+
+  //   return () => {
+  //     glabel.removeEventListener("click", handleLabelClick);
+  //   };
+  // }, [setOpenKeyword]);
+
   return (
     <>
       <Flex gap="5" direction="column">
         <Flex gap="3" justify="end" align="center">
           <Text size="8">XX (%)</Text>
+
+          {/* popup pourcentages */}
           <Dialog
-            open={open}
+            open={openPourcentage}
             onCancel={() => {
-              setOpen(false);
+              setOpenPourcentage(false);
             }}
-            title="Evaluer Vos Compotences"
-            content={<Sliders key="" data={data} setData={setData} />}
+            title="Choix du pourcentage"
+            content={<Sliders key="" data={data} setData={$setPourcentage()} />}
           >
-            <Button size="4" onClick={() => setOpen(true)}>
+            <Button size="4" onClick={() => setOpenPourcentage(true)}>
               <MixerHorizontalIcon />
             </Button>
           </Dialog>
+
+          {/* popup mots cles */}
+          {/* <Dialog
+            open={openKeyword}
+            onCancel={() => {
+              setOpenKeyword(false);
+            }}
+            title="Choix des mots clés"
+            content={<AddWordsToTreeMap />}
+          >
+          </Dialog> */}
+
+
         </Flex>
 
         <PlotFigure
@@ -94,6 +129,7 @@ export function TreeMap() {
                 x2: "x1",
                 y1: "y0",
                 y2: "y1",
+                className: "treemap-rect-label",
                 fill: (d) => {
                   switch (d.data.key) {
                     case "Comprendre":

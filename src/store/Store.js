@@ -63,3 +63,24 @@ export const toggleTheme = () => {
   const theme = $theme.get();
   $theme.set(theme === "light" ? "dark" : "light");
 };
+
+export const $treemap = atom({
+  children: [
+    { key: "Comprendre", color: "red", percentage: 25, keywords: [],},
+    { key: "Concevoir", color: "orange", percentage: 25, keywords: ["er"] },
+    { key: "Produire", color: "yellow", percentage: 25, keywords: [] },
+    { key: "Développer", color: "green", percentage: 25, keywords: [] },
+    { key: "Entreprendre", color: "blue", percentage: 25, keywords: [] },
+  ]}
+);
+
+export const $setPourcentage = () => {
+  const totalSkills = $treemap.get().children.length;
+  const newPercentage = 100 / totalSkills;
+  $treemap.set({
+    children : $treemap.get().children.map((e) => ({
+      ...e,
+      percentage: newPercentage % 5 === 0 ? newPercentage : 30,
+    })),
+  })
+}

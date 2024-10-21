@@ -6,7 +6,6 @@ import "./tree-map.css";
 export function Sliders({ data, setData }) {
   const changeValueSlider = (key, value) => {
     setData((prevData) => {
-      console.log(prevData);
       return {
         children: prevData.children.map((e) => {
           if (e.key === key) {
@@ -20,7 +19,6 @@ export function Sliders({ data, setData }) {
   };
 
   let total = data.children.reduce((acc, e) => {
-    console.log(acc);
     return acc + Number(e.percentage);
   }, 0);
 
@@ -57,7 +55,6 @@ export function Sliders({ data, setData }) {
 
   return (
     <>
-      <Heading>Choix du pourcentage</Heading>
       <Flex direction="row" gap="9">
         <Flex gap="4" direction="column">
           {data.children.map((e) => {
