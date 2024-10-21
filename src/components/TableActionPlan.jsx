@@ -1,10 +1,18 @@
 import React from "react";
-import { Flex, Box, Checkbox, Text } from "@radix-ui/themes";
+import { Flex, Box, Radio, Text } from "@radix-ui/themes";
 import "../assets/styles/action-plan.css";
+import { InfoCircledIcon } from "@radix-ui/react-icons";
 
 function TableActionPlan({ onChange }) {
   const handleClick = (message) => {
     console.log(message);
+  };
+
+  const handleFlexClick = (message, radioRef) => {
+    console.log(message);
+    if (radioRef && radioRef.current) {
+      radioRef.current.checked = true;
+    }
   };
 
   return (
@@ -12,21 +20,30 @@ function TableActionPlan({ onChange }) {
       <div
         style={{
           display: "grid",
-          gridTemplateColumns: "20% 80%",
+          gridTemplateColumns: "auto 1fr",
           gridTemplateRows: "auto 1fr",
-          gap: "10px",
+          gap: "5px",
         }}
       >
         <div
           style={{
             display: "flex",
-            flexDirection: "column",
+            flexDirection: "row",
             justifyContent: "center",
             alignItems: "center",
+            gap: "5px",
+            textAlign: "center",
+            textOrientation: "mixed",
+            writingMode: "vertical-lr",
+            width: "fit-content",
           }}
         >
           <span>Savoir faire</span>
-          <p style={{ margin: 0 }}>Ce que je mets en application</p>
+          <InfoCircledIcon
+            height="22"
+            width="22"
+            title="Ce que je mets en application"
+          />
         </div>
         <div>
           <Flex direction="column" gap="2">
@@ -39,56 +56,50 @@ function TableActionPlan({ onChange }) {
                 borderLeft: "2px solid black",
                 borderBottom: "2px solid black",
                 padding: "10px",
+                textAlign: "center",
               }}
             >
-              <Flex
-                direction="column"
-                justify="center"
-                className="flex-item yellow"
-                onClick={() => handleClick("Appliquer le savoir")}
-              >
-                <Text className="flex-item-text">
-                  Peu de connaissance / Mise en pratique forte
-                </Text>
-                <Text className="flex-item-span">Appliquer le savoir</Text>
-                <Checkbox className="flex-item-checkbox" />
-              </Flex>
-              <Flex
-                direction="column"
-                justify="center"
-                className="flex-item purple"
-                onClick={() => handleClick("Se perfectionner")}
-              >
-                <p className="flex-item-text">
-                  Excellente connaissance / Mise en application forte
-                </p>
-                <span className="flex-item-span">Se perfectionner</span>
-                <Checkbox className="flex-item-checkbox" />
-              </Flex>
-              <Flex
-                direction="column"
-                justify="center"
-                className="flex-item teal"
-                onClick={() => handleClick("Retravailler les bases")}
-              >
-                <p className="flex-item-text">
-                  Peu de connaissance / Peu de mise en pratique
-                </p>
-                <span className="flex-item-span">Retravailler les bases</span>
-                <Checkbox className="flex-item-checkbox" />
-              </Flex>
-              <Flex
-                direction="column"
-                justify="center"
-                className="flex-item grey"
-                onClick={() => handleClick("Oser")}
-              >
-                <p className="flex-item-text">
-                  Excellente connaissance / Peu de mise en application
-                </p>
-                <span className="flex-item-span">Oser</span>
-                <Checkbox className="flex-item-checkbox" />
-              </Flex>
+              {[
+                "Appliquer le savoir",
+                "Se perfectionner",
+                "Retravailler les bases",
+                "Oser",
+              ].map((label, index) => {
+                const radioRef = React.createRef();
+                const colors = ["yellow", "purple", "teal", "grey"];
+                const titles = [
+                  "Peu de connaissance / Mise en pratique forte",
+                  "Excellente connaissance / Mise en application forte",
+                  "Peu de connaissance / Peu de mise en pratique",
+                  "Excellente connaissance / Peu de mise en application",
+                ];
+                return (
+                  <Flex
+                    key={index}
+                    direction="column"
+                    justify="center"
+                    className={`flex-item ${colors[index]}`}
+                    onClick={() => handleFlexClick(label, radioRef)}
+                  >
+                    <InfoCircledIcon
+                      height="22"
+                      width="22"
+                      title={titles[index]}
+                      className="flex-item-text"
+                    />
+                    <Text weight="medium" size="4" className="flex-item-span">
+                      {label}
+                    </Text>
+                    <Radio
+                      ref={radioRef}
+                      className="flex-item-checkbox"
+                      name="example"
+                      value={label}
+                      defaultChecked={index === 0}
+                    />
+                  </Flex>
+                );
+              })}
             </Box>
           </Flex>
         </div>
@@ -96,13 +107,15 @@ function TableActionPlan({ onChange }) {
         <div
           style={{
             display: "flex",
-            flexDirection: "column",
-            justifyContent: "start",
-            alignItems: "center",
+            flexDirection: "row",
+            justifyContent: "center",
+            alignItems: "start",
+            gap: "5px",
+            textAlign: "center",
           }}
         >
           <span>Savoir</span>
-          <p style={{ margin: 0 }}>Ce que je connais</p>
+          <InfoCircledIcon height="22" width="22" title="Ce que je connais" />
         </div>
       </div>
     </>
