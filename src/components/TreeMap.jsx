@@ -1,20 +1,22 @@
 import PlotFigure from "@/PlotFigure";
 import * as Plot from "@observablehq/plot";
-import { Button, Flex, Heading, Text } from "@radix-ui/themes";
+import { Button, Flex, Text } from "@radix-ui/themes";
 import * as d3 from "d3";
 import React, { useState, useEffect } from "react";
 import "./tree-map.css";
 import { Sliders } from "./Sliders";
 import { Dialog } from "./Dialog";
-import { MixerHorizontalIcon, SliderIcon } from "@radix-ui/react-icons";
+import { MixerHorizontalIcon } from "@radix-ui/react-icons";
 import AddWordsToTreeMap from "./AddWordsToTreeMap";
 import { useStore } from "@nanostores/react";
-import { $treemap } from "@/store/Store";
-import { $setInitialPourcentage } from "@/store/Store";
+import { $treemap, $setInitialPourcentage, $totalPourcentage } from "@/store/Store";
 
 export function TreeMap() {
   //données store
   const data = useStore($treemap);
+
+  //total pour vérifier si 100%
+  let total = $totalPourcentage()
 
   //pourcentage en fonction du nombre de blocs de compétences
   useEffect(() => {
@@ -82,7 +84,9 @@ export function TreeMap() {
     <>
       <Flex gap="5" direction="column">
         <Flex gap="3" justify="end" align="center">
-          <Text size="8">XX (%)</Text>
+          <Text color={total === 100 ? "black" : "red"} size="6">
+            Total : {total}%
+          </Text>
 
           {/* popup pourcentages */}
           <Dialog

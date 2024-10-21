@@ -99,3 +99,11 @@ export const $changeValueSlider = (key, value) => {
     })
   })
 }
+
+//total pourcentage
+export const $totalPourcentage = () => {
+  let total = $treemap.get().children.reduce((acc, e) => {
+    return acc + Number(e.percentage);
+  }, 0);
+  return total
+}
