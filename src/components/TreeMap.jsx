@@ -10,22 +10,15 @@ import { MixerHorizontalIcon, SliderIcon } from "@radix-ui/react-icons";
 import AddWordsToTreeMap from "./AddWordsToTreeMap";
 import { useStore } from "@nanostores/react";
 import { $treemap } from "@/store/Store";
-import { $setPourcentage } from "@/store/Store";
-
-// Données pour le treemap
+import { $setInitialPourcentage } from "@/store/Store";
 
 export function TreeMap() {
-
-  //ouverture des popup
-  const [openPourcentage, setOpenPourcentage] = useState(false);
-  const [openKeyword, setOpenKeyword] = useState(false);
-
-  //données du store
+  //données store
   const data = useStore($treemap);
 
   //pourcentage en fonction du nombre de blocs de compétences
   useEffect(() => {
-    $setPourcentage();
+    $setInitialPourcentage();
   }, []);
 
   // configuration du layout du treemap
@@ -48,39 +41,42 @@ export function TreeMap() {
 
   const treemapData = createTreemapData(data);
 
+  //ouverture des popup
+  const [openPourcentage, setOpenPourcentage] = useState(false);
+  const [openKeyword, setOpenKeyword] = useState(false);
+
   //clic sur un rectangle
-  // useEffect(() => {
+  useEffect(() => {
+    const glabel = document.querySelector(".treemap-rect-label");
 
-  //   const glabel = document.querySelector(".treemap-rect-label");
+    const handleLabelClick = (e) => {
+      let element = e.target;
+      const nodeName = e.target.nodeName;
 
-  //   const handleLabelClick = (e) => {
-  //     let element = e.target;
-  //     const nodeName = e.target.nodeName;
+      if (nodeName === "tspan") {
+        element = element.parentNode;
+      }
 
-  //     if (nodeName === "tspan") {
-  //       element = element.parentNode;
-  //     }
+      let label = "";
+      if (element.hasChildNodes()) {
+        let children = element.childNodes;
 
-  //     let label = "";
-  //     if (element.hasChildNodes()) {
-  //       let children = element.childNodes;
+        for (const node of children) {
+          label += " " + node.textContent;
+        }
+      } else {
+        label = element.textContent;
+      }
 
-  //       for (const node of children) {
-  //         label += " " + node.textContent;
-  //       }
-  //     } else {
-  //       label = element.textContent;
-  //     }
+      setOpenKeyword(true);
+    };
 
-  //     setOpenKeyword(true);
-  //   };
+    glabel.addEventListener("click", handleLabelClick);
 
-  //   glabel.addEventListener("click", handleLabelClick);
-
-  //   return () => {
-  //     glabel.removeEventListener("click", handleLabelClick);
-  //   };
-  // }, [setOpenKeyword]);
+    return () => {
+      glabel.removeEventListener("click", handleLabelClick);
+    };
+  }, [setOpenKeyword]);
 
   return (
     <>
@@ -95,7 +91,7 @@ export function TreeMap() {
               setOpenPourcentage(false);
             }}
             title="Choix du pourcentage"
-            content={<Sliders key="" data={data} setData={$setPourcentage()} />}
+            content={<Sliders />}
           >
             <Button size="4" onClick={() => setOpenPourcentage(true)}>
               <MixerHorizontalIcon />
@@ -103,17 +99,14 @@ export function TreeMap() {
           </Dialog>
 
           {/* popup mots cles */}
-          {/* <Dialog
+          <Dialog
             open={openKeyword}
             onCancel={() => {
               setOpenKeyword(false);
             }}
             title="Choix des mots clés"
             content={<AddWordsToTreeMap />}
-          >
-          </Dialog> */}
-
-
+          ></Dialog>
         </Flex>
 
         <PlotFigure

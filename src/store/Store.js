@@ -64,9 +64,10 @@ export const toggleTheme = () => {
   $theme.set(theme === "light" ? "dark" : "light");
 };
 
+//données Treemap
 export const $treemap = atom({
   children: [
-    { key: "Comprendre", color: "red", percentage: 25, keywords: [],},
+    { key: "Comprendre", color: "red", percentage: 25, keywords: ["ahhhhh"],},
     { key: "Concevoir", color: "orange", percentage: 25, keywords: ["er"] },
     { key: "Produire", color: "yellow", percentage: 25, keywords: [] },
     { key: "Développer", color: "green", percentage: 25, keywords: [] },
@@ -74,7 +75,8 @@ export const $treemap = atom({
   ]}
 );
 
-export const $setPourcentage = () => {
+//mettre pourcentage en fonction du nombre de blocs de compétences
+export const $setInitialPourcentage = () => {
   const totalSkills = $treemap.get().children.length;
   const newPercentage = 100 / totalSkills;
   $treemap.set({
@@ -82,5 +84,18 @@ export const $setPourcentage = () => {
       ...e,
       percentage: newPercentage % 5 === 0 ? newPercentage : 30,
     })),
+  })
+}
+
+//changer pourcentage en fonction du Slider
+export const $changeValueSlider = (key, value) => {
+  $treemap.set({
+    children : $treemap.get().children.map((e) => {
+      if (e.key === key) {
+        return { ...e, percentage: value };
+      } else {
+        return e;
+      }
+    })
   })
 }
