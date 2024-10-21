@@ -1,10 +1,11 @@
 ---
+import { ButtonPrev } from "@/components/ButtonNext";
 import { Combobox } from "@/components/Combobox";
+import TextAreaComponent from "@/components/TextAreaComponent";
+import { PageHeading, PageSubHeading } from "@/components/Typography";
+import { Flex, Separator } from "@radix-ui/themes";
 import TableActionPlan from "../components/TableActionPlan";
 import Layout from "../layouts/Layout.astro";
-import { Link, Heading, Flex, Badge, Separator, Box } from "@radix-ui/themes";
-import TextAreaComponent from "@/components/TextAreaComponent";
-import { ButtonNext } from "@/components/ButtonNext";
 
 const handleChange = (e) => {
   console.log(e);
@@ -12,43 +13,42 @@ const handleChange = (e) => {
 ---
 
 <Layout title="Plan d'actions">
-  <Box mb="4">
-    <Flex gap="1" align="center" mb="2">
-      <Heading as="h1" size="6">Plan d'actions d'améliorations</Heading>
-      <Badge size="3" color="indigo">3</Badge>
-    </Flex>
-    <Separator
-      style={{ width: "20%", background: "#000" }}
-      size="4"
-      orientation="horizontal"
-    />
-  </Box>
+  <PageHeading title="Plan d'Actions" badgeTitle="Etape 3" badgeColor="green" />
 
-  <Flex direction="column" gap="4">
-    <Flex direction="column" gap="1">
-      <Heading as="h3" size="3">Mes axes d'améliorations :</Heading>
+  <Flex direction="column" gap="5" align="center" width="100%" mb="6">
+    <Flex direction="column" gap="2">
+      <PageSubHeading title="Mes axes d'améliorations" />
+
       <TableActionPlan client:load onChange={handleChange} />
     </Flex>
 
-    <Flex direction="column" gap="1">
-      <Heading as="h3" size="3">Compétence clé :</Heading>
+    <Separator style={{ width: "30%" }} />
+
+    <Flex direction="column" gap="2" width="100%">
+      <PageSubHeading title="Compétence clé" />
+
       <Combobox />
     </Flex>
 
-    <Flex direction="column" gap="1">
-      <Heading as="h3" size="3">Sous-Compétence :</Heading>
+    <Separator style={{ width: "30%" }} />
+
+    <Flex direction="column" gap="2" width="100%">
+      <PageSubHeading title="Sous-Compétence" />
+
       <Combobox />
     </Flex>
 
-    <Flex direction="column" gap="1">
-      <Heading as="h3" size="3"> Actions à mener </Heading>
+    <Separator style={{ width: "30%" }} />
+
+    <Flex direction="column" gap="2" width="100%">
+      <PageSubHeading title="Actions à mener" />
+
       <TextAreaComponent />
     </Flex>
   </Flex>
 
-
   <Flex justify="end" direction="row" m="3" gapX="3">
-    <ButtonNext name="Retour" href="../auto-evaluation" />
-    <ButtonNext name="Valider" href="../dashboard" />
+    <ButtonPrev name="Précendent" href="/auto-evaluation" />
+    <!-- <ButtonNext name="Suivant" href="#" /> -->
   </Flex>
 </Layout>

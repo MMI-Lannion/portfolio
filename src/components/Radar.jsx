@@ -75,14 +75,14 @@ export function Radar({ datas }) {
 
       <PlotFigure
         options={{
-          width: 450,
+          width: 420,
           projection: {
             type: "azimuthal-equidistant",
             rotate: [0, -90],
             // Note: 0.625° corresponds to max. length (here, 0.5), plus enough room for the labels
-            domain: d3.geoCircle().center([0, 90]).radius(0.625)(),
+            domain: d3.geoCircle().center([0, 90]).radius(0.579)(),
           },
-          color: { legend: true },
+          color: { legend: false },
           marks: [
             // grey discs
             Plot.geo([0.5, 0.4, 0.3, 0.2, 0.1], {

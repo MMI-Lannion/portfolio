@@ -1,91 +1,78 @@
 import { $saesStatus } from "@/store/Store";
 import { useStore } from "@nanostores/react";
+import { ArrowRightIcon, CheckIcon, Cross2Icon } from "@radix-ui/react-icons";
 import {
+  Badge,
+  Button,
   Card,
   Flex,
   Heading,
   Link,
+  Separator,
   Text,
-  Button,
-  Badge,
 } from "@radix-ui/themes";
-import {
-  CheckIcon,
-  Cross2Icon,
-  EyeOpenIcon,
-  Pencil1Icon,
-  Pencil2Icon,
-} from "@radix-ui/react-icons"; // Import the icon
+import { PageHeading } from "./Typography";
 
 export function Home() {
   const saesStatus = useStore($saesStatus);
   return (
     <>
-      <Heading as="h1" size="5" mb="3">
-        Mes SAE
-      </Heading>
-      <Flex gap="5" wrap="wrap" justify="center">
+      <PageHeading title=" Mes SAEs" />
+
+      <Flex gap="4" wrap="wrap" justify="center">
         {saesStatus.but1.map((element) => (
           <Flex>
             <Card
               style={{
-                minHeight: "200px",
-                width: "250px",
+                // minHeight: "200px",
+                width: "370px",
               }}
             >
-              <Flex direction="column" gap="3" m="1">
-                <Heading as="h2" size="4">
-                  {element.name}{" "}
-                  {element.completed ? (
-                    <>
-                      <Badge color="green">
-                        <CheckIcon />
-                      </Badge>
-                    </>
-                  ) : (
-                    <>
-                      <Badge color="red">
-                        <Cross2Icon />
-                      </Badge>
-                    </>
-                  )}
-                </Heading>
-                <Text
-                  style={{
-                    overflow: "auto",
-                    flex: 1,
-                    wordWrap: "break-word",
-                  }}
-                >
-                  {element.description}
-                </Text>
+              <Flex direction="row" gap="3" m="1" height="100%">
+                <Flex width="80%" direction="column" gap="2">
+                  <Heading size="4">
+                    {element.name}{" "}
+                    {element.completed ? (
+                      <>
+                        <Badge color="green" size="3">
+                          <CheckIcon />
+                        </Badge>
+                      </>
+                    ) : (
+                      <>
+                        <Badge color="red" size="3">
+                          <Cross2Icon />
+                        </Badge>
+                      </>
+                    )}
+                  </Heading>
+                  <Text
+                    width="70%"
+                    size="4"
+                    style={{
+                      overflow: "auto",
+                      flex: 1,
+                      wordWrap: "break-word",
+                    }}
+                  >
+                    {element.description}
+                  </Text>
+                </Flex>
 
-                <Flex justify="center" gap="3">
-                  {element.completed ? (
-                    <>
-                      <Link href="#">
-                        <Button>
-                          Modifier
-                          <Pencil2Icon />
-                        </Button>
-                      </Link>
-                      <Link href="#">
-                        <Button>
-                          Consulter
-                          <EyeOpenIcon />
-                        </Button>
-                      </Link>
-                    </>
-                  ) : (
-                    <>
-                      <Link href="../saisie-sae">
-                        <Button>
-                          Compléter
-                          <Pencil1Icon />
-                        </Button>
-                      </Link>
-                    </>
-                  )}
+                <Separator orientation="vertical" style={{ height: "90%" }} />
+
+                <Flex
+                  align="end"
+                  justify="center"
+                  gap="3"
+                  width="20%"
+                  direction="column"
+                >
+                  <Link href="/synthese">
+                    <Button size="3" variant="solid">
+                      <ArrowRightIcon />
+                    </Button>
+                  </Link>
                 </Flex>
               </Flex>
             </Card>

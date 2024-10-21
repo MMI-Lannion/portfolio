@@ -1,5 +1,5 @@
 import React from "react";
-import { Flex, Box, Checkbox } from "@radix-ui/themes";
+import { Flex, Box, Checkbox, Text } from "@radix-ui/themes";
 import "../assets/styles/action-plan.css";
 
 function TableActionPlan({ onChange }) {
@@ -47,10 +47,10 @@ function TableActionPlan({ onChange }) {
                 className="flex-item yellow"
                 onClick={() => handleClick("Appliquer le savoir")}
               >
-                <p className="flex-item-text">
+                <Text className="flex-item-text">
                   Peu de connaissance / Mise en pratique forte
-                </p>
-                <span className="flex-item-span">Appliquer le savoir</span>
+                </Text>
+                <Text className="flex-item-span">Appliquer le savoir</Text>
                 <Checkbox className="flex-item-checkbox" />
               </Flex>
               <Flex

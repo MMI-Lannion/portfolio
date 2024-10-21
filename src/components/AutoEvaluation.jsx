@@ -2,7 +2,7 @@
 
 import React from "react";
 import { Radar } from "./Radar";
-import { Flex, Text, Heading } from "@radix-ui/themes";
+import { Flex, Text, Heading, Box } from "@radix-ui/themes";
 import { SunburstChart } from "./SunburstChart.tsx";
 
 const test1 = [
@@ -41,44 +41,68 @@ const test3 = [
   },
 ];
 
-export default function AutoEvaluation() {
+export function HardskillsRadar() {
   return (
-    <Flex gap="4" direction="column">
-      <Flex gap="1" direction="column">
-        <Heading as="h3" size="3">
-          Hardskills :
-        </Heading>
-        <Text>
-          Estimez votre niveau de maitrise pour chaque sous compétence sur une
-          échelle de 1 à 5 (1 = Pas du tout maitrisé ; 5 = Tout à fait maitrisé)
-        </Text>
-
-        <Radar datas={test1} />
-      </Flex>
-
-      <Flex gap="1" direction="column">
-        <Heading as="h3" size="3">
-          Softskills :
-        </Heading>
-        <Text>
-          Identifiez le ou les softskills que vous avez utilisé lors de votre
-          SAE ou de votre projet en ressource
-        </Text>
-
-        <SunburstChart />
-      </Flex>
-
-      <Flex gap="1" direction="column">
-        <Heading as="h3" size="3">
-          Outils et méthodes :
-        </Heading>
-        <Text>
-          Estimer votre niveau de maitrise pour chaque outil et méthode sur une
-          échelle de 1 à 5 (1 = Pas du tout maitrisé ; 5 = Tout à fait maitrisé)
-        </Text>
-
-        <Radar datas={test3} />
-      </Flex>
+    <Flex justify="center">
+      <Radar datas={test1} />
     </Flex>
   );
 }
+
+export function SoftskillsSunburst() {
+  return (
+    <Flex justify="center">
+      <SunburstChart />
+    </Flex>
+  );
+}
+
+export function ToolsRadar() {
+  return (
+    <Flex justify="center">
+      <Radar datas={test2} />
+    </Flex>
+  );
+}
+
+// export default function AutoEvaluation() {
+//   return (
+//     <Flex gap="4" direction="column">
+//       <Flex gap="1" direction="column">
+//         <Heading as="h3" size="3">
+//           Hardskills :
+//         </Heading>
+//         <Text>
+//           Estimez votre niveau de maitrise pour chaque sous compétence sur une
+//           échelle de 1 à 5 (1 = Pas du tout maitrisé ; 5 = Tout à fait maitrisé)
+//         </Text>
+
+//         <Radar datas={test1} />
+//       </Flex>
+
+//       <Flex gap="1" direction="column">
+//         <Heading as="h3" size="3">
+//           Softskills :
+//         </Heading>
+//         <Text>
+//           Identifiez le ou les softskills que vous avez utilisé lors de votre
+//           SAE ou de votre projet en ressource
+//         </Text>
+
+//         <SunburstChart />
+//       </Flex>
+
+//       <Flex gap="1" direction="column">
+//         <Heading as="h3" size="3">
+//           Outils et méthodes :
+//         </Heading>
+//         <Text>
+//           Estimer votre niveau de maitrise pour chaque outil et méthode sur une
+//           échelle de 1 à 5 (1 = Pas du tout maitrisé ; 5 = Tout à fait maitrisé)
+//         </Text>
+
+//         <Radar datas={test3} />
+//       </Flex>
+//     </Flex>
+//   );
+// }

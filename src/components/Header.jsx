@@ -21,24 +21,24 @@ export function Header() {
         gap="3"
         width="100%"
         margin="0 auto"
-        px="3"
+        px="5"
       >
         {/* Logo à gauche */}
-        <Flex width="200px" gap="4">
+        <Flex width="200px" gap="6">
           <Link href="/">
-            <RocketIcon />
+            <RocketIcon height="22" width="22" />
           </Link>
 
-          <Flex justify="center" align="center" gap="2">
+          <Flex justify="center" align="center" gap="4">
             <Link href="/tutoriel" color="white">
-              <Button variant="ghost">
-                <InfoCircledIcon />
+              <Button variant="ghost" size="4">
+                <InfoCircledIcon height="22" width="22" />
                 Tutoriel
               </Button>
             </Link>
             <Link href="/dashboard" color="white">
-              <Button variant="ghost">
-                <DashboardIcon />
+              <Button variant="ghost" size="4">
+                <DashboardIcon height="22" width="22" />
                 Dashboard
               </Button>
             </Link>
@@ -52,20 +52,24 @@ export function Header() {
           align="baseline"
           justify="end"
           direction="row"
-          gap="4"
+          gap="5"
         >
           <Link href="/login">
             <Button
-              color="white"
               variant="ghost"
+              size="4"
               style={{ display: "flex", alignItems: "center" }}
             >
-              <PersonIcon /> {/* Icon for Login */}
+              <PersonIcon height="22" width="22" /> {/* Icon for Login */}
             </Button>
           </Link>
 
-          <Button variant="ghost" onClick={toggleTheme}>
-            {theme === "dark" ? <SunIcon /> : <MoonIcon />}
+          <Button variant="ghost" size="4" onClick={toggleTheme}>
+            {theme === "dark" ? (
+              <SunIcon height="22" width="22" />
+            ) : (
+              <MoonIcon height="22" width="22" />
+            )}
           </Button>
         </Flex>
       </Flex>

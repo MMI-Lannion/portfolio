@@ -1,0 +1,82 @@
+---
+import { Combobox } from "@components/Combobox";
+import { ButtonNext, ButtonPrev } from "@/components/ButtonNext";
+import Layout from "../layouts/Layout.astro";
+import {
+  Link,
+  Heading,
+  Box,
+  Flex,
+  Separator,
+  Badge,
+  Text,
+} from "@radix-ui/themes";
+import TextAreaComponent from "@/components/TextAreaComponent";
+import { TreeMap } from "@/components/TreeMap";
+import InputFile from "@/components/InputFile";
+import { PageHeading, PageSubHeading, PageText } from "@/components/Typography";
+---
+
+<Layout title="Synthèse SAE">
+  <PageHeading title="Synthèse SEA" badgeTitle="Etape 1" badgeColor="pink" />
+
+  <Flex direction="column" gap="5" align="center" width="100%" mb="6">
+    <Flex direction="column" gap="2">
+      <PageSubHeading title="Compétences" />
+      <TreeMap client:load />
+    </Flex>
+
+    <Separator style={{ width: "30%" }} />
+
+    <Flex direction="column" gap="2" width="100%">
+      <PageSubHeading title="Contexte et Objectifs" />
+
+      <TextAreaComponent
+        placeholder={"Présentez votre projet en quelques phrases"}
+        client:load
+      />
+    </Flex>
+
+    <Separator style={{ width: "30%" }} />
+
+    <Flex direction="column" gap="2" width="100%">
+      <PageSubHeading title="Démarche de Projet" />
+
+      <TextAreaComponent
+        placeholder={"Quelle a été la méthodologie pour réaliser les étapes du projet"}
+        client:load
+      />
+    </Flex>
+
+    <Separator style={{ width: "30%" }} />
+
+    <Flex direction="column" gap="2" width="100%">
+      <PageSubHeading title="Livrables" />
+
+      <TextAreaComponent
+        placeholder={"Présentez vos livrables finaux en quelques phrases"}
+        client:load
+      />
+    </Flex>
+
+    <Separator style={{ width: "30%" }} />
+
+    <Flex direction="column" gap="2" width="100%">
+      <PageSubHeading title="Pièces Jointes" />
+
+      <PageText>
+        Indiquer une preuve (ou plusieurs) de vos réalisations (jpeg, pdf,
+        video, doc, docx, odt)
+      </PageText>
+
+      <InputFile client:load />
+    </Flex>
+
+    <Separator style={{ width: "30%" }} />
+  </Flex>
+
+  <Flex justify="end" direction="row" m="3" gapX="3">
+    <ButtonPrev name="Précendent" href="/" />
+    <ButtonNext name="Suivant" href="/auto-evaluation" />
+  </Flex>
+</Layout>
