@@ -15,6 +15,9 @@ import TextAreaComponent from "@/components/TextAreaComponent";
 import { TreeMap } from "@/components/TreeMap";
 import InputFile from "@/components/InputFile";
 import { PageHeading, PageSubHeading, PageText } from "@/components/Typography";
+import { file } from "astro/loaders";
+import SyntheseFiles from "@/components/SyntheseFiles";
+
 ---
 
 <Layout title="Synthèse SAE">
@@ -69,7 +72,8 @@ import { PageHeading, PageSubHeading, PageText } from "@/components/Typography";
         video, doc, docx, odt)
       </PageText>
 
-      <InputFile client:load />
+      <SyntheseFiles client:load />
+
     </Flex>
 
     <Separator style={{ width: "30%" }} />
