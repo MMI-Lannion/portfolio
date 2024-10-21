@@ -3,9 +3,10 @@ import { ButtonPrev } from "@/components/ButtonNext";
 import { Combobox } from "@/components/Combobox";
 import TextAreaComponent from "@/components/TextAreaComponent";
 import { PageHeading, PageSubHeading } from "@/components/Typography";
-import { Flex, Separator } from "@radix-ui/themes";
+import { Flex, Separator, Button } from "@radix-ui/themes";
 import TableActionPlan from "../components/TableActionPlan";
 import Layout from "../layouts/Layout.astro";
+import { CheckIcon } from "@radix-ui/react-icons";
 
 const handleChange = (e) => {
   console.log(e);
@@ -49,6 +50,9 @@ const handleChange = (e) => {
 
   <Flex justify="end" direction="row" m="3" gapX="3">
     <ButtonPrev name="Précendent" href="/auto-evaluation" />
-    <!-- <ButtonNext name="Suivant" href="#" /> -->
+    <Button color="indigo" size="4" variant="surface">
+      <CheckIcon />
+      Valider
+    </Button>
   </Flex>
 </Layout>
