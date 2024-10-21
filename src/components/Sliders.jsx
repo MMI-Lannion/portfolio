@@ -4,9 +4,10 @@ import { Flex, Heading, Text } from "@radix-ui/themes";
 import "./tree-map.css";
 
 export function Sliders({ data, setData }) {
+
+
   const changeValueSlider = (key, value) => {
     setData((prevData) => {
-      console.log(prevData);
       return {
         children: prevData.children.map((e) => {
           if (e.key === key) {

@@ -1,18 +1,24 @@
 import PlotFigure from "@/PlotFigure";
 import * as Plot from "@observablehq/plot";
-import { Button, Flex, Heading, Box } from "@radix-ui/themes";
+import { Button, Flex, Heading, Box, Text } from "@radix-ui/themes";
 import * as d3 from "d3";
 import React, { useState, useEffect } from "react";
 import "./tree-map.css";
 import { Sliders } from "./Sliders";
 import { Dialog } from "./Dialog";
 
-// Données pour le treemap
 
 export function TreeMap() {
+
+  // données pour le treemap
   const [data, setData] = useState({
     children: [
-      {key: "Comprendre", color: "red", percentage: 10, keywords: ["key word 1", "key word 2"]},
+      {
+        key: "Comprendre",
+        color: "red",
+        percentage: 10,
+        keywords: ["key word 1", "key word 2"],
+      },
       { key: "Concevoir", color: "orange", percentage: 10, keywords: ["er"] },
       { key: "Produire", color: "yellow", percentage: 10, keywords: [] },
       { key: "Développer", color: "green", percentage: 60, keywords: [] },
@@ -20,7 +26,7 @@ export function TreeMap() {
     ],
   });
 
-  //Pourcentage en fonction du nombre de bloc de compétence
+  //pourcentage en fonction du nombre de bloc de compétence
   useEffect(() => {
     const totalSkills = data.children.length;
     const newPercentage = 100 / totalSkills;
@@ -33,15 +39,15 @@ export function TreeMap() {
     }));
   }, []);
 
-  // Configuration du layout du treemap
+  // configuration du layout du treemap
   const createTreemapData = (data) => {
     const root = d3.hierarchy(data).sum((d) => d.percentage);
 
-    // Génération des coordonnées pour chaque noeud
+    // génération des coordonnées pour chaque noeud
     const treemapLayout = d3.treemap().size([1500, 1000]).padding(5);
     const leaves = treemapLayout(root).leaves();
 
-    // Mettez à jour les données avec les coordonnées
+    // mettre à jour les données avec les coordonnées
     leaves.forEach((leaf) => {
       const { data } = leaf;
       data.x0 = leaf.x0;
@@ -55,17 +61,32 @@ export function TreeMap() {
 
   const treemapData = createTreemapData(data);
 
+
+  //state pour la popup dialog
   const [open, setOpen] = useState(false);
 
   const handleLabelClick = () => {
-    console.log("Bouton cliqué !");
     setOpen(true);
   };
+
+  //calcul du pourcentage total
+  let total = data.children.reduce((acc, e) => {
+    console.log(acc);
+    return acc + Number(e.percentage);
+  }, 0);
 
   return (
     <>
       <Flex gap="5" direction="column">
-        <Flex justify="end">
+        <Flex justify="between">
+          <Flex justify="center" align="center" gap="5">
+            <Text color={total === 100 ? "black" : "red"} size="6">
+              Total : {total}%
+            </Text>
+            <Text color="red">
+              {total === 100 ? "" : "Attention : le total doit être de 100% !"}
+            </Text>
+          </Flex>
           <Button onClick={handleLabelClick}>Modifier pourcentages</Button>
         </Flex>
 
@@ -85,7 +106,8 @@ export function TreeMap() {
             color: { legend: true },
             axis: null,
             marks: [
-              // Rectangles pour le treemap
+
+              // rectangles pour le treemap
               Plot.rect(treemapData, {
                 x1: "x0",
                 x2: "x1",
@@ -109,7 +131,8 @@ export function TreeMap() {
                 },
                 title: (d) => `${d.data.key} : ${d.data.percentage}%`,
               }),
-              // Labels pour chaque section du treemap
+
+              // labels pour chaque section du treemap
               Plot.text(treemapData, {
                 x: (d) => (d.x0 + d.x1) / 2,
                 y: (d) => (d.y0 + d.y1) / 2,
