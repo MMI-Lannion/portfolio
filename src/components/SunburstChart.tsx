@@ -185,7 +185,7 @@ export const SunburstChart = () => {
           .ancestors()
           .map((d) => d.data.name)
           .reverse()
-          .join("/")}\n${format(d.value)}`
+          .join("/")}<br />${format(d.value)}`
     );
 
     const label = svg
@@ -196,10 +196,20 @@ export const SunburstChart = () => {
       .selectAll("text")
       .data(root.descendants().slice(1))
       .join("text")
+      .style("font-size", "10px") // Définir la taille du texte ici
       .attr("dy", "0.35em")
       .attr("fill-opacity", (d) => +labelVisible(d.current))
       .attr("transform", (d) => labelTransform(d.current))
-      .text((d) => d.data.name);
+      .each(function (d) {
+        const text = d3.select(this);
+        const lines = d.data.name.split(" "); 
+        lines.forEach((line, i) => {
+          text.append("tspan")
+            .attr("x", 0)
+            .attr("dy", i === 0 ? "0em" : "0.8em")  // La première ligne est à 0, les suivantes à 1.2em
+            .text(line);
+        });
+      });
 
     // Ajouter un élément div pour le tooltip dans le corps du document
     const tooltip = d3
