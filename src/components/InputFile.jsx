@@ -79,6 +79,7 @@ const InputFile = ({ onChange = null }) => {
               <Text>Ajouter un ou plusieurs fichiers</Text>
             </Label>
             <HiddenInput
+              id="fileInput"
               type="file"
               name="fileInput"
               accept="image/*, video/*, .pdf, .doc, .docx, .odt"

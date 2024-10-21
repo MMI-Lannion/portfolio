@@ -5,6 +5,30 @@ export const $filterSea = atom("");
 export const $theme = atom("light");
 export const $user = atom({ username: "qdd" });
 export const $openDialog = atom(true);
+export const $sae = atom("sae");
+
+
+export const $saeData = atom({
+  userId: 1,
+  saeId: 101,
+  completed: false,
+  competences: [],
+  contexte: "",
+  demarche: "",
+  livrable: "",
+  files: [],
+  hardskills: {
+
+  },
+  softskills: {
+
+  },
+  ameliorations: {
+
+  },
+  competenceCle: "",
+  sousCompetence: [],
+});
 
 export const $saes = atom({
   but1: ["but1 1", "but1 2", "apple", "kiwi"],
@@ -63,3 +87,8 @@ export const toggleTheme = () => {
   const theme = $theme.get();
   $theme.set(theme === "light" ? "dark" : "light");
 };
+
+export const setSaeData = (data) => {
+  const previousData = $saeData.get();
+  $saeData.set({ ...previousData, ...data });
+}
