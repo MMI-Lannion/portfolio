@@ -7,7 +7,6 @@ export const $user = atom({ username: "qdd" });
 export const $openDialog = atom(true);
 export const $sae = atom("sae");
 
-
 export const $saeData = atom({
   userId: 1,
   saeId: 101,
@@ -17,15 +16,28 @@ export const $saeData = atom({
   demarche: "",
   livrable: "",
   files: [],
-  hardskills: {
-
-  },
-  softskills: {
-
-  },
-  ameliorations: {
-
-  },
+  hardskills: [
+    {
+      name: "Compétence 1",
+      label31: 0.02,
+      label32: 0.18,
+      label33: 0.39,
+      label34: 0.27,
+      label35: 0.17,
+      label36: 0.12,
+    },
+    {
+      name: "Compétence 2",
+      label31: 0.27,
+      label32: 0.18,
+      label33: 0.39,
+      label34: 0.02,
+      label35: 0.17,
+      label36: 0.12,
+    },
+  ],
+  softskills: {},
+  ameliorations: {},
   competenceCle: "",
   sousCompetence: [],
 });
@@ -91,4 +103,4 @@ export const toggleTheme = () => {
 export const setSaeData = (data) => {
   const previousData = $saeData.get();
   $saeData.set({ ...previousData, ...data });
-}
+};

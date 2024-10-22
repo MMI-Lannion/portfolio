@@ -2,8 +2,10 @@
 
 import React from "react";
 import { Radar } from "./Radar";
-import { Flex, Text, Heading, Box } from "@radix-ui/themes";
+import { Flex, Text, Heading, Box, Tabs } from "@radix-ui/themes";
 import { SunburstChart } from "./SunburstChart.tsx";
+import { useStore } from "@nanostores/react";
+import { $saeData } from "@/store/Store.js";
 
 const test1 = [
   {
@@ -42,9 +44,24 @@ const test3 = [
 ];
 
 export function HardskillsRadar() {
+  const hardskills = useStore($saeData).hardskills;
   return (
     <Flex justify="center">
-      <Radar datas={test1} />
+      <Tabs.Root defaultValue={hardskills?.[0].name}>
+        <Tabs.List justify="start">
+          {hardskills.map((skillData) => (
+            <Tabs.Trigger value={skillData.name}>{skillData.name}</Tabs.Trigger>
+          ))}
+        </Tabs.List>
+
+        <Box pt="3">
+          {hardskills.map((skillData) => (
+            <Tabs.Content value={skillData.name}>
+              <Radar datas={[skillData]} />
+            </Tabs.Content>
+          ))}
+        </Box>
+      </Tabs.Root>
     </Flex>
   );
 }
