@@ -13,6 +13,7 @@ interface Data {
 export const SunburstChart = () => {
   const svgRef = React.useRef<SVGSVGElement>(null);
   const [viewBox, setViewBox] = React.useState("0 -700 300 1300");
+  const [selectedArc, setSelectedArc] = React.useState<string | null>(null);
 
   // const color = d3.scaleOrdinal(
   //   d3.quantize(d3.interpolateRainbow, data.children.length + 1)
@@ -163,20 +164,26 @@ export const SunburstChart = () => {
       .join("path")
       .attr("fill", (d) => {
         while (d.depth > 1) d = d.parent;
-        return color(d.data.name);
+        return d.data.name === selectedArc ? "orange" : color(d.data.name); // Change la couleur si l'arc est sélectionné
       })
       .attr("fill-opacity", (d) =>
         arcVisible(d.current) ? (d.children ? 0.6 : 0.4) : 0
       )
       .attr("pointer-events", (d) => (arcVisible(d.current) ? "auto" : "none"))
 
-      .attr("d", (d) => arc(d.current));
+      .attr("d", (d) => arc(d.current))
+      .on("dblclick", (event, d) => {
+        if (!d.children) {
+            // Leaf node (no children) clicked: highlight it without zooming
+            d3.select(event.currentTarget).attr("fill", "pink");
+        } 
+    });
 
     // Make them clickable if they have children.
     path
       .filter((d) => d.children)
       .style("cursor", "pointer")
-      .on("click", clicked);
+      .on("dblclick", clicked);
 
     const format = d3.format(",d");
     path.append("title").text(
@@ -226,7 +233,7 @@ export const SunburstChart = () => {
 
     // Ajouter des événements mouseover et mouseout aux éléments path
     path
-      .on("mouseover", function (event, d) {
+      .on("click", function (event, d) {
         tooltip.style("visibility", "visible").text(d.data.description); // Assurez-vous que chaque élément de données a une propriété 'description'
       })
       .on("mousemove", function (event) {
@@ -266,7 +273,7 @@ export const SunburstChart = () => {
           })
       );
 
-      const t = svg.transition().duration(750);
+      const t = svg.transition().duration(200);
 
       console.log("root", root.descendants());
 
@@ -311,7 +318,7 @@ export const SunburstChart = () => {
       const y = ((d.y0 + d.y1) / 2) * radius;
       return `rotate(${x - 90}) translate(${y},0) rotate(${x < 180 ? 0 : 180})`;
     }
-  }, [svgRef]);
+  }, [svgRef, selectedArc]); // Added selectedArc as dependency
 
   return (
     <svg width={SIZE} height={SIZE} ref={svgRef}>
