@@ -5,3 +5,7 @@ body {
   }
 
   
+.treemap-rect-label title {
+  pointer-events: none;
+  fill: red
+}
