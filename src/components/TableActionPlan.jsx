@@ -39,7 +39,7 @@ function TableActionPlan({ onChange }) {
             width: "fit-content",
           }}
         >
-          <span>Savoir faire</span>
+          <span style={{ transform: "rotate(180deg)" }}>Savoir faire</span>
           <InfoCircled text="Ce que je mets en application" />
         </div>
         <div>
