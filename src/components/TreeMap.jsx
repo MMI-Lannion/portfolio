@@ -5,16 +5,15 @@ import * as d3 from "d3";
 import React, { useState, useEffect } from "react";
 import "./tree-map.css";
 import { Sliders } from "./Sliders";
+import { AddWordsToTreeMap } from "./AddWordsToTreeMap";
 import { Dialog } from "./Dialog";
 import { MixerHorizontalIcon } from "@radix-ui/react-icons";
-import AddWordsToTreeMap from "./AddWordsToTreeMap";
 import { useStore } from "@nanostores/react";
 import { $treemap, $setInitialPourcentage, $totalPourcentage } from "@/store/Store";
 
 export function TreeMap() {
   //données store
   const data = useStore($treemap);
-
   //total pour vérifier si 100%
   let total = $totalPourcentage()
 
@@ -94,8 +93,8 @@ export function TreeMap() {
             onCancel={() => {
               setOpenPourcentage(false);
             }}
-            title="Choix du pourcentage"
-            content={<Sliders />}
+            title="Evaluer Vos Compotences"
+            content={<AddWordsToTreeMap key="" data={data}  />}
           >
             <Button size="4" onClick={() => setOpenPourcentage(true)}>
               <MixerHorizontalIcon />
