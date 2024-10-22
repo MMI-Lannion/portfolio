@@ -4,6 +4,8 @@ import React from "react";
 import { Radar } from "./Radar";
 import { Flex, Text, Heading, Box, Tabs } from "@radix-ui/themes";
 import { SunburstChart } from "./SunburstChart.tsx";
+import { useStore } from "@nanostores/react";
+import { $saeData } from "@/store/Store.js";
 
 const test1 = [
   {
@@ -42,30 +44,22 @@ const test3 = [
 ];
 
 export function HardskillsRadar() {
+  const hardskills = useStore($saeData).hardskills;
   return (
     <Flex justify="center">
-      <Tabs.Root defaultValue="account">
+      <Tabs.Root defaultValue={hardskills?.[0].name}>
         <Tabs.List justify="start">
-          <Tabs.Trigger value="account">Account</Tabs.Trigger>
-          <Tabs.Trigger value="documents">Documents</Tabs.Trigger>
-          <Tabs.Trigger value="settings">Settings</Tabs.Trigger>
+          {hardskills.map((skillData) => (
+            <Tabs.Trigger value={skillData.name}>{skillData.name}</Tabs.Trigger>
+          ))}
         </Tabs.List>
 
         <Box pt="3">
-          <Tabs.Content value="account">
-            <Text size="2">Make changes to your account.</Text>
-            <Radar datas={test1} />
-          </Tabs.Content>
-
-          <Tabs.Content value="documents">
-            <Text size="2">Access and update your documents.</Text>
-          </Tabs.Content>
-
-          <Tabs.Content value="settings">
-            <Text size="2">
-              Edit your profile or update contact information.
-            </Text>
-          </Tabs.Content>
+          {hardskills.map((skillData) => (
+            <Tabs.Content value={skillData.name}>
+              <Radar datas={[skillData]} />
+            </Tabs.Content>
+          ))}
         </Box>
       </Tabs.Root>
     </Flex>
