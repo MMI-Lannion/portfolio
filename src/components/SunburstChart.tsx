@@ -13,7 +13,10 @@ interface Data {
 export const SunburstChart = () => {
   const svgRef = React.useRef<SVGSVGElement>(null);
   const [viewBox, setViewBox] = React.useState("0 -700 300 1300");
+  // create an array for selected arcs
   const [selectedArc, setSelectedArc] = React.useState<string | null>(null);
+  const [selectedKeywords, setSelectedKeywords] = React.useState<string[]>([]);
+  console.log("selectedKeywords", selectedKeywords);
 
   // const color = d3.scaleOrdinal(
   //   d3.quantize(d3.interpolateRainbow, data.children.length + 1)
@@ -163,8 +166,10 @@ export const SunburstChart = () => {
       .data(root.descendants().slice(1))
       .join("path")
       .attr("fill", (d) => {
+        // Si l'arc est dans selectedKeywords, colorer en orange
+        const isSelected = selectedKeywords.includes(d.data.name);
         while (d.depth > 1) d = d.parent;
-        return d.data.name === selectedArc ? "orange" : color(d.data.name); // Change la couleur si l'arc est sélectionné
+        return isSelected ? "orange" : color(d.data.name);
       })
       .attr("fill-opacity", (d) =>
         arcVisible(d.current) ? (d.children ? 0.6 : 0.4) : 0
@@ -174,9 +179,27 @@ export const SunburstChart = () => {
       .attr("d", (d) => arc(d.current))
       .on("dblclick", (event, d) => {
         if (!d.children) {
-            // Leaf node (no children) clicked: highlight it without zooming
+            // Feuille (arc sans enfants) sélectionnée: changer la couleur et ajouter au tableau
             d3.select(event.currentTarget).attr("fill", "pink");
+    
+            setSelectedArc(d.data.name);
+    
+            // Vérifier si le mot-clé est déjà dans le tableau
+            setSelectedKeywords((prevSelectedKeywords) => {
+                if (!prevSelectedKeywords.includes(d.data.name)) {
+                    // Ajouter le mot-clé s'il n'est pas déjà présent
+                    return [...prevSelectedKeywords, d.data.name];
+                }
+                return prevSelectedKeywords;
+            });
         } 
+        // supprimer le sunburst chart ET le tableau de mots-clés ET AFFCIHER LES COULEURS SELECTIONNEES SUR LE SUNBURST CHART QUI VA ETRE RECONSTRUIT
+        d3.select(svgRef.current).selectAll("*").remove();
+        // remove all hover elements
+        d3.selectAll(".tooltip").remove();
+
+        
+
     });
 
     // Make them clickable if they have children.
