@@ -7,6 +7,8 @@ import {
 import { Box, Button, Callout, Flex, Text } from "@radix-ui/themes";
 import { useState } from "react";
 import { supabase } from '../lib/supabase.js';
+import { useStore } from '@nanostores/react';
+import { $saeData, $user } from '@/store/Store';
 
 const FileInputContainer = styled(Box, {
   display: "flex",
@@ -40,6 +42,12 @@ const InputFile = ({ onChange = null }) => {
   const [uploadSuccess, setUploadSuccess] = useState(false);
   const [uploadError, setUploadError] = useState(false);
 
+  // Get data from store
+  const userId = useStore($saeData).userId;
+  const saeId = useStore($saeData).saeId;
+  const username = useStore($user).username;
+
+  // Vérification de la taille du fichier
   const handleFileChange = (event) => {
     const files = event.target.files;
     const maxSize = 5 * 1024 * 1024;
@@ -55,7 +63,6 @@ const InputFile = ({ onChange = null }) => {
         onChange?.(files);
       }
     }
-
     setFileError(hasError);
   };
 
@@ -63,13 +70,11 @@ const InputFile = ({ onChange = null }) => {
     event.preventDefault();
     const files = event.target.fileInput.files;
 
-    if (!files.length) {
-      console.error("Aucun fichier sélectionné");
-      return;
-    }
+    console.log(Date.now());
 
+    // Upload de fichiers
     for (const file of files) {
-      const filePath = `${Date.now()}_${file.name}`; // Génère un nom de fichier unique
+      const filePath = `sae${saeId}_${username}_${userId}/${Date.now()}_${file.name}`;
       const { data, error } = await supabase.storage
         .from('saeFiles')
         .upload(filePath, file);
