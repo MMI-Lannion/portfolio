@@ -190,7 +190,13 @@ export const SunburstChart = () => {
                     // Ajouter le mot-clé s'il n'est pas déjà présent
                     return [...prevSelectedKeywords, d.data.name];
                 }
-                return prevSelectedKeywords;
+                else if (prevSelectedKeywords.includes(d.data.name)) {
+                    // Supprimer le mot-clé s'il est déjà présent
+                    return prevSelectedKeywords.filter((keyword) => keyword !== d.data.name);
+                }
+                else {
+                    return prevSelectedKeywords;
+                }
             });
         } 
         // supprimer le sunburst chart ET le tableau de mots-clés ET AFFCIHER LES COULEURS SELECTIONNEES SUR LE SUNBURST CHART QUI VA ETRE RECONSTRUIT
@@ -341,7 +347,7 @@ export const SunburstChart = () => {
       const y = ((d.y0 + d.y1) / 2) * radius;
       return `rotate(${x - 90}) translate(${y},0) rotate(${x < 180 ? 0 : 180})`;
     }
-  }, [svgRef, selectedArc]); // Added selectedArc as dependency
+  }, [svgRef, selectedArc, selectedKeywords]);
 
   return (
     <svg width={SIZE} height={SIZE} ref={svgRef}>
