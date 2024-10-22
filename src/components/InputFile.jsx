@@ -6,6 +6,7 @@ import {
 } from "@radix-ui/react-icons";
 import { Box, Button, Callout, Flex, Text } from "@radix-ui/themes";
 import { useState } from "react";
+import { supabase } from '../lib/supabase.js';
 
 const FileInputContainer = styled(Box, {
   display: "flex",
@@ -36,10 +37,11 @@ const Label = styled("label", {
 
 const InputFile = ({ onChange = null }) => {
   const [fileError, setFileError] = useState(false);
+  const [uploadSuccess, setUploadSuccess] = useState(false);
+  const [uploadError, setUploadError] = useState(false);
 
   const handleFileChange = (event) => {
     const files = event.target.files;
-    console.log("event files", files);
     const maxSize = 5 * 1024 * 1024;
     let hasError = false;
 
@@ -57,8 +59,31 @@ const InputFile = ({ onChange = null }) => {
     setFileError(hasError);
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
+    const files = event.target.fileInput.files;
+
+    if (!files.length) {
+      console.error("Aucun fichier sélectionné");
+      return;
+    }
+
+    for (const file of files) {
+      const filePath = `${Date.now()}_${file.name}`; // Génère un nom de fichier unique
+      const { data, error } = await supabase.storage
+        .from('saeFiles')
+        .upload(filePath, file);
+
+      if (error) {
+        console.error("Erreur lors de l'upload:", error.message);
+        setUploadError(true);
+        setUploadSuccess(false);
+      } else {
+        console.log("Upload réussi:", data);
+        setUploadSuccess(true);
+        setUploadError(false);
+      }
+    }
   };
 
   return (
@@ -71,6 +96,23 @@ const InputFile = ({ onChange = null }) => {
           <Callout.Text>Le fichier dépasse la limite de 5 Mo.</Callout.Text>
         </Callout.Root>
       )}
+      {uploadError && (
+        <Callout.Root color="red" role="alert">
+          <Callout.Icon>
+            <ExclamationTriangleIcon />
+          </Callout.Icon>
+          <Callout.Text>Erreur lors du téléchargement du fichier.</Callout.Text>
+        </Callout.Root>
+      )}
+      {uploadSuccess && (
+        <Callout.Root color="green" role="alert">
+          <Callout.Icon>
+            <CheckIcon />
+          </Callout.Icon>
+          <Callout.Text>Téléchargement réussi !</Callout.Text>
+        </Callout.Root>
+      )}
+
       <form onSubmit={handleSubmit}>
         <Flex gap="3" align="center">
           <FileInputContainer>
@@ -88,14 +130,6 @@ const InputFile = ({ onChange = null }) => {
             />
           </FileInputContainer>
 
-          {/* <input
-          type="file"
-          name="fileInput"
-          accept="image/*, video/*, .pdf, .doc, .docx, .odt"
-          multiple
-          onChange={handleFileChange}
-        /> */}
-          {/* <input type="url" name="linkInput" placeholder="Entrer une url" /> */}
           <Button type="submit" size="4">
             <CheckIcon />
             Valider
