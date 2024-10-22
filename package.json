@@ -20,6 +20,7 @@
     "@radix-ui/themes": "^3.1.4",
     "@reach/combobox": "^0.18.0",
     "@stitches/react": "^1.2.8",
+    "@supabase/supabase-js": "^2.45.6",
     "@tiptap/extension-bullet-list": "^2.8.0",
     "@tiptap/extension-text-style": "^2.8.0",
     "@tiptap/react": "^2.8.0",
