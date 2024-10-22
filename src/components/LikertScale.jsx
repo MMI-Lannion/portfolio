@@ -11,27 +11,27 @@ function LikertScale() {
       <Grid columns="5" gap="3" rows="repeat(1, 64px)" width="100%">
         <Flex direction="column">
           <Text as="label" size="2">
-            Pas du tout d'accord
+            😲 - Pas du tout maîtrisé
           </Text>
         </Flex>
         <Flex direction="column">
           <Text as="label" size="2">
-            Pas d'accord
+            🤔 - Un peu maîtrisé
           </Text>
         </Flex>
         <Flex direction="column">
           <Text as="label" size="2">
-            Ni en désaccord ni d'accord
+            😊 - Moyennement maîtrisé
           </Text>
         </Flex>
         <Flex direction="column">
           <Text as="label" size="2">
-            D'accord
+            😁 - Plutôt maîtrisé
           </Text>
         </Flex>
         <Flex direction="column">
           <Text as="label" size="2">
-            Tout à fait d'accord
+            🤩 - Tout à fait maîtrisé
           </Text>
         </Flex>
       </Grid>
