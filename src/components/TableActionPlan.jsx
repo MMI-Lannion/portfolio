@@ -2,6 +2,7 @@ import React from "react";
 import { Flex, Box, Radio, Text } from "@radix-ui/themes";
 import "../assets/styles/action-plan.css";
 import { InfoCircledIcon } from "@radix-ui/react-icons";
+import InfoCircled from "./InfoCircled";
 
 function TableActionPlan({ onChange }) {
   const handleClick = (message) => {
@@ -39,11 +40,7 @@ function TableActionPlan({ onChange }) {
           }}
         >
           <span>Savoir faire</span>
-          <InfoCircledIcon
-            height="22"
-            width="22"
-            title="Ce que je mets en application"
-          />
+          <InfoCircled text="Ce que je mets en application" />
         </div>
         <div>
           <Flex direction="column" gap="2">
@@ -81,12 +78,7 @@ function TableActionPlan({ onChange }) {
                     className={`flex-item ${colors[index]}`}
                     onClick={() => handleFlexClick(label, radioRef)}
                   >
-                    <InfoCircledIcon
-                      height="22"
-                      width="22"
-                      title={titles[index]}
-                      className="flex-item-text"
-                    />
+                    <InfoCircled text={titles[index]} />
                     <Text weight="medium" size="4" className="flex-item-span">
                       {label}
                     </Text>
@@ -115,7 +107,7 @@ function TableActionPlan({ onChange }) {
           }}
         >
           <span>Savoir</span>
-          <InfoCircledIcon height="22" width="22" title="Ce que je connais" />
+          <InfoCircled text="Ce que je connais" />
         </div>
       </div>
     </>
