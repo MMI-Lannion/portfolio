@@ -3,6 +3,7 @@ import { Flex, Text } from "@radix-ui/themes";
 import "./tree-map.css";
 import { useStore } from "@nanostores/react";
 import { $treemap, $changeValueSlider, $totalPourcentage } from "@/store/Store";
+import React from "react";
 
 export function Sliders() {
   
@@ -47,7 +48,7 @@ export function Sliders() {
     <>
       <Flex direction="row" gap="9">
         <Flex gap="4" direction="column">
-          {data.children.map((e) => {
+          {data.map((e) => {
             return (
               <Text>
                 {e.key} : {e.percentage}%
@@ -61,7 +62,7 @@ export function Sliders() {
 
         <Flex gap="4" direction="column">
           {/* Affichage des sliders */}
-          {data.children.map((e) => {
+          {data.map((e) => {
             return (
               <Slider.Root
                 className="SliderRoot"

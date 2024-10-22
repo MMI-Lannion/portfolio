@@ -65,45 +65,44 @@ export const toggleTheme = () => {
 };
 
 //données Treemap
-export const $treemap = atom({
-  children: [
-    { key: "Comprendre", color: "red", percentage: 25, keywords: ["ahhhhh"],},
-    { key: "Concevoir", color: "orange", percentage: 25, keywords: ["er"] },
-    { key: "Produire", color: "yellow", percentage: 25, keywords: [] },
-    { key: "Développer", color: "green", percentage: 25, keywords: [] },
-    { key: "Entreprendre", color: "blue", percentage: 25, keywords: [] },
-  ]}
-);
+export const $treemap = atom([
+  { key: "Comprendre", color: "red", percentage: 25, keywords: ["ahhhhh"] },
+  { key: "Concevoir", color: "orange", percentage: 25, keywords: ["er"] },
+  { key: "Produire", color: "yellow", percentage: 25, keywords: [] },
+  { key: "Développer", color: "green", percentage: 25, keywords: [] },
+  { key: "Entreprendre", color: "blue", percentage: 25, keywords: [] },
+]);
 
 //mettre pourcentage en fonction du nombre de blocs de compétences
 export const $setInitialPourcentage = () => {
-  const totalSkills = $treemap.get().children.length;
+  const totalSkills = $treemap.get().length;
   const newPercentage = 100 / totalSkills;
-  $treemap.set({
-    children : $treemap.get().children.map((e) => ({
+
+  $treemap.set(
+    $treemap.get().map((e) => ({
       ...e,
       percentage: newPercentage % 5 === 0 ? newPercentage : 30,
-    })),
-  })
-}
+    }))
+  );
+};
 
 //changer pourcentage en fonction du Slider
 export const $changeValueSlider = (key, value) => {
-  $treemap.set({
-    children : $treemap.get().children.map((e) => {
+  $treemap.set(
+    $treemap.get().map((e) => {
       if (e.key === key) {
         return { ...e, percentage: value };
       } else {
         return e;
       }
-    })
-  })
-}
+    }),
+  );
+};
 
 //total pourcentage
 export const $totalPourcentage = () => {
-  let total = $treemap.get().children.reduce((acc, e) => {
+  let total = $treemap.get().reduce((acc, e) => {
     return acc + Number(e.percentage);
   }, 0);
-  return total
-}
+  return total;
+};

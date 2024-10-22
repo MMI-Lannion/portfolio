@@ -9,14 +9,18 @@ import { Dialog } from "./Dialog";
 import { MixerHorizontalIcon } from "@radix-ui/react-icons";
 import AddWordsToTreeMap from "./AddWordsToTreeMap";
 import { useStore } from "@nanostores/react";
-import { $treemap, $setInitialPourcentage, $totalPourcentage } from "@/store/Store";
+import {
+  $treemap,
+  $setInitialPourcentage,
+  $totalPourcentage,
+} from "@/store/Store";
 
 export function TreeMap() {
   //données store
   const data = useStore($treemap);
 
   //total pour vérifier si 100%
-  let total = $totalPourcentage()
+  let total = $totalPourcentage();
 
   //pourcentage en fonction du nombre de blocs de compétences
   useEffect(() => {
@@ -41,7 +45,7 @@ export function TreeMap() {
     return leaves;
   };
 
-  const treemapData = createTreemapData(data);
+  const treemapData = createTreemapData({ children: data });
 
   //ouverture des popup
   const [openPourcentage, setOpenPourcentage] = useState(false);
