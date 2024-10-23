@@ -167,7 +167,7 @@ export const SunburstChart = () => {
       .join("path")
       .attr("fill", (d) => {
         // Si l'arc est dans selectedKeywords, colorer en orange
-        const isSelected = selectedKeywords.includes(d.data.name);
+        const isSelected = selectedKeywords.includes(d.data.id);
         while (d.depth > 1) d = d.parent;
         return isSelected ? "orange" : color(d.data.name);
       })
@@ -179,25 +179,23 @@ export const SunburstChart = () => {
       .attr("d", (d) => arc(d.current))
       .on("dblclick", (event, d) => {
         if (!d.children) {
-            // Feuille (arc sans enfants) sélectionnée: changer la couleur et ajouter au tableau
-            d3.select(event.currentTarget).attr("fill", "pink");
+          // Use d.data.id instead of d.data.name
+          d3.select(event.currentTarget).attr("fill", "pink");
     
-            setSelectedArc(d.data.name);
+          setSelectedArc(d.data.id); // Use id here too
     
-            // Vérifier si le mot-clé est déjà dans le tableau
-            setSelectedKeywords((prevSelectedKeywords) => {
-                if (!prevSelectedKeywords.includes(d.data.name)) {
-                    // Ajouter le mot-clé s'il n'est pas déjà présent
-                    return [...prevSelectedKeywords, d.data.name];
-                }
-                else if (prevSelectedKeywords.includes(d.data.name)) {
-                    // Supprimer le mot-clé s'il est déjà présent
-                    return prevSelectedKeywords.filter((keyword) => keyword !== d.data.name);
-                }
-                else {
-                    return prevSelectedKeywords;
-                }
-            });
+          // Check if the id is already in the array
+          setSelectedKeywords((prevSelectedKeywords) => {
+            if (!prevSelectedKeywords.includes(d.data.id)) {
+              // Add id to the array if it's not present
+              return [...prevSelectedKeywords, d.data.id];
+            } else {
+              // Remove id if it's already present
+              return prevSelectedKeywords.filter(
+                (keyword) => keyword !== d.data.id
+              );
+            }
+          });
         } 
         // supprimer le sunburst chart ET le tableau de mots-clés ET AFFCIHER LES COULEURS SELECTIONNEES SUR LE SUNBURST CHART QUI VA ETRE RECONSTRUIT
         d3.select(svgRef.current).selectAll("*").remove();
@@ -302,7 +300,7 @@ export const SunburstChart = () => {
           })
       );
 
-      const t = svg.transition().duration(200);
+      const t = svg.transition().duration(1000);
 
       console.log("root", root.descendants());
 
