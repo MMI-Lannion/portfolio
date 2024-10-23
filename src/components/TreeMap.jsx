@@ -3,11 +3,11 @@ import * as Plot from "@observablehq/plot";
 import { Button, Flex, Text } from "@radix-ui/themes";
 import * as d3 from "d3";
 import React, { useState, useEffect } from "react";
-import "./tree-map.css";
+// import "./tree-map.css";
 import { Sliders } from "./Sliders";
+import { AddWordsToTreeMap } from "./AddWordsToTreeMap";
 import { Dialog } from "./Dialog";
 import { MixerHorizontalIcon } from "@radix-ui/react-icons";
-import AddWordsToTreeMap from "./AddWordsToTreeMap";
 import { useStore } from "@nanostores/react";
 import {
   $treemap,
@@ -18,7 +18,6 @@ import {
 export function TreeMap() {
   //données store
   const data = useStore($treemap);
-
   //total pour vérifier si 100%
   let total = $totalPourcentage();
 

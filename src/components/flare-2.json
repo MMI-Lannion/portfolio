@@ -10,12 +10,14 @@
             {
               "name": "Expression",
               "value": 1,
-              "description": "S'exprimer aisément à l'oral et à l'écrit selon divers modes de communication en s'adaptant à ses interlocuteurs dans toute situation"
+              "description": "S'exprimer aisément à l'oral et à l'écrit selon divers modes de communication en s'adaptant à ses interlocuteurs dans toute situation",
+              "id": "12835749"
             },
             {
               "name": "Écoute active",
               "value": 1,
-              "description": "Écouter activement son interlocuteur (le laisser s'exprimer, sans l'interrompre, reformuler, décoder le non-verbal, poser des questions ouvertes)"
+              "description": "Ecouter activement son interlocuteur (le laisser s'exprimer, sans l'interrompre, reformuler, décoder le non-verbal, poser des questions ouvertes)",
+              "id": "67520341"
             }
           ]
         },
@@ -25,22 +27,26 @@
             {
               "name": "Intégration",
               "value": 1,
-              "description": "S'intégrer au sein d'une équipe de travail"
+              "description": "S'intégrer au sein d'une équipe de travail",
+              "id": "81439572"
             },
             {
               "name": "Coordination",
               "value": 1,
-              "description": "Coordination de groupe : faculté d'agencer des activités et des rôles de différents groupes en tenant en compte leurs compétences et leurs contraintes afin d'atteindre les objectifs"
+              "description": "Coordination de groupe : faculté d'agencer des activités et des rôles de différents groupes en tenant en compte leurs compétences et leurs contraintes afin d'atteindre les objectifs",
+              "id": "50923764"
             },
             {
               "name": "Empathie",
               "value": 1,
-              "description": "Empathie : faculté de se mettre à la place de l'autre, de se décentrer et de comprendre le point de vue de l'autre"
+              "description": "Empathie : faculté de se mettre à la place de l'autre, de se décentrer et de comprendre le point de vue de l'autre",
+              "id": "32150984"
             },
             {
               "name": "Feedback",
               "value": 1,
-              "description": "Partage et réception de feedback : faculté de donner ses retours, d'entendre et d'intégrer les retours des autres sur une présentation, un projet"
+              "description": "Partage et réception de feedback : faculté de donner ses retours, d'entendre et d'intégrer les retours des autres sur une présentation, un projet",
+              "id": "28374910"
             }
           ]
         },
@@ -50,7 +56,8 @@
             {
               "name": "Résolution",
               "value": 1,
-              "description": "Prévenir des tensions et gérer des conflits entre deux ou plusieurs parties, ce qui implique une analyse, une régulation et une résolution"
+              "description": "Prévenir des tensions et gérer des conflits entre deux ou plusieurs parties, ce qui implique une analyse, une régulation et une résolution",
+              "id": "49028367"
             }
           ]
         },
@@ -60,17 +67,20 @@
             {
               "name": "Persuasion",
               "value": 1,
-              "description": "Influence et persuasion : faculté de convaincre ou de faire passer des idées pour nourrir la prise de décision"
+              "description": "Influence et persuasion : faculté de convaincre ou de faire passer des idées pour nourrir la prise de décision",
+              "id": "83264590"
             },
             {
               "name": "Persévérance",
               "value": 1,
-              "description": "Persévérance : faculté de poursuivre ses objectifs et de demeurer ferme et constant dans les efforts indépendamment des difficultés rencontrées et/ou des échecs subis"
+              "description": "Persévérance : faculté de poursuivre ses objectifs et de demeurer ferme et constant dans les efforts indépendamment des difficultés rencontrées et/ou des échecs subis",
+              "id": "49382701"
             },
             {
               "name": "Diplomatie",
               "value": 1,
-              "description": "Diplomatie : faculté de trouver des compromis acceptables et/ou un consensus avec ses interlocuteurs"
+              "description": "Diplomatie : faculté de trouver des compromis acceptables et/ou un consensus avec ses interlocuteurs",
+              "id": "70829345"
             }
           ]
         }
@@ -84,53 +94,33 @@
           "children": [
             {
               "name": "Confiance en soi",
-              "children": [
-                {
-                  "name": "Confiance en soi",
-                  "value": 1,
-                  "description": "Faculté de connaître, d'exprimer et de dépasser les limites de ses aptitudes et de ses qualités"
-                }
-              ]
+              "value": 1,
+              "description": "Confiance en soi : faculté de connaitre, d'exprimer et de dépasser les limites de ses aptitudes et de ses qualités",
+              "id": "20938456"
             },
             {
               "name": "Responsabilité",
-              "children": [
-                {
-                  "name": "Responsabilité",
-                  "value": 1,
-                  "description": "Faculté de se sentir personnellement concerné par la bonne réalisation des tâches, des mandats ou des projets et d'assumer son rôle dans leur accomplissement"
-                }
-              ]
+              "value": 1,
+              "description": "Responsabilité : faculté de se sentir personnellement concerné par la bonne réalisation des tâches, des mandats ou des projets et d'assumer son rôle dans leur accomplissement",
+              "id": "92834567"
             },
             {
               "name": "Autonomie",
-              "children": [
-                {
-                  "name": "Autonomie",
-                  "value": 1,
-                  "description": "Faculté d'exprimer ses idées, de mener des projets et de réaliser ses objectifs en limitant les besoins de supervision ou de soutien et les interférences ou contraintes extérieures"
-                }
-              ]
+              "value": 1,
+              "description": "Autonomie : faculté d'exprimer ses idées, de mener des projets et de réaliser ses objectifs en limitant les besoins de supervision ou de soutien et les interférences ou contraintes extérieurs",
+              "id": "37491820"
             },
             {
               "name": "Motivation",
-              "children": [
-                {
-                  "name": "Motivation et implication",
-                  "value": 1,
-                  "description": "Faculté de s'investir, d'orienter son action et de nourrir une satisfaction et un enthousiasme vis-à-vis d'une organisation, d'un projet ou d'un objectif personnel"
-                }
-              ]
+              "value": 1,
+              "description": "Motivation et implication : faculté de s'investir, d'orienter son action et de nourrir une satisfaction et un enthousiasme vis-à-vis d'une organisation, d'un projet ou d'un objectif personnel",
+              "id": "49283570"
             },
             {
               "name": "Réseau",
-              "children": [
-                {
-                  "name": "Mobilisation de réseau",
-                  "value": 1,
-                  "description": "Faculté de maintenir des relations durables avec les membres de son réseau, d'en motiver l'activité, et de les solliciter pour un conseil, un appui, une participation à un projet"
-                }
-              ]
+              "value": 1,
+              "description": "Mobilisation de réseau : faculté de maintenir des relations durables avec les membres de son réseau, d'en motiver l'activité, et de les solliciter pour un conseil, un appui, une participation à un projet, etc",
+              "id": "10834759"
             }
           ]
         },
@@ -139,43 +129,27 @@
           "children": [
             {
               "name": "Réflexivité",
-              "children": [
-                {
-                  "name": "Introspection et réflexivité",
-                  "value": 1,
-                  "description": "Faculté de porter un regard sur soi (action, parcours) et de comprendre, en se décentrant, sa propre activité, sa propre position, ses propres sentiments et émotions, leurs causes et leurs conséquences"
-                }
-              ]
+              "value": 1,
+              "description": "Introspection et réflexivité : faculté de porter un regard sur soi (action, parcours) et de comprendre, en se décentrant, sa propre activité, sa propre position, ses propres sentiments et émotions, leurs causes et leurs conséquences",
+              "id": "21038457"
             },
             {
               "name": "Éthique",
-              "children": [
-                {
-                  "name": "Éthique",
-                  "value": 1,
-                  "description": "Faculté d'agir ou d'évaluer son action en intégrant ses convictions et ses valeurs et/ou celles défendues par son groupe ou son organisation"
-                }
-              ]
+              "value": 1,
+              "description": "Ethique : faculté d'agir ou d'évaluer son action en intégrant ses convictions et ses valeurs et/ou celles défendues par son groupe ou son organisation",
+              "id": "30928745"
             },
             {
               "name": "Contrôle de soi",
-              "children": [
-                {
-                  "name": "Contrôle de soi",
-                  "value": 1,
-                  "description": "Faculté de gérer ses émotions et ses impulsions dans des situations ordinaires et inhabituelles"
-                }
-              ]
+              "value": 1,
+              "description": "Contrôle de soi : faculté de gérer ses émotions et ses impulsions dans des situations ordinaires et inhabituelles",
+              "id": "87409123"
             },
             {
               "name": "Objectifs",
-              "children": [
-                {
-                  "name": "Fixation d'objectifs",
-                  "value": 1,
-                  "description": "Faculté d'établir de façon précise des étapes et des buts dans son action et d'en vérifier la tenue au fur et à mesure de sa réalisation"
-                }
-              ]
+              "value": 1,
+              "description": "Fixation d'objectifs : faculté d'établir de façon précise des étapes et des buts dans son action et d'en vérifier la tenue au fur et à mesure de sa réalisation",
+              "id": "37408912"
             }
           ]
         },
@@ -184,33 +158,21 @@
           "children": [
             {
               "name": "Incertitude",
-              "children": [
-                {
-                  "name": "Gestion de l'incertitude et du changement",
-                  "value": 1,
-                  "description": "Faculté d'aborder le changement et de mener ses réflexions"
-                }
-              ]
+              "value": 1,
+              "description": "Gestion de l'incertitude et du changement : faculté d'aborder le changement, de mener ses réflexions",
+              "id": "50982374"
             },
             {
               "name": "No stress !",
-              "children": [
-                {
-                  "name": "Gestion du stress",
-                  "value": 1,
-                  "description": "Faculté de reconnaître une situation générant une tension conflictuelle et d'agir en préservant au mieux ses facultés d'action (ressources, émotions) et celles du groupe"
-                }
-              ]
+              "value": 1,
+              "description": "Gestion du stress : faculté de reconnaitre une situation générant une tension conflictuelle et d'agir en préservant au mieux ses facultés d'action (ressources, émotions) et celles du groupe",
+              "id": "19827340"
             },
             {
               "name": "Réactivité",
-              "children": [
-                {
-                  "name": "Réactivité",
-                  "value": 1,
-                  "description": "Faculté de réagir positivement face à un événement imprévu, une sollicitation, un problème et d'y répondre rapidement"
-                }
-              ]
+              "value": 1,
+              "description": "Réactivité : faculté de réagir positivement face à un événement imprévu, une sollicitation, un problème et d'y répondre rapidement",
+              "id": "45928301"
             }
           ]
         }
@@ -224,23 +186,15 @@
           "children": [
             {
               "name": "Apprentissage individuel",
-              "children": [
-                {
-                  "name": "Apprentissage individuel",
-                  "value": 1,
-                  "description": "Faculté de comprendre, d'organiser et de maîtriser par soi-même un apprentissage autonome"
-                }
-              ]
+              "value": 1,
+              "description": "Apprentissage individuel : faculté de comprendre, d'organiser et de maitriser par soi-même un apprentissage autonome",
+              "id": "92834017"
             },
             {
               "name": "Apprentissage collectif",
-              "children": [
-                {
-                  "name": "Apprentissage collectif",
-                  "value": 1,
-                  "description": "Faculté d'apprendre à partir du partage des connaissances et de la pratique dans le cadre de projets ou de groupes de travail"
-                }
-              ]
+              "value": 1,
+              "description": "Apprentissage collectif : faculté d'apprendre à partir du partage des connaissances et de la pratique, dans le cadre de projets ou de groupes de travail formels ou informels.",
+              "id": "39401827"
             }
           ]
         },
@@ -249,88 +203,62 @@
           "children": [
             {
               "name": "S'informer",
-              "children": [
-                {
-                  "name": "Collecte et traitement de données",
-                  "value": 1,
-                  "description": "Faculté de rechercher et de classer l'information pour en préparer l'utilisation"
-                }
-              ]
+              "value": 1,
+              "description": "Collecte et traitement de données : faculté de rechercher et de classer l'information et les éléments de cadrage ou d'une activité (source, méthodologie, règlement, etc) pour en préparer l'utilisation",
+              "id": "49283701"
             },
             {
               "name": "Veille",
-              "children": [
-                {
-                  "name": "Veille d'informations",
-                  "value": 1,
-                  "description": "Mener une recherche, une veille d'informations sur le secteur breton"
-                }
-              ]
+              "value": 1,
+              "description": "Mener une recherche, une veille d'informations sur le secteur breton",
+              "id": "82937459"
             },
             {
               "name": "Problématisation",
-              "children": [
-                {
-                  "name": "Problématisation",
-                  "value": 1,
-                  "description": "Faculté de définir et d'énoncer une question ou une problématique à partir de l'analyse d'une situation ou d'un cas"
-                }
-              ]
+              "value": 1,
+              "description": "Problématisation : faculté de formuler un questionnement              permettant de délimiter et d'approfondir la réflexion, la recherche ou l'activité",
+              "id": "29037465"
             },
             {
-              "name": "Modélisation",
-              "children": [
-                {
-                  "name": "Modélisation",
-                  "value": 1,
-                  "description": "Faculté d'élaborer des représentations visuelles de problèmes ou d'organisations complexes pour aider à leur compréhension ou à leur résolution"
-                }
-              ]
+              "name": "Compréhension",
+              "value": 1,
+              "description": "Analyse de l'information : faculté d'identifier et de comprendre les différents éléments d'une information ou d'une situation et de les mettre en lien avec son propre questionnement et/ou sa propre activité",
+              "id": "19827463"
+            },
+            {
+              "name": "Evaluation",
+              "value": 1,
+              "description": "Synthèse de l'information : faculté d'évaluer l'importance ou la pertinence de chaque élément d'une ou plusieurs informations afin d'en préparer la diffusion ou l'appropriation",
+              "id": "67298410"
+            },
+            {
+              "name": "Esprit critique",
+              "value": 1,
+              "description": "Esprit critique : faculté d'observer et de questionner rationnellement un discours ou une situation, à partir de ressources externes, de connaissances, de pratiques ou d'émotions",
+              "id": "89237415"
             }
           ]
         },
         {
-          "name": "Gestion de projet",
+          "name": "Créativité et Innovation",
           "children": [
             {
-              "name": "Organisation",
-              "children": [
-                {
-                  "name": "Organisation et planification",
-                  "value": 1,
-                  "description": "Faculté de distribuer les différentes tâches dans le temps et d'en évaluer les priorités, les délais et les contraintes"
-                }
-              ]
+              "name": "Curiosité",
+              "value": 1,
+              "description": "Curiosité : faculté de s'ouvrir, d'observer et de s'intéresser à des connaissances, idées, méthodes, initiatives, techniques nouvelles, environnement",
+              "id": "50923846"
             },
             {
-              "name": "Ressources",
-              "children": [
-                {
-                  "name": "Gestion des ressources",
-                  "value": 1,
-                  "description": "Faculté d'allouer et de gérer les ressources (financières, humaines, matérielles) nécessaires à la réalisation d'un projet"
-                }
-              ]
+              "name": "Imagination",
+              "value": 1,
+              "description": "Imagination : faculté d'illustrer, de se représenter ou d'inventer des théories, des idées, des images, des concepts, des symboles, des situations…",
+              "id": "32019874"
             },
             {
-              "name": "Coordination d'équipe",
-              "children": [
-                {
-                  "name": "Coordination d'équipe",
-                  "value": 1,
-                  "description": "Faculté de répartir les tâches et les rôles au sein d'une équipe et d'assurer la communication pour atteindre les objectifs"
-                }
-              ]
-            },
-            {
-              "name": "Suivi",
-              "children": [
-                {
-                  "name": "Suivi de projet",
-                  "value": 1,
-                  "description": "Faculté de mesurer et d'évaluer l'avancement d'un projet, de l'organisation du travail et d'y apporter des ajustements"
-                }
-              ]
+              "name": "Esprit d'initiative",
+              "value": 1,
+              "description": "Esprit d'initiative : faculté d'oser et de proposer, de saisir des opportunités et de prendre des risques dans ses propositions et ses actions",
+              "id": "83471092"
             }
           ]
         },
@@ -338,69 +266,28 @@
           "name": "Résolution de problèmes",
           "children": [
             {
-              "name": "Analyse",
-              "children": [
-                {
-                  "name": "Analyse de situation",
-                  "value": 1,
-                  "description": "Faculté de découper une situation problématique en éléments constituants pour en analyser les tenants et les aboutissants"
-                }
-              ]
+              "name": "Gestion de situations",
+              "value": 1,
+              "description": "Faculté à comprendre, analyser, synthétiser un problème et / ou une situation complexe",
+              "id": "10938475"
             },
             {
-              "name": "Solution",
-              "children": [
-                {
-                  "name": "Proposition de solutions",
-                  "value": 1,
-                  "description": "Faculté d'envisager et de proposer différentes solutions à partir de l'analyse d'une situation"
-                }
-              ]
+              "name": "Problématisation",
+              "value": 1,
+              "description": "Faculté à modéliser un problème ou poser des hypothèses",
+              "id": "87349102"
             },
             {
-              "name": "Prise de décision",
-              "children": [
-                {
-                  "name": "Prise de décision",
-                  "value": 1,
-                  "description": "Faculté de choisir une solution parmi d'autres pour répondre à une situation complexe"
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "name": "Compétences numériques",
-          "children": [
-            {
-              "name": "Outils numériques",
-              "children": [
-                {
-                  "name": "Utilisation d'outils numériques",
-                  "value": 1,
-                  "description": "Faculté de sélectionner, de comprendre et d'utiliser un outil numérique pour répondre à un besoin donné"
-                }
-              ]
+              "name": "Solutionner",
+              "value": 1,
+              "description": "Faculté à mettre en œuvre des solutions appropriées pour la résolution d'un problème et / ou une situation complexe",
+              "id": "19384756"
             },
             {
-              "name": "Réseaux",
-              "children": [
-                {
-                  "name": "Développement et gestion de réseaux numériques",
-                  "value": 1,
-                  "description": "Faculté de créer et de gérer un réseau d'informations pour soutenir un projet ou un travail collaboratif"
-                }
-              ]
-            },
-            {
-              "name": "Sécurité",
-              "children": [
-                {
-                  "name": "Sécurité des données",
-                  "value": 1,
-                  "description": "Faculté de comprendre et d'appliquer les mesures de protection des données personnelles et professionnelles"
-                }
-              ]
+              "name": "Engagement",
+              "value": 1,
+              "description": "Faculté à mettre en place et respecter un plan d'actions (objectifs et délais)",
+              "id": "58391047"
             }
           ]
         }

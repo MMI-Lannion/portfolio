@@ -5,6 +5,42 @@ export const $filterSea = atom("");
 export const $theme = atom("light");
 export const $user = atom({ username: "qdd" });
 export const $openDialog = atom(true);
+export const $sae = atom("sae");
+
+export const $saeData = atom({
+  userId: 1,
+  saeId: 101,
+  completed: false,
+  competences: [],
+  contexte: "",
+  demarche: "",
+  livrable: "",
+  files: [],
+  hardskills: [
+    {
+      name: "Compétence 1",
+      label31: 0.02,
+      label32: 0.18,
+      label33: 0.39,
+      label34: 0.27,
+      label35: 0.17,
+      label36: 0.12,
+    },
+    {
+      name: "Compétence 2",
+      label31: 0.27,
+      label32: 0.18,
+      label33: 0.39,
+      label34: 0.02,
+      label35: 0.17,
+      label36: 0.12,
+    },
+  ],
+  softskills: {},
+  ameliorations: {},
+  competenceCle: "",
+  sousCompetence: [],
+});
 
 export const $saes = atom({
   but1: ["but1 1", "but1 2", "apple", "kiwi"],
@@ -95,7 +131,7 @@ export const $changeValueSlider = (key, value) => {
       } else {
         return e;
       }
-    }),
+    })
   );
 };
 
@@ -105,4 +141,9 @@ export const $totalPourcentage = () => {
     return acc + Number(e.percentage);
   }, 0);
   return total;
+};
+
+export const setSaeData = (data) => {
+  const previousData = $saeData.get();
+  $saeData.set({ ...previousData, ...data });
 };

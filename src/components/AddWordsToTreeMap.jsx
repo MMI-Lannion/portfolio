@@ -1,76 +1,96 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef } from "react";
 import { CrossCircledIcon, PlusIcon } from "@radix-ui/react-icons";
-import { Flex, Text, Button, Badge, TextField, Heading, Box} from "@radix-ui/themes";
+import {
+  Flex,
+  Text,
+  Button,
+  Badge,
+  TextField,
+  Heading,
+  Box,
+} from "@radix-ui/themes";
+import { $addKeyWord, $deleteKeyWord, $updatePercentage } from "../store/Store";
 
-export default function AddWordsToTreeMap({ onWordsUpdate }) {
+export function AddWordsToTreeMap({ data, onWordsUpdate }) {
   const inputRef = useRef();
-  const [localWords, setLocalWords] = useState([]); 
- // const [inputValue, setInputValue] = useState(''); 
+  const [localWords, setLocalWords] = useState([]);
+  // const [inputValue, setInputValue] = useState('');
 
-  const handleAddWord = () => {
+  const handleAddWord = (keyId) => {
     const inputValue = inputRef.current?.trim();
-    console.log('ref', inputRef.current,inputValue);
-    
-    if (inputValue) { // Vérifie que l'input n'est pas vide
-      const updatedWords = [...localWords, inputValue]; 
-      setLocalWords(updatedWords); 
-      onWordsUpdate(updatedWords); 
-    //  setInputValue(''); // Réinitialise le champ texte
+    console.log("ref", inputRef.current, inputValue);
+
+    if (inputValue) {
+      // Vérifie que l'input n'est pas vide
+      $addKeyWord(keyId, inputValue);
+      $updatePercentage();
+      //$addKeyWord(key, inputValue)
+      //  setInputValue(''); // Réinitialise le champ texte
     }
   };
 
-  // Permet de capturer la touche "Enter" et d'exécuter handleAddWord
-  const handleKeyPress = (e) => {
-    if (e.key === 'Enter') {
-      handleAddWord();
-    }
-  };
-
-  const handleRemoveWord = (index) => {
-    const updatedWords = localWords.filter((_, i) => i !== index); // Supprime le mot à l'index spécifié
-    setLocalWords(updatedWords); 
-    onWordsUpdate(updatedWords); // Met à jour le parent
+  const handleRemoveWord = (keyId, inputValue) => {
+    $deleteKeyWord(keyId, inputValue);
+    $updatePercentage();
   };
 
   return (
-    <Flex direction="column" gap="4">
-      <Heading size="6">Ajouter vos mots clés</Heading>
-      <Box gap="2">
-        <Text>Mots clés :</Text>
-        <Flex gap="4">
-          {localWords.map((word, index) => (
-            <Badge color="blue" key={index}>
-              <Flex direction="row" align="center" justify="center" gap="2">
-                <Text>{word}</Text>
-                <CrossCircledIcon onClick={() => handleRemoveWord(index)} style={{ cursor: 'pointer' }} />
-              </Flex>
-            </Badge>
-          ))}
-        </Flex>
-      </Box>
+    <Flex
+      direction="column"
+      gap="4"
+      width="100%"
+      maxHeight="300px"
+      style={{ overflowY: "auto" }}
+      // align="center"
+      // justify="center"
+    >
+      {data.children.map((e) => (
+        <Flex px="4" gap="3" direction="column" width="100%">
+          <Text size="2" weight="bold">
+            Ajouter vos mots clés
+          </Text>
 
-      <Box gap="2">
-        <Text>Entrez vos mots clé ici :</Text>
-        <TextField.Root 
-          variant="surface" 
-          type="text" 
-          placeholder="Ajouter"
-          //value={inputValue}  // Liaison de l'input à l'état
-          onChange={(e) => {
-            console.log('e target', e.target.value);
-            
-            inputRef.current = e.target.value;
-          }}  // Mise à jour de l'état lors du changement de valeur
-         // onKeyPress={handleKeyPress}  // Détection de la touche Enter
-        />
-      </Box>
-      
-      <Button onClick={handleAddWord}>
-        <Flex direction="row" align="center" justify="center" gap="2">
-          <PlusIcon />
-          <Text>Ajouter</Text>
+          <Flex gap="2" direction="column">
+            <Text>Mots clés :</Text>
+            <Flex gap="4">
+              {e.keywords.map((f) => (
+                <Badge color={e.color} key={f}>
+                  <Flex direction="row" align="center" justify="center" gap="2">
+                    <Text>{f}</Text>
+                    <CrossCircledIcon
+                      onClick={() => handleRemoveWord(e.key, f)}
+                      style={{ cursor: "pointer" }}
+                    />
+                  </Flex>
+                </Badge>
+              ))}
+            </Flex>
+          </Flex>
+
+          <Flex gap="2" width="100%" direction="column">
+            <Text weight="medium">{e.key}</Text>
+            <Flex width="100%" gap="2">
+              <TextField.Root
+                variant="surface"
+                type="text"
+                style={{ width: "70%" }}
+                placeholder="Ajouter"
+                //value={inputValue}  // Liaison de l'input à l'état
+                onChange={(e) => {
+                  console.log("e target", e.target.value);
+
+                  inputRef.current = e.target.value;
+                }} // Mise à jour de l'état lors du changement de valeur
+                // onKeyPress={handleKeyPress}  // Détection de la touche Enter
+              />
+              <Button onClick={() => handleAddWord(e.key)}>
+                <PlusIcon />
+                <Text>Ajouter</Text>
+              </Button>
+            </Flex>
+          </Flex>
         </Flex>
-      </Button>
+      ))}
     </Flex>
   );
 }

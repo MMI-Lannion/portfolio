@@ -1,17 +1,16 @@
 import * as Slider from "@radix-ui/react-slider";
 import { Flex, Text } from "@radix-ui/themes";
-import "./tree-map.css";
+// import "./tree-map.css";
 import { useStore } from "@nanostores/react";
 import { $treemap, $changeValueSlider, $totalPourcentage } from "@/store/Store";
 import React from "react";
 
 export function Sliders() {
-  
   //données store
-  const data = useStore($treemap)
+  const data = useStore($treemap);
 
   //total pour vérifier si 100%
-  let total = $totalPourcentage()
+  let total = $totalPourcentage();
 
   // changement pourcentage automatique
   //   const changePercentage = (key, value) => {

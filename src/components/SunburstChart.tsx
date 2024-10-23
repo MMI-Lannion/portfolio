@@ -13,6 +13,10 @@ interface Data {
 export const SunburstChart = () => {
   const svgRef = React.useRef<SVGSVGElement>(null);
   const [viewBox, setViewBox] = React.useState("0 -700 300 1300");
+  // create an array for selected arcs
+  const [selectedArc, setSelectedArc] = React.useState<string | null>(null);
+  const [selectedKeywords, setSelectedKeywords] = React.useState<string[]>([]);
+  console.log("selectedKeywords", selectedKeywords);
 
   // const color = d3.scaleOrdinal(
   //   d3.quantize(d3.interpolateRainbow, data.children.length + 1)
@@ -162,21 +166,51 @@ export const SunburstChart = () => {
       .data(root.descendants().slice(1))
       .join("path")
       .attr("fill", (d) => {
+        // Si l'arc est dans selectedKeywords, colorer en orange
+        const isSelected = selectedKeywords.includes(d.data.id);
         while (d.depth > 1) d = d.parent;
-        return color(d.data.name);
+        return isSelected ? "orange" : color(d.data.name);
       })
       .attr("fill-opacity", (d) =>
         arcVisible(d.current) ? (d.children ? 0.6 : 0.4) : 0
       )
       .attr("pointer-events", (d) => (arcVisible(d.current) ? "auto" : "none"))
 
-      .attr("d", (d) => arc(d.current));
+      .attr("d", (d) => arc(d.current))
+      .on("dblclick", (event, d) => {
+        if (!d.children) {
+          // Use d.data.id instead of d.data.name
+          d3.select(event.currentTarget).attr("fill", "pink");
+    
+          setSelectedArc(d.data.id); // Use id here too
+    
+          // Check if the id is already in the array
+          setSelectedKeywords((prevSelectedKeywords) => {
+            if (!prevSelectedKeywords.includes(d.data.id)) {
+              // Add id to the array if it's not present
+              return [...prevSelectedKeywords, d.data.id];
+            } else {
+              // Remove id if it's already present
+              return prevSelectedKeywords.filter(
+                (keyword) => keyword !== d.data.id
+              );
+            }
+          });
+        } 
+        // supprimer le sunburst chart ET le tableau de mots-clés ET AFFCIHER LES COULEURS SELECTIONNEES SUR LE SUNBURST CHART QUI VA ETRE RECONSTRUIT
+        d3.select(svgRef.current).selectAll("*").remove();
+        // remove all hover elements
+        d3.selectAll(".tooltip").remove();
+
+        
+
+    });
 
     // Make them clickable if they have children.
     path
       .filter((d) => d.children)
       .style("cursor", "pointer")
-      .on("click", clicked);
+      .on("dblclick", clicked);
 
     const format = d3.format(",d");
     path.append("title").text(
@@ -185,7 +219,7 @@ export const SunburstChart = () => {
           .ancestors()
           .map((d) => d.data.name)
           .reverse()
-          .join("/")}\n${format(d.value)}`
+          .join("/")}<br />${format(d.value)}`
     );
 
     const label = svg
@@ -196,10 +230,20 @@ export const SunburstChart = () => {
       .selectAll("text")
       .data(root.descendants().slice(1))
       .join("text")
+      .style("font-size", "10px") // Définir la taille du texte ici
       .attr("dy", "0.35em")
       .attr("fill-opacity", (d) => +labelVisible(d.current))
       .attr("transform", (d) => labelTransform(d.current))
-      .text((d) => d.data.name);
+      .each(function (d) {
+        const text = d3.select(this);
+        const lines = d.data.name.split(" "); 
+        lines.forEach((line, i) => {
+          text.append("tspan")
+            .attr("x", 0)
+            .attr("dy", i === 0 ? "0em" : "0.8em")  // La première ligne est à 0, les suivantes à 1.2em
+            .text(line);
+        });
+      });
 
     // Ajouter un élément div pour le tooltip dans le corps du document
     const tooltip = d3
@@ -216,7 +260,7 @@ export const SunburstChart = () => {
 
     // Ajouter des événements mouseover et mouseout aux éléments path
     path
-      .on("mouseover", function (event, d) {
+      .on("click", function (event, d) {
         tooltip.style("visibility", "visible").text(d.data.description); // Assurez-vous que chaque élément de données a une propriété 'description'
       })
       .on("mousemove", function (event) {
@@ -256,7 +300,7 @@ export const SunburstChart = () => {
           })
       );
 
-      const t = svg.transition().duration(750);
+      const t = svg.transition().duration(1000);
 
       console.log("root", root.descendants());
 
@@ -301,7 +345,7 @@ export const SunburstChart = () => {
       const y = ((d.y0 + d.y1) / 2) * radius;
       return `rotate(${x - 90}) translate(${y},0) rotate(${x < 180 ? 0 : 180})`;
     }
-  }, [svgRef]);
+  }, [svgRef, selectedArc, selectedKeywords]);
 
   return (
     <svg width={SIZE} height={SIZE} ref={svgRef}>
