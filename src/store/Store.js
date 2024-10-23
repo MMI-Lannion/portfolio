@@ -100,7 +100,134 @@ export const toggleTheme = () => {
   $theme.set(theme === "light" ? "dark" : "light");
 };
 
-export const setSaeData = (data) => {
-  const previousData = $saeData.get();
-  $saeData.set({ ...previousData, ...data });
+//données Treemap
+export const $treemap = atom({
+  children: [
+    { key: "Comprendre", color: "red", percentage: 25, keywords: ["ahhhhh"] },
+    { key: "Concevoir", color: "orange", percentage: 25, keywords: ["er"] },
+    {
+      key: "Produire",
+      color: "yellow",
+      percentage: 25,
+      keywords: ["test", "toto"],
+    },
+    {
+      key: "Développer",
+      color: "green",
+      percentage: 25,
+      keywords: ["Competence"],
+    },
+    {
+      key: "Entreprendre",
+      color: "blue",
+      percentage: 25,
+      keywords: ["a", "b", "c"],
+    },
+  ],
+});
+
+export const $addKeyWord = (key, keyword) => {
+  const treemapData = $treemap.get();
+
+  // Find and update the specific child with the matching key
+  const updatedChildren = treemapData.children.map((child) => {
+    if (child.key === key) {
+      // Add the new keyword to the `keywords` array if it doesn't already exist
+      if (!child.keywords.includes(keyword)) {
+        child.keywords.push(keyword);
+      }
+    }
+    return child;
+  });
+
+  // Set the updated children back to the atom
+  $treemap.set({
+    ...treemapData,
+    children: updatedChildren,
+  });
+
+  // Optional: log the updated state
+  console.log($treemap.get().children);
+};
+
+export const $updatePercentage = () => {
+  const treemapData = $treemap.get();
+  let globalLength = 0;
+
+  const checkLength = treemapData.children.map((child) => {
+    globalLength = globalLength + child.keywords.length;
+  });
+
+  console.log(globalLength);
+
+  const updatedChildren = treemapData.children.map((child) => {
+    child.percentage = (child.keywords.length / globalLength) * 100;
+    return child;
+  });
+
+  // Set the updated children back to the atom
+  $treemap.set({
+    ...treemapData,
+    children: updatedChildren,
+  });
+};
+
+export const $deleteKeyWord = (key, keyword) => {
+  // Get the current state of the treemap
+  const treemapData = $treemap.get();
+
+  // Find and update the specific child with the matching key
+  const updatedChildren = treemapData.children.map((child) => {
+    if (child.key === key) {
+      // Remove the keyword from the `keywords` array if it exists
+      return {
+        ...child,
+        keywords: child.keywords.filter((k) => k !== keyword),
+      };
+    }
+    return child;
+  });
+
+  // Set the updated children back to the atom
+  $treemap.set({
+    ...treemapData,
+    children: updatedChildren,
+  });
+
+  // Optional: log the updated state
+  console.log($treemap.get().children);
+};
+
+//mettre pourcentage en fonction du nombre de blocs de compétences
+export const $setInitialPourcentage = () => {
+  const totalSkills = $treemap.get().children.length;
+  const newPercentage = 100 / totalSkills;
+  $treemap.set({
+    children: $treemap.get().children.map((e) => ({
+      ...e,
+      percentage: newPercentage % 5 === 0 ? newPercentage : 30,
+    })),
+  });
+};
+
+//changer pourcentage en fonction du Slider
+export const $changeValueSlider = (key, value) => {
+  $treemap.set({
+    children: $treemap.get().children.map((e) => {
+      if (e.key === key) {
+        return { ...e, percentage: value };
+      } else {
+        return e;
+      }
+    }),
+  });
+};
+
+//total pourcentage
+export const $totalPourcentage = () => {
+  /*let total = $treemap.get().children.reduce((acc, e) => {
+    return acc + Number(e.percentage);
+  }, 0);*/
+  let total = 100;
+  return total;
 };

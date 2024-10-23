@@ -1,30 +1,18 @@
-import React, { useState } from "react";
 import * as Slider from "@radix-ui/react-slider";
-import { Flex, Heading, Text, Box } from "@radix-ui/themes";
+import { Flex, Text } from "@radix-ui/themes";
 import "./tree-map.css";
+import { useStore } from "@nanostores/react";
+import { $treemap, $changeValueSlider, $totalPourcentage } from "@/store/Store";
 
-export function Sliders({ data, setData }) {
-  const changeValueSlider = (key, value) => {
-    setData((prevData) => {
-      console.log(prevData);
-      return {
-        children: prevData.children.map((e) => {
-          if (e.key === key) {
-            return { ...e, percentage: value };
-          } else {
-            return e;
-          }
-        }),
-      };
-    });
-  };
+export function Sliders() {
+  
+  //données store
+  const data = useStore($treemap)
 
-  let total = data.children.reduce((acc, e) => {
-    console.log(acc);
-    return acc + Number(e.percentage);
-  }, 0);
+  //total pour vérifier si 100%
+  let total = $totalPourcentage()
 
-  // Changement du pourcentage
+  // changement pourcentage automatique
   //   const changePercentage = (key, value) => {
   //     setData((prevData) => {
   //       const newValue = value[0];
@@ -57,7 +45,6 @@ export function Sliders({ data, setData }) {
 
   return (
     <>
-      <Heading>Choix du pourcentage</Heading>
       <Flex direction="row" gap="9">
         <Flex gap="4" direction="column">
           {data.children.map((e) => {
@@ -81,7 +68,7 @@ export function Sliders({ data, setData }) {
                 value={[e.percentage]}
                 max={100}
                 step={5}
-                onValueChange={(value) => changeValueSlider(e.key, value)}
+                onValueChange={(value) => $changeValueSlider(e.key, value)}
               >
                 <Slider.Track className="SliderTrack">
                   <Slider.Range
@@ -98,97 +85,6 @@ export function Sliders({ data, setData }) {
       <Text color="red">
         {total === 100 ? "" : "Attention : le total doit être de 100% !"}
       </Text>
-
-      {/* <Slider.Root
-        className="SliderRoot"
-        value={[
-          data.children.find((child) => child.key === "Comprendre").percentage,
-        ]}
-        max={100}
-        step={5}
-        onValueChange={(value) => changeValueSlider("Comprendre", value)}
-      >
-        <Slider.Track className="SliderTrack">
-          <Slider.Range
-            className="SliderRange"
-            style={{ backgroundColor: "red" }}
-          />
-        </Slider.Track>
-        <Slider.Thumb className="SliderThumb" aria-label="Volume" />
-      </Slider.Root>
-
-      <Slider.Root
-        className="SliderRoot"
-        value={[
-          data.children.find((child) => child.key === "Concevoir").percentage,
-        ]}
-        max={100}
-        step={5}
-        onValueChange={(value) => changeValueSlider("Concevoir", value)}
-      >
-        <Slider.Track className="SliderTrack">
-          <Slider.Range
-            className="SliderRange"
-            style={{ backgroundColor: "orange" }}
-          />
-        </Slider.Track>
-        <Slider.Thumb className="SliderThumb" aria-label="Volume" />
-      </Slider.Root>
-
-      <Slider.Root
-        className="SliderRoot"
-        value={[
-          data.children.find((child) => child.key === "Produire").percentage,
-        ]}
-        max={100}
-        step={5}
-        onValueChange={(value) => changeValueSlider("Produire", value)}
-      >
-        <Slider.Track className="SliderTrack">
-          <Slider.Range
-            className="SliderRange"
-            style={{ backgroundColor: "yellow" }}
-          />
-        </Slider.Track>
-        <Slider.Thumb className="SliderThumb" aria-label="Volume" />
-      </Slider.Root>
-
-      <Slider.Root
-        className="SliderRoot"
-        value={[
-          data.children.find((child) => child.key === "Développer").percentage,
-        ]}
-        max={100}
-        step={5}
-        onValueChange={(value) => changeValueSlider("Développer", value)}
-      >
-        <Slider.Track className="SliderTrack">
-          <Slider.Range
-            className="SliderRange"
-            style={{ backgroundColor: "green" }}
-          />
-        </Slider.Track>
-        <Slider.Thumb className="SliderThumb" aria-label="Volume" />
-      </Slider.Root>
-
-      <Slider.Root
-        className="SliderRoot"
-        value={[
-          data.children.find((child) => child.key === "Entreprendre")
-            .percentage,
-        ]}
-        max={100}
-        step={5}
-        onValueChange={(value) => changeValueSlider("Entreprendre", value)}
-      >
-        <Slider.Track className="SliderTrack">
-          <Slider.Range
-            className="SliderRange"
-            style={{ backgroundColor: "blue" }}
-          />
-        </Slider.Track>
-        <Slider.Thumb className="SliderThumb" aria-label="Volume" />
-      </Slider.Root> */}
     </>
   );
 }
