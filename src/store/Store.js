@@ -231,3 +231,8 @@ export const $totalPourcentage = () => {
   let total = 100;
   return total;
 };
+
+export const setSaeData = (data) => {
+  const previousData = $saeData.get();
+  $saeData.set({ ...previousData, ...data });
+};

@@ -97,7 +97,7 @@ export function TreeMap() {
             onCancel={() => {
               setOpenPourcentage(false);
             }}
-            title="Evaluer Vos Compotences"
+            title="Evaluer Vos Compétences"
             content={<AddWordsToTreeMap key="" data={data} />}
           >
             <Button size="4" onClick={() => setOpenPourcentage(true)}>
