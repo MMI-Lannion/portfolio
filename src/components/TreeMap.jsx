@@ -44,7 +44,7 @@ export function TreeMap() {
     return leaves;
   };
 
-  const treemapData = createTreemapData(data);
+  const treemapData = createTreemapData({ children: data });
 
   //ouverture des popup
   const [openPourcentage, setOpenPourcentage] = useState(false);
@@ -52,7 +52,8 @@ export function TreeMap() {
 
   //clic sur un rectangle
   useEffect(() => {
-    const glabel = document.querySelector(".treemap-rect-label");
+    const gtext = document.querySelector(".treemap-text-label");
+    const grect = document.querySelector(".treemap-rect-label");
 
     const handleLabelClick = (e) => {
       let element = e.target;
@@ -64,56 +65,70 @@ export function TreeMap() {
 
       let label = "";
       if (element.hasChildNodes()) {
-        let children = element.childNodes;
+        const child = element.childNodes[0];
 
-        for (const node of children) {
-          label += " " + node.textContent;
-        }
-      } else {
-        label = element.textContent;
+        label = child.textContent;
       }
+      label = label?.split(":")?.[0]?.trim();
+      console.log("label", label);
 
       setOpenKeyword(true);
+
+      // const clickedBlock = treemapData.find(
+      //   (block) => block.data.key === label.trim()
+      // );
+
+      // if (clickedBlock) {
+      //   setSelectedData(clickedBlock.data); // Stocker les données dans l'état
+      //   setOpenKeyword(true); // Ouvrir la dialog
+      // }
+      // Récupérer les données du bloc correspondant au label cliqué
     };
 
-    glabel.addEventListener("click", handleLabelClick);
+    gtext.addEventListener("click", handleLabelClick);
+    grect.addEventListener("click", handleLabelClick);
 
     return () => {
-      glabel.removeEventListener("click", handleLabelClick);
+      gtext.removeEventListener("click", handleLabelClick);
+      grect.removeEventListener("click", handleLabelClick);
     };
-  }, [setOpenKeyword]);
+  }, [treemapData]);
 
   return (
     <>
       <Flex gap="5" direction="column">
-        <Flex gap="3" justify="end" align="center">
-          <Text color={total === 100 ? "black" : "red"} size="6">
-            Total : {total}%
-          </Text>
+        <Flex direction="row" justify="between">
+          <Flex direction="column" gap="2">
+            <Text color={total === 100 ? "black" : "red"} size="4">
+              Total : {total}%
+            </Text>
+            <Text size="4">Sélectionner le texte</Text>
+          </Flex>
+          <Flex gap="3" align="center">
+            {/* popup pourcentages */}
+            <Dialog
+              open={openPourcentage}
+              onCancel={() => {
+                setOpenPourcentage(false);
+              }}
+              title="Choix du pourcentage"
+              content={<Sliders />}
+            >
+              <Button size="4" onClick={() => setOpenPourcentage(true)}>
+                <MixerHorizontalIcon />
+              </Button>
+            </Dialog>
 
-          {/* popup pourcentages */}
-          <Dialog
-            open={openPourcentage}
-            onCancel={() => {
-              setOpenPourcentage(false);
-            }}
-            title="Evaluer Vos Compétences"
-            content={<AddWordsToTreeMap key="" data={data} />}
-          >
-            <Button size="4" onClick={() => setOpenPourcentage(true)}>
-              <MixerHorizontalIcon />
-            </Button>
-          </Dialog>
-
-          {/* popup mots cles */}
-          <Dialog
-            open={openKeyword}
-            onCancel={() => {
-              setOpenKeyword(false);
-            }}
-            title="Choix des mots clés"
-            content={<AddWordsToTreeMap />}
-          ></Dialog>
+            {/* popup mots cles */}
+            <Dialog
+              open={openKeyword}
+              onCancel={() => {
+                setOpenKeyword(false);
+              }}
+              title="Choix des mots clés"
+              content={<AddWordsToTreeMap />}
+            ></Dialog>
+          </Flex>
         </Flex>
 
         <PlotFigure
@@ -154,6 +169,7 @@ export function TreeMap() {
                 y: (d) => (d.y0 + d.y1) / 2,
                 dx: 0,
                 dy: 0,
+                className: "treemap-text-label",
                 text: (d) => {
                   const percentage = d.data.percentage;
                   const key = d.data.key;
