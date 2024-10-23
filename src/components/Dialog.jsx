@@ -62,45 +62,45 @@ export function Dialog({
         <RadixDialog.Trigger asChild>{children}</RadixDialog.Trigger>
       )}
 
-      <StyledPortal>
-        <StyledOverlay />
-        <StyledContent
+      {/* <StyledPortal> */}
+      <StyledOverlay />
+      <StyledContent
+        style={{
+          maxWidth: 450,
+        }}
+      >
+        <StyledTitle
           style={{
-            maxWidth: 450,
+            position: "relative",
           }}
         >
-          <StyledTitle
+          <Heading size="2">{title}</Heading>
+
+          <IconButton
+            variant="soft"
+            color="gray"
+            onClick={onCancel}
             style={{
-              position: "relative",
+              position: "absolute",
+              right: 0,
+              top: "-50%",
             }}
           >
-            <Heading size="2">{title}</Heading>
+            <Cross1Icon />
+          </IconButton>
+        </StyledTitle>
 
-            <IconButton
-              variant="soft"
-              color="gray"
-              onClick={onCancel}
-              style={{
-                position: "absolute",
-                right: 0,
-                top: "-50%",
-              }}
-            >
-              <Cross1Icon />
-            </IconButton>
-          </StyledTitle>
+        <RadixDialog.Description
+          style={{
+            position: "relative",
+          }}
+        >
+          <Text>{description}</Text>
+        </RadixDialog.Description>
 
-          <RadixDialog.Description
-            style={{
-              position: "relative",
-            }}
-          >
-            <Text>{description}</Text>
-          </RadixDialog.Description>
-
-          {content}
-        </StyledContent>
-      </StyledPortal>
+        {content}
+      </StyledContent>
+      {/* </StyledPortal> */}
     </RadixDialog.Root>
   );
 }

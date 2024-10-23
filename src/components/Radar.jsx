@@ -8,10 +8,6 @@ import { Box } from "@radix-ui/themes";
 import { Dialog } from "./Dialog";
 import LikertScale from "@/components/LikertScale";
 
-const points = phones.flatMap(({ name, ...values }) =>
-  Object.entries(values).map(([key, value]) => ({ name, key, value }))
-);
-
 export function Radar({ datas }) {
   const points = datas.flatMap(({ name, ...values }) =>
     Object.entries(values).map(([key, value]) => ({ name, key, value }))
@@ -80,7 +76,7 @@ export function Radar({ datas }) {
             type: "azimuthal-equidistant",
             rotate: [0, -90],
             // Note: 0.625° corresponds to max. length (here, 0.5), plus enough room for the labels
-            domain: d3.geoCircle().center([0, 90]).radius(0.579)(),
+            domain: d3.geoCircle().center([0, 90]).radius(0.625)(),
           },
           color: { legend: false },
           marks: [
