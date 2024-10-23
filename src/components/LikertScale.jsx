@@ -1,5 +1,5 @@
 import React from "react";
-import { Flex, Text, Radio } from "@radix-ui/themes";
+import { Flex, Text, Radio, Grid } from "@radix-ui/themes";
 
 function LikertScale() {
   const handleChange = (e) => {
@@ -8,68 +8,51 @@ function LikertScale() {
 
   return (
     <>
-      <Flex align="start" direction="row" gap="5">
-        <Flex
-          asChild
-          gap="2"
-          direction="column-reverse"
-          onChange={handleChange}
-        >
+      <Grid columns="5" gap="3" rows="repeat(1, 64px)" width="100%">
+        <Flex direction="column">
           <Text as="label" size="2">
-            <Radio name="example" value="20" defaultChecked />
-            Pas du tout d'accord
+            😲 - Pas du tout maîtrisé
           </Text>
         </Flex>
+        <Flex direction="column">
+          <Text as="label" size="2">
+            🤔 - Un peu maîtrisé
+          </Text>
+        </Flex>
+        <Flex direction="column">
+          <Text as="label" size="2">
+            😊 - Moyennement maîtrisé
+          </Text>
+        </Flex>
+        <Flex direction="column">
+          <Text as="label" size="2">
+            😁 - Plutôt maîtrisé
+          </Text>
+        </Flex>
+        <Flex direction="column">
+          <Text as="label" size="2">
+            🤩 - Tout à fait maîtrisé
+          </Text>
+        </Flex>
+      </Grid>
 
-        <Flex
-          asChild
-          gap="2"
-          direction="column-reverse"
-          onChange={handleChange}
-        >
-          <Text as="label" size="2">
-            <Radio name="example" value="40" />
-            Pas d'accord
-          </Text>
+      <Grid columns="5" gap="3" rows="repeat(1, 64px)" width="auto">
+        <Flex direction="column">
+          <Radio name="example" value="20" defaultChecked />
         </Flex>
-
-        <Flex
-          asChild
-          gap="2"
-          direction="column-reverse"
-          onChange={handleChange}
-        >
-          <Text as="label" size="2">
-            <Radio name="example" value="60" />
-            Ni en désaccord ni d'accord
-          </Text>
+        <Flex direction="column">
+          <Radio name="example" value="20" defaultChecked />
         </Flex>
-
-        <Flex
-          asChild
-          gap="2"
-          direction="column-reverse"
-          onChange={handleChange}
-        >
-          <Text as="label" size="2">
-            <Radio name="example" value="80" />
-            D'accord
-          </Text>
+        <Flex direction="column">
+          <Radio name="example" value="20" defaultChecked />
         </Flex>
-
-        <Flex
-          asChild
-          gap="2"
-          direction="column-reverse"
-          onChange={handleChange}
-          client:load
-        >
-          <Text as="label" size="2">
-            <Radio name="example" value="100" />
-            Tout à fait d'accord
-          </Text>
+        <Flex direction="column">
+          <Radio name="example" value="20" defaultChecked />
         </Flex>
-      </Flex>
+        <Flex direction="column">
+          <Radio name="example" value="20" defaultChecked />
+        </Flex>
+      </Grid>
     </>
   );
 }

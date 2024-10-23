@@ -1,16 +1,16 @@
 // TextAreaComponent.js
 
 import React from "react";
-import { TextArea } from "@radix-ui/themes";
+import { TextArea as RadixTextArea } from "@radix-ui/themes";
 import { styled } from "@/lib/stitches";
 
-const StyledTextArea = styled(TextArea, {
+const StyledTextArea = styled(RadixTextArea, {
   textarea: {
     fontSize: 23,
   },
 });
 
-export default function TextAreaComponent({ onChange, placeholder }) {
+export default function TextArea({ onChange, placeholder }) {
   const [value, setValue] = React.useState("");
 
   const handleInputChange = (e) => {
