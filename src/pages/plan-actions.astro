@@ -2,7 +2,7 @@
 import { ButtonPrev } from "@/components/ButtonNext";
 import { Combobox } from "@/components/Combobox";
 import TextAreaComponent from "@/components/TextAreaComponent";
-import { PageHeading, PageSubHeading } from "@/components/Typography";
+import { PageHeading, PageSubHeading, PageText } from "@/components/Typography";
 import { Flex, Separator, Button } from "@radix-ui/themes";
 import TableActionPlan from "../components/TableActionPlan";
 import Layout from "../layouts/Layout.astro";
@@ -15,14 +15,15 @@ const handleChange = (e) => {
 
 <Layout title="Plan d'actions">
   <PageHeading title="Plan d'Actions" badgeTitle="Etape 3" badgeColor="green" />
+  <PageText
+    >Je mets en place un plan d'actions pour progresser sur mes hardskills</PageText
+  >
+  <PageText>
+    Consigne : Identifier une compétence clé sur lequel vous souhaitez vous
+    améliorer
+  </PageText>
 
   <Flex direction="column" gap="5" align="center" width="100%" mb="6">
-    <Flex direction="column" gap="2">
-      <PageSubHeading title="Mes axes d'améliorations" />
-
-      <TableActionPlan client:load onChange={handleChange} />
-    </Flex>
-
     <Separator style={{ width: "30%" }} />
 
     <Flex direction="column" gap="2" width="100%">
@@ -37,6 +38,19 @@ const handleChange = (e) => {
       <PageSubHeading title="Sous-Compétence" />
 
       <Combobox />
+    </Flex>
+
+    <Separator style={{ width: "30%" }} />
+
+    <Flex direction="column" gap="2">
+      <PageSubHeading title="Mes axes d'améliorations" />
+
+      <PageText>
+        Selectionnez un cadran sur lequel vous affectez la compétence choisie
+        précedemment
+      </PageText>
+
+      <TableActionPlan client:load onChange={handleChange} />
     </Flex>
 
     <Separator style={{ width: "30%" }} />
