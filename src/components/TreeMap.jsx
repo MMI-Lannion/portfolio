@@ -3,19 +3,23 @@ import * as Plot from "@observablehq/plot";
 import { Button, Flex, Text } from "@radix-ui/themes";
 import * as d3 from "d3";
 import React, { useState, useEffect } from "react";
-import "./tree-map.css";
+// import "./tree-map.css";
 import { Sliders } from "./Sliders";
 import { AddWordsToTreeMap } from "./AddWordsToTreeMap";
 import { Dialog } from "./Dialog";
 import { MixerHorizontalIcon } from "@radix-ui/react-icons";
 import { useStore } from "@nanostores/react";
-import { $treemap, $setInitialPourcentage, $totalPourcentage } from "@/store/Store";
+import {
+  $treemap,
+  $setInitialPourcentage,
+  $totalPourcentage,
+} from "@/store/Store";
 
 export function TreeMap() {
   //données store
   const data = useStore($treemap);
   //total pour vérifier si 100%
-  let total = $totalPourcentage()
+  let total = $totalPourcentage();
 
   //pourcentage en fonction du nombre de blocs de compétences
   useEffect(() => {
@@ -94,7 +98,7 @@ export function TreeMap() {
               setOpenPourcentage(false);
             }}
             title="Evaluer Vos Compotences"
-            content={<AddWordsToTreeMap key="" data={data}  />}
+            content={<AddWordsToTreeMap key="" data={data} />}
           >
             <Button size="4" onClick={() => setOpenPourcentage(true)}>
               <MixerHorizontalIcon />

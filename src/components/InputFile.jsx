@@ -22,6 +22,7 @@ const FileInputContainer = styled(Box, {
 
 const HiddenInput = styled("input", {
   display: "none",
+  background: "red",
 });
 
 const Label = styled("label", {
