@@ -11,13 +11,12 @@ import {
   Badge,
   Text,
 } from "@radix-ui/themes";
-import TextAreaComponent from "@/components/TextAreaComponent";
+import EditableTextArea from "@/components/EditableTextArea";
 import { TreeMap } from "@/components/TreeMap";
 import InputFile from "@/components/InputFile";
 import { PageHeading, PageSubHeading, PageText } from "@/components/Typography";
 import { file } from "astro/loaders";
 import SyntheseFiles from "@/components/SyntheseFiles";
-
 ---
 
 <Layout title="Synthèse SAE">
@@ -34,8 +33,9 @@ import SyntheseFiles from "@/components/SyntheseFiles";
     <Flex direction="column" gap="2" width="100%">
       <PageSubHeading title="Contexte et Objectifs" />
 
-      <TextAreaComponent
+      <EditableTextArea
         placeholder={"Présentez votre projet en quelques phrases"}
+        key="contexte"
         client:load
       />
     </Flex>
@@ -45,8 +45,9 @@ import SyntheseFiles from "@/components/SyntheseFiles";
     <Flex direction="column" gap="2" width="100%">
       <PageSubHeading title="Démarche de Projet" />
 
-      <TextAreaComponent
+      <EditableTextArea
         placeholder={"Quelle a été la méthodologie pour réaliser les étapes du projet"}
+        key="demarche"
         client:load
       />
     </Flex>
@@ -56,8 +57,9 @@ import SyntheseFiles from "@/components/SyntheseFiles";
     <Flex direction="column" gap="2" width="100%">
       <PageSubHeading title="Livrables" />
 
-      <TextAreaComponent
+      <EditableTextArea
         placeholder={"Présentez vos livrables finaux en quelques phrases"}
+        key="livrable"
         client:load
       />
     </Flex>
@@ -73,7 +75,6 @@ import SyntheseFiles from "@/components/SyntheseFiles";
       </PageText>
 
       <SyntheseFiles client:load />
-
     </Flex>
 
     <Separator style={{ width: "30%" }} />
