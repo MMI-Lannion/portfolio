@@ -143,6 +143,45 @@ export const $totalPourcentage = () => {
   return total;
 };
 
+export const $addKeyWord = (key, keyword) => {
+  $treemap.set(
+    $treemap.get().map((e) => {
+      if (e.key === key && !child.keywords.includes(keyword)) {
+        return { ...e, keywords: [...e.keywords, keyword] };
+      } else {
+        return e;
+      }
+    })
+  );
+};
+
+export const $deleteKeyWord = (key, keyword) => {
+  $treemap.set(
+    $treemap.get().map((e) => {
+      if (e.key === key) {
+        return { ...e, keywords: e.keywords.filter((k) => k !== keyword) };
+      } else {
+        return e;
+      }
+    })
+  );
+};
+
+export const $updatePercentage = () => {
+  const treemapData = $treemap.get();
+  let globalLength = 0;
+  treemapData.forEach((child) => {
+    globalLength = globalLength + child.keywords.length;
+  });
+
+  $treemap.set(
+    treemapData.map((e) => {
+      e.percentage = (e.keywords.length / globalLength) * 100;
+      return e;
+    })
+  );
+};
+
 export const setSaeData = (data) => {
   const previousData = $saeData.get();
   $saeData.set({ ...previousData, ...data });
