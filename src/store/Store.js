@@ -1,11 +1,15 @@
+import { getUser } from "@/actions/getUser";
 import { atom, computed } from "nanostores";
 
-export const $but = atom("but1");
 export const $filterSea = atom("");
 export const $theme = atom("light");
-export const $user = atom({ username: "qdd" });
+export const $user = atom({ username: "", but: "", valide: false });
 export const $openDialog = atom(true);
 export const $sae = atom("sae");
+
+export const $but = computed($user, (user) => user?.but);
+export const $username = computed($user, (user) => user?.username);
+export const $isLoggedIn = computed($user, (user) => user?.valide);
 
 export const $saeData = atom({
   userId: 1,
@@ -92,8 +96,6 @@ export const $butSaes = computed([$saes, $filterSea], (saes) => {
   const butSaes = saes[but];
   return butSaes.filter((e) => e.includes(filter));
 });
-
-export const $isLoggedIn = computed($user, (user) => !!user?.username);
 
 export const toggleTheme = () => {
   const theme = $theme.get();
@@ -185,4 +187,17 @@ export const $updatePercentage = () => {
 export const setSaeData = (data) => {
   const previousData = $saeData.get();
   $saeData.set({ ...previousData, ...data });
+};
+
+export const setUser = (data) => {
+  $user.set({ ...$user.get(), ...data });
+};
+
+export const login = async () => {
+  const user = await getUser($user.get());
+  if (user?.username) {
+    $user.set({ ...user, valide: true });
+    return true;
+  }
+  return false;
 };

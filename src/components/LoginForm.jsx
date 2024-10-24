@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import {
   Box,
   Button,
+  Callout,
   Card,
   Flex,
   IconButton,
@@ -10,11 +11,17 @@ import {
   TextField,
 } from "@radix-ui/themes";
 import { Label } from "@radix-ui/react-label";
-import { EyeOpenIcon, EyeClosedIcon } from "@radix-ui/react-icons";
+import {
+  EyeOpenIcon,
+  EyeClosedIcon,
+  InfoCircledIcon,
+} from "@radix-ui/react-icons";
 import { Combobox } from "./Combobox";
+import { login, setUser } from "@/store/Store";
 
 const LoginForm = () => {
   const [showPassword, setShowPassword] = useState(false);
+  const [showError, setShowError] = useState();
 
   console.log("Component rendered. Current showPassword state:", showPassword); // Log when component renders
 
@@ -26,11 +33,20 @@ const LoginForm = () => {
 
   return (
     <Card style={{ width: "100%", maxWidth: "400px", padding: 24 }}>
+      {showError && (
+        <Callout.Root color="red">
+          <Callout.Icon>
+            <InfoCircledIcon />
+          </Callout.Icon>
+          <Callout.Text>Nom utilisateur ou mot de passe invalide</Callout.Text>
+        </Callout.Root>
+      )}
       <form
         style={{ width: "100%" }}
-        onSubmit={(e) => {
+        onSubmit={async (e) => {
           e.preventDefault();
-          console.log("Form submitted");
+          const valide = await login();
+          setShowError(!valide);
         }}
       >
         <Flex gap="4" direction="column" width="100%">
@@ -40,7 +56,13 @@ const LoginForm = () => {
             </Label>
 
             <Flex justify="center" width="100%">
-              <RadioCards.Root columns="3">
+              <RadioCards.Root
+                columns="3"
+                onValueChange={(value) => {
+                  console.log("value radio", value);
+                  setUser({ but: value });
+                }}
+              >
                 <RadioCards.Item value="but1">
                   <Flex direction="column" width="100%">
                     <Text weight="bold">BUT 1</Text>
@@ -62,28 +84,28 @@ const LoginForm = () => {
 
           {/* Email Input */}
           <Flex gap="2" direction="column" width="100%">
-            <Label htmlFor="email" size="2" display="block">
-              <Text size="6">Email</Text>
+            <Label htmlFor="username" size="2" display="block">
+              <Text size="6">Nom utilisateur</Text>
             </Label>
 
             <TextField.Root
               size="3"
-              type="email"
-              id="email"
-              name="email"
+              type="text"
+              id="username"
+              name="username"
               required
-              autoComplete="email"
-              placeholder="Votre email"
-              onChange={(e) =>
-                console.log("Email field value:", e.target.value)
-              }
+              placeholder="Nom utilisateur"
+              onChange={(e) => {
+                console.log("Email field value:", e.target.value);
+                setUser({ username: e.target.value });
+              }}
             />
           </Flex>
 
           {/* Password Input with Show/Hide Password Button */}
           <Flex gap="2" direction="column">
             <Label htmlFor="password" size="2" marginBottom="1" display="block">
-              <Text size="6">Password</Text>
+              <Text size="6">Mot de passe</Text>
             </Label>
             <TextField.Root
               size="3"
@@ -92,10 +114,11 @@ const LoginForm = () => {
               name="password"
               required
               autoComplete="current-password"
-              placeholder="Enter your password"
-              onChange={(e) =>
-                console.log("Password field value:", e.target.value)
-              }
+              placeholder="Mot de passe"
+              onChange={(e) => {
+                console.log("Password field value:", e.target.value);
+                setUser({ password: e.target.value });
+              }}
             >
               <TextField.Slot></TextField.Slot>
               <TextField.Slot pr="3">
