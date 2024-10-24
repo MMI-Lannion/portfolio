@@ -176,6 +176,7 @@ export const $updatePercentage = () => {
     globalLength = globalLength + child.keywords.length;
   });
 
+
   $treemap.set(
     treemapData.map((e) => {
       e.percentage = (e.keywords.length / globalLength) * 100;
@@ -202,7 +203,9 @@ export const login = async () => {
   return false;
 };
 
-export const setSoftskills = (softskills) => {
+export const setSoftskills = async (softskills) => {
   const previousData = $saeData.get();
+  const { userId, saeId } = previousData;
   $saeData.set({ ...previousData, softskills });
+  await updateSoftskillsInDatabase(userId, saeId, softskills);
 };
