@@ -119,6 +119,20 @@ const InputFile = ({ onChange = null }) => {
         </Callout.Root>
       )}
 
+      <Button onClick={async () => {
+
+        const userFolder = `sae${saeId}_${username}_${userId}/`;
+
+        const { data, error } = await supabase.storage.from('saeFiles').list(userFolder);
+        if (error) {
+          console.error("Erreur:", error.message);
+        } else {
+          console.log("Fichiers:", data);
+        }
+      }}>
+        Récupérer les fichiers
+      </Button>
+
       <form onSubmit={handleSubmit}>
         <Flex gap="3" align="center">
           <FileInputContainer>
