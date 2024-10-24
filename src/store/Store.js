@@ -1,4 +1,5 @@
 import { getUser } from "@/actions/getUser";
+import { getCompetences } from "@/actions/getCompetences";
 import { atom, computed } from "nanostores";
 
 export const $filterSea = atom("");
@@ -15,7 +16,13 @@ export const $saeData = atom({
   userId: 1,
   saeId: 101,
   completed: false,
-  competences: [],
+  competences: [
+    { key: "Comprendre", color: "red", percentage: 25, keywords: ["ahhhhh"] },
+    { key: "Concevoir", color: "orange", percentage: 25, keywords: ["er"] },
+    { key: "Produire", color: "yellow", percentage: 25, keywords: [] },
+    { key: "Développer", color: "green", percentage: 25, keywords: [] },
+    { key: "Entreprendre", color: "blue", percentage: 25, keywords: [] },
+  ],
   contexte: "",
   demarche: "",
   livrable: "",
@@ -197,6 +204,15 @@ export const login = async () => {
   const user = await getUser($user.get());
   if (user?.username) {
     $user.set({ ...user, valide: true });
+    return true;
+  }
+  return false;
+};
+
+export const competences = async () => {
+  const competences = await getCompetences($saeData.get().saeId);
+  if (competences?.saeId) {
+    $saeData.set({ ...competences, valide: true });
     return true;
   }
   return false;

@@ -32,6 +32,7 @@ export function AddWordsToTreeMap({ data, onWordsUpdate }) {
   const handleRemoveWord = (keyId, inputValue) => {
     $deleteKeyWord(keyId, inputValue);
     $updatePercentage();
+    
   };
 
   return (
