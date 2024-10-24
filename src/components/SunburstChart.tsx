@@ -1,6 +1,9 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import * as d3 from "d3";
 import data from "./flare-2.json";
+import { useStore } from '@nanostores/react';
+import { $saeData, setSoftskills } from "@/store/Store.js";
+
 
 const SIZE = 520;
 const RADIUS = SIZE / 2;
@@ -15,8 +18,29 @@ export const SunburstChart = () => {
   const [viewBox, setViewBox] = React.useState("0 -700 300 1300");
   // create an array for selected arcs
   const [selectedArc, setSelectedArc] = React.useState<string | null>(null);
+
+  const saeDataState = useStore($saeData);
+  const softskills = saeDataState.softskills;
+
+
   const [selectedKeywords, setSelectedKeywords] = React.useState<string[]>([]);
-  console.log("selectedKeywords", selectedKeywords);
+
+
+
+
+  useEffect(() => {
+    console.log("selectedKeywords", selectedKeywords);
+    setSoftskills(selectedKeywords);
+  }, [svgRef, selectedArc, selectedKeywords]);
+
+  useState(() => {
+    if (softskills && Array.isArray(softskills)) {
+      setSelectedKeywords(softskills);
+    }
+  }, []);
+  console.log($saeData);
+
+  console.log('softskills = '+ saeDataState.softskills);
 
   // const color = d3.scaleOrdinal(
   //   d3.quantize(d3.interpolateRainbow, data.children.length + 1)
