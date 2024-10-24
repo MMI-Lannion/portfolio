@@ -112,7 +112,7 @@ export function TreeMap() {
                 setOpenPourcentage(false);
               }}
               title="Choix du pourcentage"
-              content={<Sliders />}
+              content={<AddWordsToTreeMap data={data}/>}
             >
               <Button size="4" onClick={() => setOpenPourcentage(true)}>
                 <MixerHorizontalIcon />
@@ -126,7 +126,7 @@ export function TreeMap() {
                 setOpenKeyword(false);
               }}
               title="Choix des mots clés"
-              content={<AddWordsToTreeMap />}
+              content={<AddWordsToTreeMap data={data}/>}
             ></Dialog>
           </Flex>
         </Flex>
