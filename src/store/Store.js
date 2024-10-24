@@ -146,7 +146,7 @@ export const $totalPourcentage = () => {
 export const $addKeyWord = (key, keyword) => {
   $treemap.set(
     $treemap.get().map((e) => {
-      if (e.key === key && !child.keywords.includes(keyword)) {
+      if (e.key === key && !e.keywords.includes(keyword)) {
         return { ...e, keywords: [...e.keywords, keyword] };
       } else {
         return e;

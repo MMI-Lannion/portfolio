@@ -10,13 +10,14 @@ import {
   Box,
 } from "@radix-ui/themes";
 import { $addKeyWord, $deleteKeyWord, $updatePercentage } from "../store/Store";
+import { UpdateCompetences } from "@/actions/updateCompetences";
 
-export function AddWordsToTreeMap({ data, onWordsUpdate }) {
+export function AddWordsToTreeMap({ data }) {
   const inputRef = useRef();
   const [localWords, setLocalWords] = useState([]);
   // const [inputValue, setInputValue] = useState('');
 
-  const handleAddWord = (keyId) => {
+  const handleAddWord = async (keyId) => {
     const inputValue = inputRef.current?.trim();
     console.log("ref", inputRef.current, inputValue);
 
@@ -24,14 +25,22 @@ export function AddWordsToTreeMap({ data, onWordsUpdate }) {
       // Vérifie que l'input n'est pas vide
       $addKeyWord(keyId, inputValue);
       $updatePercentage();
+      console.log(data);
+      
       //$addKeyWord(key, inputValue)
       //  setInputValue(''); // Réinitialise le champ texte
+
+      // Appeler la fonction UpdateCompetences pour synchroniser avec Supabase
+      await UpdateCompetences();
     }
   };
 
-  const handleRemoveWord = (keyId, inputValue) => {
+  const handleRemoveWord = async (keyId, inputValue) => {
     $deleteKeyWord(keyId, inputValue);
     $updatePercentage();
+
+    // Appeler la fonction UpdateCompetences pour synchroniser avec Supabase
+    await UpdateCompetences();
   };
 
   return (
@@ -44,7 +53,7 @@ export function AddWordsToTreeMap({ data, onWordsUpdate }) {
       // align="center"
       // justify="center"
     >
-      {data.children.map((e) => (
+      {data.map((e) => (
         <Flex px="4" gap="3" direction="column" width="100%">
           <Text size="2" weight="bold">
             Ajouter vos mots clés

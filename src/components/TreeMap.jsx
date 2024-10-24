@@ -14,10 +14,20 @@ import {
   $setInitialPourcentage,
   $totalPourcentage,
 } from "@/store/Store";
+import { GetCompetences } from "@/actions/getCompetences";
+
 
 export function TreeMap() {
+
+  // Récupérer les compétences lors du montage du composant
+  useEffect(() => {
+    GetCompetences();
+    console.log(data); 
+  }, []);
+
   //données store
   const data = useStore($treemap);
+
   //total pour vérifier si 100%
   let total = $totalPourcentage();
 
@@ -112,7 +122,7 @@ export function TreeMap() {
                 setOpenPourcentage(false);
               }}
               title="Choix du pourcentage"
-              content={<Sliders />}
+              content={<AddWordsToTreeMap data={data}/>}
             >
               <Button size="4" onClick={() => setOpenPourcentage(true)}>
                 <MixerHorizontalIcon />
@@ -126,7 +136,7 @@ export function TreeMap() {
                 setOpenKeyword(false);
               }}
               title="Choix des mots clés"
-              content={<AddWordsToTreeMap />}
+              content={<AddWordsToTreeMap data={data}/>}
             ></Dialog>
           </Flex>
         </Flex>
