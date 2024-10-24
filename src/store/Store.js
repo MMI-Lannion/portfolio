@@ -36,7 +36,9 @@ export const $saeData = atom({
       label36: 0.12,
     },
   ],
-  softskills: {},
+  softskills: [
+    "49283701"
+  ],
   ameliorations: {},
   competenceCle: "",
   sousCompetence: [],
@@ -147,3 +149,9 @@ export const setSaeData = (data) => {
   const previousData = $saeData.get();
   $saeData.set({ ...previousData, ...data });
 };
+
+export const setSoftskills = (softskills) => {
+  const previousData = $saeData.get();
+  $saeData.set({ ...previousData, softskills });
+};
+
