@@ -3,7 +3,7 @@ import { atom, computed } from "nanostores";
 
 export const $filterSea = atom("");
 export const $theme = atom("light");
-export const $user = atom({ username: "", but: "", valide: false });
+export const $user = atom({ username: "mmi1", but: "but1", valide: true });
 export const $openDialog = atom(true);
 export const $sae = atom("sae");
 
@@ -40,10 +40,27 @@ export const $saeData = atom({
       label36: 0.12,
     },
   ],
-  softskills: {},
+  softskills: ["49283701"],
   ameliorations: {},
   competenceCle: "",
-  sousCompetence: [],
+  sousCompetence: [
+    {
+      label1: "name",
+      checked: false,
+    },
+    {
+      label2: "name",
+      checked: false,
+    },
+    {
+      label3: "name",
+      checked: false,
+    },
+    {
+      label4: "name",
+      checked: false,
+    },
+  ],
 });
 
 export const $saes = atom({
@@ -200,4 +217,9 @@ export const login = async () => {
     return true;
   }
   return false;
+};
+
+export const setSoftskills = (softskills) => {
+  const previousData = $saeData.get();
+  $saeData.set({ ...previousData, softskills });
 };
