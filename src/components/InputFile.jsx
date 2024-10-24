@@ -4,11 +4,18 @@ import {
   ExclamationTriangleIcon,
   UploadIcon,
 } from "@radix-ui/react-icons";
-import { Box, Button, Callout, Flex, Text } from "@radix-ui/themes";
+import {
+  Box,
+  Callout,
+  Button,
+  Flex,
+  Text,
+} from "@radix-ui/themes";
 import { useState } from "react";
 import { supabase } from '../lib/supabase.js';
 import { useStore } from '@nanostores/react';
 import { $saeData, $user } from '@/store/Store';
+import GetFile from '@components/GetFile.jsx';
 
 const FileInputContainer = styled(Box, {
   display: "flex",
@@ -71,8 +78,6 @@ const InputFile = ({ onChange = null }) => {
     event.preventDefault();
     const files = event.target.fileInput.files;
 
-    console.log(Date.now());
-
     // Upload de fichiers
     for (const file of files) {
       const filePath = `sae${saeId}_${username}_${userId}/${Date.now()}_${file.name}`;
@@ -118,21 +123,6 @@ const InputFile = ({ onChange = null }) => {
           <Callout.Text>Téléchargement réussi !</Callout.Text>
         </Callout.Root>
       )}
-
-      <Button onClick={async () => {
-
-        const userFolder = `sae${saeId}_${username}_${userId}/`;
-
-        const { data, error } = await supabase.storage.from('saeFiles').list(userFolder);
-        if (error) {
-          console.error("Erreur:", error.message);
-        } else {
-          console.log("Fichiers:", data);
-        }
-      }}>
-        Récupérer les fichiers
-      </Button>
-
       <form onSubmit={handleSubmit}>
         <Flex gap="3" align="center">
           <FileInputContainer>
@@ -156,6 +146,9 @@ const InputFile = ({ onChange = null }) => {
           </Button>
         </Flex>
       </form>
+
+      <GetFile />
+
     </Flex>
   );
 };
