@@ -4,11 +4,13 @@ import * as d3 from "d3";
 import React, { useEffect, useRef, useState } from "react";
 
 import phones from "./phones.json";
-import { Box } from "@radix-ui/themes";
+import { Box, Flex } from "@radix-ui/themes";
 import { Dialog } from "./Dialog";
 import LikertScale from "@/components/LikertScale";
 
 export function Radar({ datas }) {
+  // console.log("datas", datas);
+
   const points = datas.flatMap(({ name, ...values }) =>
     Object.entries(values).map(([key, value]) => ({ name, key, value }))
   );
@@ -20,6 +22,8 @@ export function Radar({ datas }) {
 
   const ref = useRef();
   const [open, setOpen] = useState(false);
+
+  const labelRef = useRef();
 
   useEffect(() => {
     if (!ref?.current) {
@@ -48,6 +52,9 @@ export function Radar({ datas }) {
       }
 
       console.log("handleLabelClick", label);
+
+      labelRef.current = label?.trim();
+
       setOpen(true);
     };
 
@@ -65,8 +72,14 @@ export function Radar({ datas }) {
         onCancel={() => {
           setOpen(false);
         }}
-        title={datas[0].name}
-        content={<LikertScale />}
+        title={
+          <Flex gap="2">
+            <Box>{datas[0].name}</Box> - <Box>{labelRef.current}</Box>
+          </Flex>
+        }
+        content={
+          <LikertScale competence={datas[0].name} label={labelRef.current} />
+        }
       />
 
       <PlotFigure
