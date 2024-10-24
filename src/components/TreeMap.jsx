@@ -99,10 +99,8 @@ export function TreeMap() {
       <Flex gap="5" direction="column">
         <Flex direction="row" justify="between">
           <Flex direction="column" gap="2">
-            <Text color={total === 100 ? "black" : "red"} size="4">
-              Total : {total}%
-            </Text>
-            <Text size="4">Sélectionner le texte</Text>
+            <Text size="4">Saisir les mots clés pour définir chaque compétence</Text>
+            {/* Tooltip : Plus vous renseignez de mots clés pour définir une compétence, plus la compétence est conséquente visuellement. Le treemap fait référence aux 5 compétences du BUT d'après le PN: Comprendre/Concevoir/Exprimer/Développer/Entreprendre*/}
           </Flex>
           <Flex gap="3" align="center">
             {/* popup pourcentages */}
