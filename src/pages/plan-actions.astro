@@ -1,12 +1,12 @@
 ---
 import { ButtonPrev } from "@/components/ButtonNext";
 import { Combobox } from "@/components/Combobox";
-import TextAreaComponent from "@/components/TextAreaComponent";
 import { PageHeading, PageSubHeading, PageText } from "@/components/Typography";
 import { Flex, Separator, Button } from "@radix-ui/themes";
 import TableActionPlan from "../components/TableActionPlan";
 import Layout from "../layouts/Layout.astro";
 import { CheckIcon } from "@radix-ui/react-icons";
+import EditableTextArea from "@/components/EditableTextArea";
 
 const handleChange = (e) => {
   console.log(e);
@@ -58,7 +58,11 @@ const handleChange = (e) => {
     <Flex direction="column" gap="2" width="100%">
       <PageSubHeading title="Actions à mener" />
 
-      <TextArea />
+      <EditableTextArea
+        placeholder={"Présentez votre projet en quelques phrases"}
+        key="ameliorations"
+        client:load
+      />
     </Flex>
   </Flex>
 

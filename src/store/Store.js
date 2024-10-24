@@ -1,11 +1,15 @@
+import { getUser } from "@/actions/getUser";
 import { atom, computed } from "nanostores";
 
-export const $but = atom("but1");
 export const $filterSea = atom("");
 export const $theme = atom("light");
-export const $user = atom({ username: "qdd" });
+export const $user = atom({ username: "", but: "", valide: false });
 export const $openDialog = atom(true);
 export const $sae = atom("sae");
+
+export const $but = computed($user, (user) => user?.but);
+export const $username = computed($user, (user) => user?.username);
+export const $isLoggedIn = computed($user, (user) => user?.valide);
 
 export const $saeData = atom({
   userId: 1,
@@ -36,9 +40,7 @@ export const $saeData = atom({
       label36: 0.12,
     },
   ],
-  softskills: [
-    "49283701"
-  ],
+  softskills: ["49283701"],
   ameliorations: {},
   competenceCle: "",
   sousCompetence: [],
@@ -95,8 +97,6 @@ export const $butSaes = computed([$saes, $filterSea], (saes) => {
   return butSaes.filter((e) => e.includes(filter));
 });
 
-export const $isLoggedIn = computed($user, (user) => !!user?.username);
-
 export const toggleTheme = () => {
   const theme = $theme.get();
   $theme.set(theme === "light" ? "dark" : "light");
@@ -145,13 +145,64 @@ export const $totalPourcentage = () => {
   return total;
 };
 
+export const $addKeyWord = (key, keyword) => {
+  $treemap.set(
+    $treemap.get().map((e) => {
+      if (e.key === key && !child.keywords.includes(keyword)) {
+        return { ...e, keywords: [...e.keywords, keyword] };
+      } else {
+        return e;
+      }
+    })
+  );
+};
+
+export const $deleteKeyWord = (key, keyword) => {
+  $treemap.set(
+    $treemap.get().map((e) => {
+      if (e.key === key) {
+        return { ...e, keywords: e.keywords.filter((k) => k !== keyword) };
+      } else {
+        return e;
+      }
+    })
+  );
+};
+
+export const $updatePercentage = () => {
+  const treemapData = $treemap.get();
+  let globalLength = 0;
+  treemapData.forEach((child) => {
+    globalLength = globalLength + child.keywords.length;
+  });
+
+  $treemap.set(
+    treemapData.map((e) => {
+      e.percentage = (e.keywords.length / globalLength) * 100;
+      return e;
+    })
+  );
+};
+
 export const setSaeData = (data) => {
   const previousData = $saeData.get();
   $saeData.set({ ...previousData, ...data });
+};
+
+export const setUser = (data) => {
+  $user.set({ ...$user.get(), ...data });
+};
+
+export const login = async () => {
+  const user = await getUser($user.get());
+  if (user?.username) {
+    $user.set({ ...user, valide: true });
+    return true;
+  }
+  return false;
 };
 
 export const setSoftskills = (softskills) => {
   const previousData = $saeData.get();
   $saeData.set({ ...previousData, softskills });
 };
-
