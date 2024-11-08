@@ -8,7 +8,7 @@ import { Box } from "@radix-ui/themes";
 import { Dialog } from "./Dialog";
 import LikertScale from "@/components/LikertScale";
 
-export function Radar({ datas }) {
+export function Radar({ datas = [] }) {
   const points = datas.flatMap(({ name, ...values }) =>
     Object.entries(values).map(([key, value]) => ({ name, key, value }))
   );
@@ -65,7 +65,7 @@ export function Radar({ datas }) {
         onCancel={() => {
           setOpen(false);
         }}
-        title={datas[0].name}
+        title={datas[0]?.name}
         content={<LikertScale />}
       />
 
