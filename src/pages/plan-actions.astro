@@ -1,5 +1,6 @@
 ---
 import { ButtonPrev } from "@/components/ButtonNext";
+import { ButtonValidate } from "@/components/ButtonValidate";
 import { Combobox } from "@/components/Combobox";
 import { PageHeading, PageSubHeading, PageText } from "@/components/Typography";
 import { Flex, Separator, Button } from "@radix-ui/themes";
@@ -68,9 +69,6 @@ const handleChange = (e) => {
 
   <Flex justify="end" direction="row" m="3" gapX="3">
     <ButtonPrev name="Précendent" href="/auto-evaluation" />
-    <Button color="indigo" size="4" variant="surface">
-      <CheckIcon />
-      Valider
-    </Button>
+    <ButtonValidate client:load />
   </Flex>
 </Layout>
