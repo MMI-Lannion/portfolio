@@ -13,6 +13,7 @@ import {
   $treemap,
   $setInitialPourcentage,
   $totalPourcentage,
+  competences
 } from "@/store/Store";
 
 export function TreeMap() {
@@ -24,6 +25,14 @@ export function TreeMap() {
   //pourcentage en fonction du nombre de blocs de compétences
   useEffect(() => {
     $setInitialPourcentage();
+  }, []);
+
+  useEffect(() => {
+    const fetchCompetences = async () => {
+      await competences();
+    };
+  
+    fetchCompetences();
   }, []);
 
   // configuration du layout du treemap

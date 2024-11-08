@@ -1,4 +1,5 @@
 import { getUser } from "@/actions/getUser";
+import { getCompetences } from "@/actions/getCompetences";
 import { atom, computed } from "nanostores";
 
 export const $filterSea = atom("");
@@ -15,7 +16,13 @@ export const $saeData = atom({
   userId: 1,
   saeId: 101,
   completed: false,
-  competences: [],
+  competences: [
+    { key: "Comprendre", color: "red", percentage: 25, keywords: ["ahhhhh"] },
+    { key: "Concevoir", color: "orange", percentage: 25, keywords: ["er"] },
+    { key: "Produire", color: "yellow", percentage: 25, keywords: [] },
+    { key: "Développer", color: "green", percentage: 25, keywords: [] },
+    { key: "Entreprendre", color: "blue", percentage: 25, keywords: [] },
+  ],
   contexte: "",
   demarche: "",
   livrable: "",
@@ -70,10 +77,17 @@ export const $saes = atom({
 });
 
 export const $competencesCles = atom({
-  competence_cles:[{name : "Premiere pro", checked: true},{name : "Da Vinci Resolve", checked: false}, {name : "After Effects", checked: false}],
-  sous_competences:[{name : "Ecriture", checked: false},{name : "Tournage", checked: false},{name : "Montage", checked: false}]
-}
-)
+  competence_cles: [
+    { name: "Premiere pro", checked: true },
+    { name: "Da Vinci Resolve", checked: false },
+    { name: "After Effects", checked: false },
+  ],
+  sous_competences: [
+    { name: "Ecriture", checked: false },
+    { name: "Tournage", checked: false },
+    { name: "Montage", checked: false },
+  ],
+});
 
 export const $saesStatus = atom({
   but1: [
@@ -199,7 +213,6 @@ export const $updatePercentage = () => {
     globalLength = globalLength + child.keywords.length;
   });
 
-
   $treemap.set(
     treemapData.map((e) => {
       e.percentage = (e.keywords.length / globalLength) * 100;
@@ -221,6 +234,15 @@ export const login = async () => {
   const user = await getUser($user.get());
   if (user?.username) {
     $user.set({ ...user, valide: true });
+    return true;
+  }
+  return false;
+};
+
+export const competences = async () => {
+  const competences = await getCompetences($saeData.get().saeId);
+  if (competences?.saeId) {
+    $saeData.set({ ...competences, valide: true });
     return true;
   }
   return false;
