@@ -44,7 +44,7 @@ export function AddWordsToTreeMap({ data }) {
       // align="center"
       // justify="center"
     >
-      {data.map((e) => (
+      {data?.map((e) => (
         <Flex px="4" gap="3" direction="column" width="100%">
           <Text size="2" weight="bold">
             Ajouter vos mots clés

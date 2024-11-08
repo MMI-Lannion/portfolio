@@ -8,7 +8,6 @@ import Layout from "../layouts/Layout.astro";
 import { CheckIcon } from "@radix-ui/react-icons";
 import EditableTextArea from "@/components/EditableTextArea";
 
-
 const handleChange = (e) => {
   console.log(e);
 };
@@ -59,7 +58,11 @@ const handleChange = (e) => {
     <Flex direction="column" gap="2" width="100%">
       <PageSubHeading title="Actions à mener" />
 
-      <EditableTextArea />
+      <EditableTextArea
+        placeholder={"Présentez votre projet en quelques phrases"}
+        key="ameliorations"
+        client:load
+      />
     </Flex>
   </Flex>
 
