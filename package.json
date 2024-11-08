@@ -51,10 +51,7 @@
   },
   "description": "```sh\r npm create astro@latest -- --template basics\r ```",
   "main": "index.js",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/MMI-Lannion/portfolio.git"
-  },
+  "repository": "git+https://github.com/MMI-Lannion/portfolio.git",
   "author": "",
   "license": "ISC",
   "bugs": {

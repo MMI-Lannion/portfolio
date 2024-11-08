@@ -69,6 +69,12 @@ export const $saes = atom({
   but3: ["but3 1", "but3 2"],
 });
 
+export const $competencesCles = atom({
+  competence_cles:[{name : "Premiere pro", checked: true},{name : "Da Vinci Resolve", checked: false}, {name : "After Effects", checked: false}],
+  sous_competences:[{name : "Ecriture", checked: false},{name : "Tournage", checked: false},{name : "Montage", checked: false}]
+}
+)
+
 export const $saesStatus = atom({
   but1: [
     {
@@ -165,7 +171,7 @@ export const $totalPourcentage = () => {
 export const $addKeyWord = (key, keyword) => {
   $treemap.set(
     $treemap.get().map((e) => {
-      if (e.key === key && !child.keywords.includes(keyword)) {
+      if (e.key === key && !e.keywords.includes(keyword)) {
         return { ...e, keywords: [...e.keywords, keyword] };
       } else {
         return e;
