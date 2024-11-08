@@ -1,11 +1,15 @@
+import { getUser } from "@/actions/getUser";
 import { atom, computed } from "nanostores";
 
-export const $but = atom("but1");
 export const $filterSea = atom("");
 export const $theme = atom("light");
-export const $user = atom({ username: "qdd" });
+export const $user = atom({ username: "mmi1", but: "but1", valide: true });
 export const $openDialog = atom(true);
 export const $sae = atom("sae");
+
+export const $but = computed($user, (user) => user?.but);
+export const $username = computed($user, (user) => user?.username);
+export const $isLoggedIn = computed($user, (user) => user?.valide);
 
 export const $saeData = atom({
   userId: 1,
@@ -36,10 +40,27 @@ export const $saeData = atom({
       label36: 0.5,
     },
   ],
-  softskills: {},
+  softskills: ["49283701"],
   ameliorations: {},
   competenceCle: "",
-  sousCompetence: [],
+  sousCompetence: [
+    {
+      label1: "name",
+      checked: false,
+    },
+    {
+      label2: "name",
+      checked: false,
+    },
+    {
+      label3: "name",
+      checked: false,
+    },
+    {
+      label4: "name",
+      checked: false,
+    },
+  ],
 });
 
 export const $saes = atom({
@@ -47,6 +68,12 @@ export const $saes = atom({
   but2: ["but2 1", "but2 2"],
   but3: ["but3 1", "but3 2"],
 });
+
+export const $competencesCles = atom({
+  competence_cles:[{name : "Premiere pro", checked: true},{name : "Da Vinci Resolve", checked: false}, {name : "After Effects", checked: false}],
+  sous_competences:[{name : "Ecriture", checked: false},{name : "Tournage", checked: false},{name : "Montage", checked: false}]
+}
+)
 
 export const $saesStatus = atom({
   but1: [
@@ -92,8 +119,6 @@ export const $butSaes = computed([$saes, $filterSea], (saes) => {
   const butSaes = saes[but];
   return butSaes.filter((e) => e.includes(filter));
 });
-
-export const $isLoggedIn = computed($user, (user) => !!user?.username);
 
 export const toggleTheme = () => {
   const theme = $theme.get();
@@ -146,7 +171,7 @@ export const $totalPourcentage = () => {
 export const $addKeyWord = (key, keyword) => {
   $treemap.set(
     $treemap.get().map((e) => {
-      if (e.key === key && !child.keywords.includes(keyword)) {
+      if (e.key === key && !e.keywords.includes(keyword)) {
         return { ...e, keywords: [...e.keywords, keyword] };
       } else {
         return e;
@@ -185,4 +210,22 @@ export const $updatePercentage = () => {
 export const setSaeData = (data) => {
   const previousData = $saeData.get();
   $saeData.set({ ...previousData, ...data });
+};
+
+export const setUser = (data) => {
+  $user.set({ ...$user.get(), ...data });
+};
+
+export const login = async () => {
+  const user = await getUser($user.get());
+  if (user?.username) {
+    $user.set({ ...user, valide: true });
+    return true;
+  }
+  return false;
+};
+
+export const setSoftskills = (softskills) => {
+  const previousData = $saeData.get();
+  $saeData.set({ ...previousData, softskills });
 };

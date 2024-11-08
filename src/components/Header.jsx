@@ -54,15 +54,15 @@ export function Header() {
           direction="row"
           gap="5"
         >
-          <Link href="/login">
+          {/* <Link href="/login">
             <Button
               variant="ghost"
               size="4"
               style={{ display: "flex", alignItems: "center" }}
             >
-              <PersonIcon height="22" width="22" /> {/* Icon for Login */}
+              <PersonIcon height="22" width="22" />
             </Button>
-          </Link>
+          </Link> */}
 
           <Button variant="ghost" size="4" onClick={toggleTheme}>
             {theme === "dark" ? (

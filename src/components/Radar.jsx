@@ -8,7 +8,7 @@ import { Box, Flex } from "@radix-ui/themes";
 import { Dialog } from "./Dialog";
 import LikertScale from "@/components/LikertScale";
 
-export function Radar({ datas }) {
+export function Radar({ datas = [] }) {
   // console.log("datas", datas);
 
   const points = datas.flatMap(({ name, ...values }) =>
@@ -74,11 +74,11 @@ export function Radar({ datas }) {
         }}
         title={
           <Flex gap="2">
-            <Box>{datas[0].name}</Box> - <Box>{labelRef.current}</Box>
+            <Box>{datas[0]?.name}</Box> - <Box>{labelRef.current}</Box>
           </Flex>
         }
         content={
-          <LikertScale competence={datas[0].name} label={labelRef.current} />
+          <LikertScale competence={datas[0]?.name} label={labelRef.current} />
         }
       />
 
