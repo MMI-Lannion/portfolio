@@ -20,7 +20,7 @@ import SyntheseFiles from "@/components/SyntheseFiles";
 ---
 
 <Layout title="Synthèse SAE">
-  <PageHeading title="Synthèse SEA" badgeTitle="Etape 1" badgeColor="pink" />
+  <PageHeading title="Synthèse" badgeTitle="Etape 1" badgeColor="pink" />
 
   <Flex direction="column" gap="5" align="center" width="100%" mb="6">
     <Flex direction="column" gap="2">
@@ -34,7 +34,7 @@ import SyntheseFiles from "@/components/SyntheseFiles";
       <PageSubHeading title="Contexte et Objectifs" />
 
       <EditableTextArea
-        placeholder={"Présentez votre projet en quelques phrases"}
+        placeholder={"Expliquer en quelques lignes : le contexte du projet, de l'entreprise, ses valeurs, ses enjeux. Formuler l'objectif de la SAE, ce qui vous est demandé"}
         key="contexte"
         client:load
       />
@@ -43,10 +43,10 @@ import SyntheseFiles from "@/components/SyntheseFiles";
     <Separator style={{ width: "30%" }} />
 
     <Flex direction="column" gap="2" width="100%">
-      <PageSubHeading title="Démarche de Projet" />
+      <PageSubHeading title="Démarche de Projet > Etapes" />
 
       <EditableTextArea
-        placeholder={"Quelle a été la méthodologie pour réaliser les étapes du projet"}
+        placeholder={"Expliquer en quelques lignes votre démarche projet ainsi quel es étapes/actions que vous avez mis en place pour réaliser les livrables"}
         key="demarche"
         client:load
       />
@@ -55,10 +55,10 @@ import SyntheseFiles from "@/components/SyntheseFiles";
     <Separator style={{ width: "30%" }} />
 
     <Flex direction="column" gap="2" width="100%">
-      <PageSubHeading title="Livrables" />
+      <PageSubHeading title="Livrables attendus" />
 
       <EditableTextArea
-        placeholder={"Présentez vos livrables finaux en quelques phrases"}
+        placeholder={"Nommer les livrables réalisés"}
         key="livrable"
         client:load
       />

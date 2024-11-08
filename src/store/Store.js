@@ -4,7 +4,7 @@ import { atom, computed } from "nanostores";
 
 export const $filterSea = atom("");
 export const $theme = atom("light");
-export const $user = atom({ username: "", but: "", valide: false });
+export const $user = atom({ username: "mmi1", but: "but1", valide: true });
 export const $openDialog = atom(true);
 export const $sae = atom("sae");
 
@@ -30,33 +30,63 @@ export const $saeData = atom({
   hardskills: [
     {
       name: "Compétence 1",
-      label31: 0.02,
-      label32: 0.18,
-      label33: 0.39,
-      label34: 0.27,
-      label35: 0.17,
-      label36: 0.12,
+      label31: 0.1,
+      label32: 0.2,
+      label33: 0.3,
+      label34: 0.4,
+      label35: 0.5,
+      label36: 0.1,
     },
     {
       name: "Compétence 2",
-      label31: 0.27,
-      label32: 0.18,
-      label33: 0.39,
-      label34: 0.02,
-      label35: 0.17,
-      label36: 0.12,
+      label31: 0.5,
+      label32: 0.4,
+      label33: 0.3,
+      label34: 0.2,
+      label35: 0.1,
+      label36: 0.5,
     },
   ],
   softskills: ["49283701"],
   ameliorations: {},
   competenceCle: "",
-  sousCompetence: [],
+  sousCompetence: [
+    {
+      label1: "name",
+      checked: false,
+    },
+    {
+      label2: "name",
+      checked: false,
+    },
+    {
+      label3: "name",
+      checked: false,
+    },
+    {
+      label4: "name",
+      checked: false,
+    },
+  ],
 });
 
 export const $saes = atom({
   but1: ["but1 1", "but1 2", "apple", "kiwi"],
   but2: ["but2 1", "but2 2"],
   but3: ["but3 1", "but3 2"],
+});
+
+export const $competencesCles = atom({
+  competence_cles: [
+    { name: "Premiere pro", checked: true },
+    { name: "Da Vinci Resolve", checked: false },
+    { name: "After Effects", checked: false },
+  ],
+  sous_competences: [
+    { name: "Ecriture", checked: false },
+    { name: "Tournage", checked: false },
+    { name: "Montage", checked: false },
+  ],
 });
 
 export const $saesStatus = atom({
@@ -155,7 +185,7 @@ export const $totalPourcentage = () => {
 export const $addKeyWord = (key, keyword) => {
   $treemap.set(
     $treemap.get().map((e) => {
-      if (e.key === key && !child.keywords.includes(keyword)) {
+      if (e.key === key && !e.keywords.includes(keyword)) {
         return { ...e, keywords: [...e.keywords, keyword] };
       } else {
         return e;
@@ -218,7 +248,9 @@ export const competences = async () => {
   return false;
 };
 
-export const setSoftskills = (softskills) => {
+export const setSoftskills = async (softskills) => {
   const previousData = $saeData.get();
+  const { userId, saeId } = previousData;
   $saeData.set({ ...previousData, softskills });
+  await updateSoftskillsInDatabase(userId, saeId, softskills);
 };
