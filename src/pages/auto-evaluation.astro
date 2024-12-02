@@ -8,12 +8,15 @@ import {
 } from "@components/AutoEvaluation";
 import { Flex, Separator } from "@radix-ui/themes";
 import Layout from "../layouts/Layout.astro";
+import { QuickNav } from "@/components/QuickNav";
 ---
 
-<Layout title="Auto-évaluation">
+<Layout title="Auto Evaluation">
+  <QuickNav client:load />
+
   <PageHeading
     title="Auto Evaluation"
-    badgeTitle="Etape 3"
+    badgeTitle="Etape 2"
     badgeColor="purple"
   />
 
@@ -26,7 +29,7 @@ import Layout from "../layouts/Layout.astro";
         échelle de 1 à 5 (1 = Pas du tout maitrisé ; 5 = Tout à fait maitrisé)
       </PageText>
 
-      <HardskillsRadar client:load />
+      <HardskillsRadar client:only />
     </Flex>
 
     <Separator style={{ width: "30%" }} />
@@ -39,7 +42,7 @@ import Layout from "../layouts/Layout.astro";
         ou de votre projet en ressource
       </PageText>
 
-      <SoftskillsSunburst client:load />
+      <SoftskillsSunburst client:only />
     </Flex>
 
     <Separator style={{ width: "30%" }} />
@@ -52,7 +55,7 @@ import Layout from "../layouts/Layout.astro";
         échelle de 1 à 5 (1 = Pas du tout maitrisé ; 5 = Tout à fait maitrisé)
       </PageText>
 
-      <ToolsRadar client:load />
+      <ToolsRadar client:only />
     </Flex>
 
     <Separator style={{ width: "30%" }} />

@@ -13,26 +13,20 @@ import { $addKeyWord, $deleteKeyWord, $updatePercentage } from "../store/Store";
 
 export function AddWordsToTreeMap({ data }) {
   const inputRef = useRef();
-  const [localWords, setLocalWords] = useState([]);
-  // const [inputValue, setInputValue] = useState('');
 
-  const handleAddWord = (keyId) => {
+  const handleAddWord = (keyId, index) => {
     const inputValue = inputRef.current?.trim();
-    console.log("ref", inputRef.current, inputValue);
 
     if (inputValue) {
-      // Vérifie que l'input n'est pas vide
       $addKeyWord(keyId, inputValue);
       $updatePercentage();
-      //$addKeyWord(key, inputValue)
-      //  setInputValue(''); // Réinitialise le champ texte
+      document.querySelector(`[data-key="${index}"]`).value = "";
     }
   };
 
   const handleRemoveWord = (keyId, inputValue) => {
     $deleteKeyWord(keyId, inputValue);
     $updatePercentage();
-    
   };
 
   return (
@@ -42,18 +36,21 @@ export function AddWordsToTreeMap({ data }) {
       width="100%"
       maxHeight="300px"
       style={{ overflowY: "auto" }}
-      // align="center"
-      // justify="center"
     >
-      {data?.map((e) => (
-        <Flex px="4" gap="3" direction="column" width="100%">
-          <Text size="2" weight="bold">
-            Ajouter vos mots clés
-          </Text>
-
+      {data?.map((e, index) => (
+        <Flex
+          px="2"
+          pb="4"
+          gap="3"
+          direction="column"
+          width="100%"
+          style={{ borderBottom: "1px solid #eee" }}
+          key={index}
+        >
+          <Text weight="medium">{e.key}</Text>
           <Flex gap="2" direction="column">
-            <Text>Mots clés :</Text>
-            <Flex gap="4">
+            <Text size="2">Mots clés :</Text>
+            <Flex gap="1" style={{ flexWrap: "wrap" }}>
               {e.keywords.map((f) => (
                 <Badge color={e.color} key={f}>
                   <Flex direction="row" align="center" justify="center" gap="2">
@@ -69,22 +66,18 @@ export function AddWordsToTreeMap({ data }) {
           </Flex>
 
           <Flex gap="2" width="100%" direction="column">
-            <Text weight="medium">{e.key}</Text>
             <Flex width="100%" gap="2">
               <TextField.Root
                 variant="surface"
                 type="text"
                 style={{ width: "70%" }}
                 placeholder="Ajouter"
-                //value={inputValue}  // Liaison de l'input à l'état
+                data-key={index}
                 onChange={(e) => {
-                  console.log("e target", e.target.value);
-
                   inputRef.current = e.target.value;
-                }} // Mise à jour de l'état lors du changement de valeur
-                // onKeyPress={handleKeyPress}  // Détection de la touche Enter
+                }}
               />
-              <Button onClick={() => handleAddWord(e.key)}>
+              <Button onClick={() => handleAddWord(e.key, index)}>
                 <PlusIcon />
                 <Text>Ajouter</Text>
               </Button>

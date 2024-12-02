@@ -3,18 +3,20 @@ import { Flex, Box, Radio, Text } from "@radix-ui/themes";
 import "../assets/styles/action-plan.css";
 import { InfoCircledIcon } from "@radix-ui/react-icons";
 import InfoCircled from "./InfoCircled";
+import { $saeData, $setSaeData, $updateAxeAmelioration } from "@/store/Store";
+import { useStore } from "@nanostores/react";
 
-function TableActionPlan({ onChange }) {
-  const handleClick = (message) => {
-    console.log(message);
-  };
+const titles = [
+  "Peu de connaissance / Mise en pratique forte",
+  "Excellente connaissance / Mise en application forte",
+  "Peu de connaissance / Peu de mise en pratique",
+  "Excellente connaissance / Peu de mise en application",
+];
 
-  const handleFlexClick = (message, radioRef) => {
-    console.log(message);
-    if (radioRef && radioRef.current) {
-      radioRef.current.checked = true;
-    }
-  };
+const colors = ["yellow", "purple", "teal", "grey"];
+
+function TableActionPlan() {
+  const defaultValue = useStore($saeData)?.axeAmelioration;
 
   return (
     <>
@@ -62,32 +64,23 @@ function TableActionPlan({ onChange }) {
                 "Retravailler les bases",
                 "Oser",
               ].map((label, index) => {
-                const radioRef = React.createRef();
-                const colors = ["yellow", "purple", "teal", "grey"];
-                const titles = [
-                  "Peu de connaissance / Mise en pratique forte",
-                  "Excellente connaissance / Mise en application forte",
-                  "Peu de connaissance / Peu de mise en pratique",
-                  "Excellente connaissance / Peu de mise en application",
-                ];
                 return (
                   <Flex
-                    key={index}
+                    key={label}
                     direction="column"
                     justify="center"
                     className={`flex-item ${colors[index]}`}
-                    onClick={() => handleFlexClick(label, radioRef)}
+                    onClick={$updateAxeAmelioration.bind(null, label)}
                   >
                     <InfoCircled text={titles[index]} />
                     <Text weight="medium" size="4" className="flex-item-span">
                       {label}
                     </Text>
                     <Radio
-                      ref={radioRef}
                       className="flex-item-checkbox"
                       name="example"
                       value={label}
-                      defaultChecked={index === 0}
+                      defaultChecked={label === defaultValue}
                     />
                   </Flex>
                 );

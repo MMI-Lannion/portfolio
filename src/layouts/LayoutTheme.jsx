@@ -1,20 +1,25 @@
-import Themes from "./Themes";
-import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
-import { Box, Container, Separator, Flex } from "@radix-ui/themes";
-import { Dialog } from "@/components/Dialog";
-import { useStore } from "@nanostores/react";
-import { $openDialog } from "@/store/Store";
+import { Header } from "@/components/Header";
+import { Box, Flex } from "@radix-ui/themes";
+import Themes from "./Themes";
 
 export function LayoutTheme({ children }) {
   return (
     <Themes>
-      <Flex direction="column" justify="between">
+      <Flex direction="column" style={{ minHeight: "100vh" }}>
         <Box pb="2">
           <Header />
         </Box>
-        <Box m="4">{children}</Box>
-        <Box pb="2">
+        <Box
+          m="auto"
+          maxWidth={{ base: "100%", lg: "900px" }}
+          width="100%"
+          px={{ base: "4", md: "6" }}
+          flex="1"
+        >
+          {children}
+        </Box>
+        <Box mt="auto" pb="2">
           <Footer />
         </Box>
       </Flex>

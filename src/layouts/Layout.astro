@@ -8,6 +8,7 @@ interface Props {
 const { title } = Astro.props;
 
 import "@radix-ui/themes/styles.css";
+import "@reach/combobox/styles.css";
 import "./index.css";
 ---
 
@@ -19,8 +20,9 @@ import "./index.css";
     <meta name="viewport" content="width=device-width" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="generator" content={Astro.generator} />
-	<script src="https://cdn.plot.ly/plotly-2.35.2.min.js"></script>
+    <script src="https://cdn.plot.ly/plotly-2.35.2.min.js"></script>
     <title>{Astro.props.title}</title>
+    <!-- <ClientRouter /> -->
   </head>
   <body>
     <LayoutTheme client:load>

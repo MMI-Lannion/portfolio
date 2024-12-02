@@ -1,4 +1,9 @@
-import { $saesStatus } from "@/store/Store";
+import {
+  $loadUserSaeData,
+  $loadUserSaes,
+  $setSae,
+  $userSeas,
+} from "@/store/Store";
 import { useStore } from "@nanostores/react";
 import { ArrowRightIcon, CheckIcon, Cross2Icon } from "@radix-ui/react-icons";
 import {
@@ -11,17 +16,27 @@ import {
   Separator,
   Text,
 } from "@radix-ui/themes";
+import { useEffect, useState } from "react";
 import { PageHeading } from "./Typography";
+import { navigate } from "astro:transitions/client";
 
 export function Home() {
-  const saesStatus = useStore($saesStatus);
+  const userSeas = useStore($userSeas);
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    setTimeout(async () => {
+      await $loadUserSaes();
+    }, 0);
+  }, []);
+
   return (
     <>
-      <PageHeading title=" Mes SAEs" />
+      <PageHeading title="Mes SAEs" />
 
       <Flex gap="4" wrap="wrap" justify="center">
-        {saesStatus.but1.map((element) => (
-          <Flex>
+        {userSeas.map((element) => (
+          <Flex key={element.name}>
             <Card
               style={{
                 // minHeight: "200px",
@@ -69,7 +84,21 @@ export function Home() {
                   direction="column"
                 >
                   <Link href="/synthese">
-                    <Button size="3" variant="solid">
+                    <Button
+                      size="3"
+                      variant="solid"
+                      disabled={loading}
+                      onClick={async (e) => {
+                        e.preventDefault();
+                        setLoading(true);
+                        await $setSae(element.name);
+                        await $loadUserSaeData();
+                        setTimeout(() => {
+                          navigate("/synthese");
+                        }, 10);
+                        // window.location.href = "/synthese";
+                      }}
+                    >
                       <ArrowRightIcon />
                     </Button>
                   </Link>

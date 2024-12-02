@@ -7,14 +7,22 @@ import {
   RocketIcon,
   SunIcon,
 } from "@radix-ui/react-icons"; // Import the icon
-import { $theme, toggleTheme } from "@/store/Store";
+import {
+  $isLoggedIn,
+  $logout,
+  $theme,
+  $toggleTheme,
+  $user,
+} from "@/store/Store";
 import { useStore } from "@nanostores/react";
+import { navigate } from "astro:transitions/client";
 
 export function Header() {
   const theme = useStore($theme);
+  const isLoggedIn = useStore($isLoggedIn);
 
   return (
-    <Flex style={{ boxShadow: "var(--shadow-3)", height: 42 }}>
+    <Flex style={{ boxShadow: "var(--shadow-3)", height: 46, width: "100vw" }}>
       <Flex
         justify="between"
         align="center"
@@ -23,8 +31,7 @@ export function Header() {
         margin="0 auto"
         px="5"
       >
-        {/* Logo à gauche */}
-        <Flex width="200px" gap="6">
+        <Flex gap="6">
           <Link href="/">
             <RocketIcon height="22" width="22" />
           </Link>
@@ -36,35 +43,33 @@ export function Header() {
                 Tutoriel
               </Button>
             </Link>
-            <Link href="/dashboard" color="white">
-              <Button variant="ghost" size="4">
-                <DashboardIcon height="22" width="22" />
-                Dashboard
-              </Button>
-            </Link>
           </Flex>
         </Flex>
-        {/* Liens centraux */}
 
-        {/* Lien de connexion utilisateur à droite */}
-        <Flex
-          width="200px"
-          align="baseline"
-          justify="end"
-          direction="row"
-          gap="5"
-        >
-          {/* <Link href="/login">
+        <Flex justify="center" align="center" direction="row" gap="5">
+          <Link href="/dashboard" color="white">
+            <Button variant="ghost" size="4">
+              <DashboardIcon height="22" width="22" />
+              Dashboard
+            </Button>
+          </Link>
+
+          {isLoggedIn && (
             <Button
               variant="ghost"
               size="4"
-              style={{ display: "flex", alignItems: "center" }}
+              onClick={async () => {
+                await $logout();
+                navigate("/");
+                // window.location.href = "/";
+              }}
             >
-              <PersonIcon height="22" width="22" />
+              <PersonIcon />
+              Se deconnecter
             </Button>
-          </Link> */}
+          )}
 
-          <Button variant="ghost" size="4" onClick={toggleTheme}>
+          <Button variant="ghost" size="4" onClick={$toggleTheme}>
             {theme === "dark" ? (
               <SunIcon height="22" width="22" />
             ) : (

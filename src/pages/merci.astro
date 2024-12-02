@@ -1,0 +1,17 @@
+---
+import { ButtonPrev } from "@/components/ButtonNext";
+import { PageHeading, PageText } from "@/components/Typography";
+import { Flex } from "@radix-ui/themes";
+import Layout from "../layouts/Layout.astro";
+import { RocketIcon } from "@radix-ui/react-icons";
+---
+
+<Layout title="Merci">
+  <PageHeading title="C'est fait" badgeTitle="✅" badgeColor="green" />
+
+  <PageText>Merci d'avoir compléter la saisie</PageText>
+
+  <Flex justify="end" direction="row" m="3" gapX="3">
+    <ButtonPrev name="Page d'accueil" href="/" />
+  </Flex>
+</Layout>

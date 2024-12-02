@@ -66,7 +66,7 @@ export function Dialog({
       <StyledOverlay />
       <StyledContent
         style={{
-          maxWidth: 450,
+          maxWidth: 550,
         }}
       >
         <StyledTitle

@@ -1,23 +1,39 @@
-import { CheckIcon } from "@radix-ui/react-icons";
-import { Button } from "@radix-ui/themes";
-import { updateHardskills } from "@/actions/updateHardskills";
-import { $saeData } from "@/store/Store.js";
-import { useStore } from "@nanostores/react";
+import { $saveSaeData } from "@/store/Store.js";
+import { CheckIcon, ExclamationTriangleIcon } from "@radix-ui/react-icons";
+import { Button, Callout, Flex } from "@radix-ui/themes";
+import { useState } from "react";
+import { navigate } from "astro:transitions/client";
 
 export function ButtonValidate() {
-  const hardskills = useStore($saeData).hardskills;
-  const userId = useStore($saeData).userId;
-  const saeId = useStore($saeData).saeId;
-
-  const handleClick = () => {
-    console.log("click");
-    updateHardskills(userId, saeId, hardskills);
-  };
-
+  const [error, setError] = useState(false);
   return (
-    <Button color="indigo" size="4" variant="surface" onClick={handleClick}>
-      <CheckIcon />
-      Valider
-    </Button>
+    <Flex direction="column" gap="3">
+      {error && (
+        <Callout.Root color="red" role="alert">
+          <Callout.Icon>
+            <ExclamationTriangleIcon />
+          </Callout.Icon>
+          <Callout.Text>Erreur lors de l'enregistrement.</Callout.Text>
+        </Callout.Root>
+      )}
+
+      <Button
+        color="indigo"
+        size="4"
+        variant="surface"
+        onClick={async () => {
+          const result = $saveSaeData();
+          if (result) {
+            navigate("/merci");
+            // window.location.href = "/merci";
+          } else {
+            setError(true);
+          }
+        }}
+      >
+        <CheckIcon />
+        Valider
+      </Button>
+    </Flex>
   );
 }

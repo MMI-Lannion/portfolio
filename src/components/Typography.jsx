@@ -9,7 +9,9 @@ export function PageHeading({
   return (
     <Box mb="6">
       <Flex gap="1" align="center" mb="2">
-        <Heading size={{ initial: "6", md: "8" }}>{title}</Heading>
+        <Heading data-heading id={title} size={{ initial: "6", md: "8" }}>
+          {title}
+        </Heading>
         {badgeTitle && (
           <Badge size="3" color={badgeColor}>
             {badgeTitle}
@@ -26,7 +28,11 @@ export function PageHeading({
 }
 
 export function PageSubHeading({ title }) {
-  return <Heading size={{ initial: "4", md: "6" }}>{title}</Heading>;
+  return (
+    <Heading data-heading id={title} size={{ initial: "4", md: "6" }}>
+      {title}
+    </Heading>
+  );
 }
 
 export function PageText({ children }) {

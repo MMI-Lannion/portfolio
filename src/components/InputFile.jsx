@@ -1,88 +1,65 @@
-import { styled } from "@/lib/stitches";
+import styles from "./InputFile.module.css";
 import {
   CheckIcon,
   ExclamationTriangleIcon,
+  EyeOpenIcon,
+  TrashIcon,
   UploadIcon,
 } from "@radix-ui/react-icons";
-import {
-  Box,
-  Callout,
-  Button,
-  Flex,
-  Text,
-} from "@radix-ui/themes";
-import { useState } from "react";
-import { supabase } from '../lib/supabase.js';
-import { useStore } from '@nanostores/react';
-import { $saeData, $user } from '@/store/Store';
-import GetFile from '@components/GetFile.jsx';
+import { Box, Callout, Button, Flex, Text, Link } from "@radix-ui/themes";
+import { useEffect, useState } from "react";
+import { supabase } from "../lib/supabase.js";
+import { useStore } from "@nanostores/react";
+import { $sae, $user } from "@/store/Store";
 
-const FileInputContainer = styled(Box, {
-  display: "flex",
-  alignItems: "center",
-  padding: 12,
-  backgroundColor: "#f5f5f5",
-  borderRadius: 30,
-  border: "1px solid #eaeaea",
-  cursor: "pointer",
-  "&:hover": {
-    borderColor: "#005bb5",
-  },
-});
-
-const HiddenInput = styled("input", {
-  display: "none",
-  background: "red",
-});
-
-const Label = styled("label", {
-  display: "flex",
-  alignItems: "center",
-  cursor: "pointer",
-  gap: 3,
-  "&:hover": {
-    color: "#005bb5",
-  },
-});
+function removeSpecialCharacters(str) {
+  return str
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/[^a-zA-Z0-9\s]/g, "");
+}
 
 const InputFile = ({ onChange = null }) => {
   const [fileError, setFileError] = useState(false);
   const [uploadSuccess, setUploadSuccess] = useState(false);
   const [uploadError, setUploadError] = useState(false);
+  const [files, setFiles] = useState([]);
+  const saeId = useStore($sae);
+  const user = useStore($user);
+  const folder = `sae${removeSpecialCharacters(saeId)}_${user.username}_${
+    user.userId
+  }`;
 
-  // Get data from store
-  const userId = useStore($saeData).userId;
-  const saeId = useStore($saeData).saeId;
-  const username = useStore($user).username;
-
-  // Vérification de la taille du fichier
   const handleFileChange = (event) => {
-    const files = event.target.files;
+    const selectedFiles = Array.from(event.target.files);
     const maxSize = 5 * 1024 * 1024;
+    const validFiles = [];
     let hasError = false;
 
-    for (let i = 0; i < files.length; i++) {
-      if (files[i].size > maxSize) {
+    selectedFiles.forEach((file) => {
+      if (file.size > maxSize) {
         hasError = true;
-        event.target.value = "";
-        onChange?.([]);
-        break;
       } else {
-        onChange?.(files);
+        validFiles.push(file);
       }
-    }
+    });
+
     setFileError(hasError);
+    setFiles((prevFiles) => [...prevFiles, ...validFiles]);
+    event.target.value = "";
+  };
+
+  const handleRemoveFile = (index) => {
+    setFiles((prevFiles) => prevFiles.filter((_, i) => i !== index));
   };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    const files = event.target.fileInput.files;
 
-    // Upload de fichiers
     for (const file of files) {
-      const filePath = `sae${saeId}_${username}_${userId}/${Date.now()}_${file.name}`;
+      const filePath = `${folder}/${Date.now()}_${file.name}`;
       const { data, error } = await supabase.storage
-        .from('saeFiles')
+        .from("saeFiles")
         .upload(filePath, file);
 
       if (error) {
@@ -95,6 +72,9 @@ const InputFile = ({ onChange = null }) => {
         setUploadError(false);
       }
     }
+
+    if (onChange) onChange(folder);
+    setFiles([]);
   };
 
   return (
@@ -104,7 +84,9 @@ const InputFile = ({ onChange = null }) => {
           <Callout.Icon>
             <ExclamationTriangleIcon />
           </Callout.Icon>
-          <Callout.Text>Le fichier dépasse la limite de 5 Mo.</Callout.Text>
+          <Callout.Text>
+            Un ou plusieurs fichiers dépassent la limite de 5 Mo.
+          </Callout.Text>
         </Callout.Root>
       )}
       {uploadError && (
@@ -125,20 +107,24 @@ const InputFile = ({ onChange = null }) => {
       )}
       <form onSubmit={handleSubmit}>
         <Flex gap="3" align="center">
-          <FileInputContainer>
-            <Label htmlFor="fileInput">
+          <div className={styles.inputFile__fileInputContainer}>
+            <label htmlFor="fileInput" className={styles.inputFile__label}>
               <UploadIcon />
-              <Text>Ajouter un ou plusieurs fichiers</Text>
-            </Label>
-            <HiddenInput
+              <Text>
+                Ajouter un ou plusieurs fichiers : ({files?.length}{" "}
+                sélectionnés)
+              </Text>
+            </label>
+            <input
               id="fileInput"
               type="file"
               name="fileInput"
               accept="image/*, video/*, .pdf, .doc, .docx, .odt"
               multiple
+              className={styles.inputFile__hiddenInput}
               onChange={handleFileChange}
             />
-          </FileInputContainer>
+          </div>
 
           <Button type="submit" size="4">
             <CheckIcon />
@@ -147,8 +133,95 @@ const InputFile = ({ onChange = null }) => {
         </Flex>
       </form>
 
-      <GetFile />
+      {files.length > 0 && (
+        <ul className={styles.inputFile__fileList}>
+          {files.map((file, index) => (
+            <li key={index}>
+              <Text>{file.name}</Text>
+              <Button
+                size="2"
+                color="red"
+                onClick={() => handleRemoveFile(index)}
+                aria-label="Remove file"
+              >
+                <TrashIcon />
+              </Button>
+            </li>
+          ))}
+        </ul>
+      )}
 
+      <FileViewer folderPath={folder} />
+    </Flex>
+  );
+};
+
+const FileViewer = ({ folderPath }) => {
+  const [files, setFiles] = useState([]);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchFiles = async () => {
+      const bucket = "saeFiles";
+      const { data, error } = await supabase.storage
+        .from(bucket)
+        .list(folderPath);
+
+      if (error) {
+        console.error("Error fetching files:", error.message);
+        setError(error.message);
+      } else {
+        let allFiles = [];
+        for (const item of data) {
+          const encodedFileName = encodeURIComponent(item.name);
+          allFiles.push({
+            name: item.name,
+            publicURL: `https://studio.pinfig.com/storage/v1/object/public/${bucket}/${folderPath}/${encodedFileName}`,
+          });
+        }
+        setFiles(allFiles);
+      }
+    };
+
+    fetchFiles();
+  }, [folderPath]);
+
+  return (
+    <Flex direction="column" gap="3">
+      {error && (
+        <Callout.Root color="red" role="alert">
+          <Callout.Icon>
+            <ExclamationTriangleIcon />
+          </Callout.Icon>
+          <Callout.Text>
+            Erreur lors de la récupération des fichiers.
+          </Callout.Text>
+        </Callout.Root>
+      )}
+
+      {files.length > 0 ? (
+        <ul className={styles.inputFile__fileList}>
+          {files.map((file, index) => (
+            <li key={index}>
+              <Text>{file.name}</Text>
+              <Link
+                size="2"
+                color="blue"
+                href={file.publicURL}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={`View ${file.name}`}
+              >
+                <Button>
+                  <EyeOpenIcon />
+                </Button>
+              </Link>
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <Text>Aucun fichier trouvé</Text>
+      )}
     </Flex>
   );
 };

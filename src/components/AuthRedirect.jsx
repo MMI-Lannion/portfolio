@@ -5,7 +5,6 @@ import { Home } from "./Home";
 
 export function AuthRedirect() {
   const isLoggedIn = useStore($isLoggedIn);
-  console.log("isLoggedIn", isLoggedIn);
 
   return isLoggedIn ? <Home /> : <LoginForm />;
 }

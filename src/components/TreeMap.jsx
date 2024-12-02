@@ -1,39 +1,15 @@
 import PlotFigure from "@/PlotFigure";
 import * as Plot from "@observablehq/plot";
-import { Button, Flex, Text } from "@radix-ui/themes";
+import { Flex, Text } from "@radix-ui/themes";
 import * as d3 from "d3";
-import React, { useState, useEffect } from "react";
-// import "./tree-map.css";
-import { Sliders } from "./Sliders";
+import { useEffect, useLayoutEffect, useState } from "react";
+import { $saeData } from "@/store/Store";
+import { useStore } from "@nanostores/react";
 import { AddWordsToTreeMap } from "./AddWordsToTreeMap";
 import { Dialog } from "./Dialog";
-import { MixerHorizontalIcon } from "@radix-ui/react-icons";
-import { useStore } from "@nanostores/react";
-import {
-  $treemap,
-  $setInitialPourcentage,
-  $totalPourcentage,
-  competences
-} from "@/store/Store";
 
 export function TreeMap() {
-  //données store
-  const data = useStore($treemap);
-  //total pour vérifier si 100%
-  let total = $totalPourcentage();
-
-  //pourcentage en fonction du nombre de blocs de compétences
-  useEffect(() => {
-    $setInitialPourcentage();
-  }, []);
-
-  useEffect(() => {
-    const fetchCompetences = async () => {
-      await competences();
-    };
-  
-    fetchCompetences();
-  }, []);
+  const data = useStore($saeData)?.competences;
 
   // configuration du layout du treemap
   const createTreemapData = (data) => {
@@ -53,14 +29,16 @@ export function TreeMap() {
     return leaves;
   };
 
-  const treemapData = createTreemapData({ children: data });
+  const treemapData = createTreemapData({
+    children: data?.filter((d) => d.percentage > 0),
+  });
 
   //ouverture des popup
   const [openPourcentage, setOpenPourcentage] = useState(false);
   const [openKeyword, setOpenKeyword] = useState(false);
 
   //clic sur un rectangle
-  useEffect(() => {
+  useLayoutEffect(() => {
     const gtext = document.querySelector(".treemap-text-label");
     const grect = document.querySelector(".treemap-rect-label");
 
@@ -94,37 +72,38 @@ export function TreeMap() {
       // Récupérer les données du bloc correspondant au label cliqué
     };
 
-    gtext.addEventListener("click", handleLabelClick);
-    grect.addEventListener("click", handleLabelClick);
+    gtext?.addEventListener("click", handleLabelClick);
+    grect?.addEventListener("click", handleLabelClick);
 
     return () => {
-      gtext.removeEventListener("click", handleLabelClick);
-      grect.removeEventListener("click", handleLabelClick);
+      gtext?.removeEventListener("click", handleLabelClick);
+      grect?.removeEventListener("click", handleLabelClick);
     };
-  }, [treemapData]);
+  }, []);
 
   return (
     <>
       <Flex gap="5" direction="column">
         <Flex direction="row" justify="between">
           <Flex direction="column" gap="2">
-            <Text size="4">Saisir les mots clés pour définir chaque compétence</Text>
+            <Text size="4">
+              Saisir les mots clés pour définir chaque compétence
+            </Text>
             {/* Tooltip : Plus vous renseignez de mots clés pour définir une compétence, plus la compétence est conséquente visuellement. Le treemap fait référence aux 5 compétences du BUT d'après le PN: Comprendre/Concevoir/Exprimer/Développer/Entreprendre*/}
           </Flex>
           <Flex gap="3" align="center">
-            {/* popup pourcentages */}
-            <Dialog
+            {/* <Dialog
               open={openPourcentage}
               onCancel={() => {
                 setOpenPourcentage(false);
               }}
               title="Choix du pourcentage"
-              content={<AddWordsToTreeMap data={data}/>}
+              content={<AddWordsToTreeMap data={data} />}
             >
               <Button size="4" onClick={() => setOpenPourcentage(true)}>
                 <MixerHorizontalIcon />
               </Button>
-            </Dialog>
+            </Dialog> */}
 
             {/* popup mots cles */}
             <Dialog
@@ -132,8 +111,8 @@ export function TreeMap() {
               onCancel={() => {
                 setOpenKeyword(false);
               }}
-              title="Choix des mots clés"
-              content={<AddWordsToTreeMap data={data}/>}
+              title="Ajouter vos mots clés aux compétences"
+              content={<AddWordsToTreeMap data={data} />}
             ></Dialog>
           </Flex>
         </Flex>
@@ -155,15 +134,15 @@ export function TreeMap() {
                 fill: (d) => {
                   switch (d.data.key) {
                     case "Comprendre":
-                      return "red";
+                      return "#b20000";
                     case "Concevoir":
-                      return "orange";
-                    case "Produire":
-                      return "yellow";
+                      return "#ed7d31";
+                    case "Exprimer":
+                      return "#ffc000";
                     case "Développer":
-                      return "green";
+                      return "#a9d08e";
                     case "Entreprendre":
-                      return "blue";
+                      return "#2f75b5";
                     default:
                       return "grey";
                   }

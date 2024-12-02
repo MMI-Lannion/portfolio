@@ -1,0 +1,46 @@
+.comboboxContainer {
+  width: 100%;
+}
+
+.comboboxInput {
+  width: 100%;
+  height: 36px;
+  border-radius: 12px;
+  padding: 0 12px;
+  border: 1px solid #ccc;
+}
+
+.comboboxInput:focus {
+  border-color: #005bb5;
+  outline: none;
+}
+
+.comboboxOption {
+  cursor: pointer;
+  padding: 12px 8px;
+  margin: auto;
+  border-radius: 12px;
+  font-family: sans-serif;
+  color: black;
+}
+
+.comboboxOption:hover {
+  background-color: #f0f0f0;
+}
+
+.comboboxList {
+  list-style: none;
+  overflow-y: auto;
+  max-height: 300px;
+  padding: 0;
+  margin: 0;
+  border-radius: 4px;
+  background-color: white;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.comboboxPopover {
+  pointer-events: all;
+  border-radius: 4px;
+  padding: 4px;
+}

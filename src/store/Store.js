@@ -1,242 +1,284 @@
-import { getUser } from "@/actions/getUser";
 import { getCompetences } from "@/actions/getCompetences";
+import {
+  authenticateUser,
+  getSaesByUserId,
+  getUserSeaData,
+  saveUserSeaData,
+} from "@/actions/getSaesByUserId";
+import { persistentAtom } from "@nanostores/persistent";
 import { atom, computed } from "nanostores";
 
 export const $filterSea = atom("");
 export const $theme = atom("light");
-export const $user = atom({ username: "mmi1", but: "but1", valide: true });
-export const $openDialog = atom(true);
-export const $sae = atom("sae");
+export const $userSeas = atom([]);
 
-export const $but = computed($user, (user) => user?.but);
-export const $username = computed($user, (user) => user?.username);
-export const $isLoggedIn = computed($user, (user) => user?.valide);
+export const $user = persistentAtom(
+  "user",
+  {
+    // username: "mmi1",
+    // but: "BUT1",
+    // id: 1,
+    valide: false,
+  },
+  {
+    encode: JSON.stringify,
+    decode: JSON.parse,
+  }
+);
+export const $forceReload = persistentAtom("reload", false);
+export const $sae = persistentAtom("sae", "");
+export const $saeData = persistentAtom(
+  "saeData",
+  {
+    completed: false,
+    // page : synthèse
+    competences: [],
+    contexte: "",
+    demarche: "",
+    livrable: "",
+    fichiers: [],
+    // page : auto-evaluation
+    hardskills: [],
+    softskills: [],
+    outils: {},
+    // page : plan d'action
+    axeAmelioration: "",
+    competenceCle: "",
+    sousCompetences: [],
+    actions: "",
+  },
+  {
+    encode: JSON.stringify,
+    decode: JSON.parse,
+  }
+);
 
-export const $saeData = atom({
-  userId: 1,
-  saeId: 101,
-  completed: false,
-  competences: [
-    { key: "Comprendre", color: "red", percentage: 25, keywords: ["ahhhhh"] },
-    { key: "Concevoir", color: "orange", percentage: 25, keywords: ["er"] },
-    { key: "Produire", color: "yellow", percentage: 25, keywords: [] },
-    { key: "Développer", color: "green", percentage: 25, keywords: [] },
-    { key: "Entreprendre", color: "blue", percentage: 25, keywords: [] },
-  ],
-  contexte: "",
-  demarche: "",
-  livrable: "",
-  files: [],
-  hardskills: [
-    {
-      name: "Compétence 1",
-      label31: 0.1,
-      label32: 0.2,
-      label33: 0.3,
-      label34: 0.4,
-      label35: 0.5,
-      label36: 0.1,
-    },
-    {
-      name: "Compétence 2",
-      label31: 0.5,
-      label32: 0.4,
-      label33: 0.3,
-      label34: 0.2,
-      label35: 0.1,
-      label36: 0.5,
-    },
-  ],
-  softskills: ["49283701"],
-  ameliorations: {},
-  competenceCle: "",
-  sousCompetence: [
-    {
-      label1: "name",
-      checked: false,
-    },
-    {
-      label2: "name",
-      checked: false,
-    },
-    {
-      label3: "name",
-      checked: false,
-    },
-    {
-      label4: "name",
-      checked: false,
-    },
-  ],
-});
-
-export const $saes = atom({
-  but1: ["but1 1", "but1 2", "apple", "kiwi"],
-  but2: ["but2 1", "but2 2"],
-  but3: ["but3 1", "but3 2"],
-});
-
-export const $competencesCles = atom({
-  competence_cles: [
-    { name: "Premiere pro", checked: true },
-    { name: "Da Vinci Resolve", checked: false },
-    { name: "After Effects", checked: false },
-  ],
-  sous_competences: [
-    { name: "Ecriture", checked: false },
-    { name: "Tournage", checked: false },
-    { name: "Montage", checked: false },
-  ],
-});
-
-export const $saesStatus = atom({
-  but1: [
-    {
-      name: "SAE101",
-      description: "Audit de communication numérique",
-      completed: true,
-    },
-    {
-      name: "SAE102",
-      description: "Recommandation de communication numérique",
-      completed: true,
-    },
-    {
-      name: "SAE103",
-      description: "Produire les éléments d'une communication visuelle",
-      completed: false,
-    },
-    {
-      name: "SAE104",
-      description: "Production audio et vidéo",
-      completed: true,
-    },
-    {
-      name: "SAE105",
-      description: "Produire un site web",
-      completed: false,
-    },
-    {
-      name: "SAE106",
-      description:
-        "Gestion de projet pour une recommandation de communication numérique",
-      completed: true,
-    },
-  ],
-  but2: ["but2 1", "but2 2"],
-  but3: ["but3 1", "but3 2"],
-});
-
-export const $butSaes = computed([$saes, $filterSea], (saes) => {
-  const but = $but.get();
+export const $but = computed($user, (d) => d?.but);
+export const $username = computed($user, (d) => d?.username);
+export const $isLoggedIn = computed($user, (d) => d?.valide);
+export const $filterCompetence = computed($saeData, (d) => d?.competenceCle);
+export const $competencesCles = computed([$saeData, $filterSea], (saeData) => {
   const filter = $filterSea.get();
-  const butSaes = saes[but];
-  return butSaes.filter((e) => e.includes(filter));
+  const competencesCle = saeData.hardskills;
+  return competencesCle
+    .filter((e) => e.name?.toLowerCase().includes(filter.toLowerCase()))
+    .map((e) => e.name);
+});
+export const $sousCompetences = computed([$saeData], (saeData) => {
+  return saeData.hardskills?.find((e) => e.name === saeData.competenceCle)
+    ?.data;
 });
 
-export const toggleTheme = () => {
-  const theme = $theme.get();
-  $theme.set(theme === "light" ? "dark" : "light");
+export const $loadUserSaes = async () => {
+  const userId = $user.get().id;
+  const data = await getSaesByUserId(userId);
+  $userSeas.set(data);
+  $forceReload.set(true);
 };
 
-//données Treemap
-export const $treemap = atom([
-  { key: "Comprendre", color: "red", percentage: 25, keywords: ["ahhhhh"] },
-  { key: "Concevoir", color: "orange", percentage: 25, keywords: ["er"] },
-  { key: "Produire", color: "yellow", percentage: 25, keywords: [] },
-  { key: "Développer", color: "green", percentage: 25, keywords: [] },
-  { key: "Entreprendre", color: "blue", percentage: 25, keywords: [] },
-]);
-
-//mettre pourcentage en fonction du nombre de blocs de compétences
-export const $setInitialPourcentage = () => {
-  const totalSkills = $treemap.get().length;
-  const newPercentage = 100 / totalSkills;
-
-  $treemap.set(
-    $treemap.get().map((e) => ({
-      ...e,
-      percentage: newPercentage % 5 === 0 ? newPercentage : 30,
-    }))
-  );
+export const $setSae = async (saeName) => {
+  $sae.set(saeName);
 };
 
-//changer pourcentage en fonction du Slider
-export const $changeValueSlider = (key, value) => {
-  $treemap.set(
-    $treemap.get().map((e) => {
-      if (e.key === key) {
-        return { ...e, percentage: value };
-      } else {
-        return e;
-      }
-    })
-  );
+export const $loadUserSaeData = async () => {
+  if ($forceReload.get()) {
+    const data = await getUserSeaData($user.get().id, $sae.get());
+    $setSaeData(data);
+    $forceReload.set(false);
+    console.log("load data loadUserSaeData", $saeData.get());
+  }
 };
 
-//total pourcentage
-export const $totalPourcentage = () => {
-  let total = $treemap.get().reduce((acc, e) => {
-    return acc + Number(e.percentage);
-  }, 0);
-  return total;
-};
+export const $saveSaeData = async () => {
+  const {
+    competences,
+    contexte,
+    demarche,
+    livrable,
+    fichiers,
+    hardskills,
+    softskills,
+    outils,
+    actions,
+    axeAmelioration: axe_amelioration,
+    competenceCle: competence_cle,
+    sousCompetences: sous_competences,
+  } = $saeData.get();
 
-export const $addKeyWord = (key, keyword) => {
-  $treemap.set(
-    $treemap.get().map((e) => {
-      if (e.key === key && !e.keywords.includes(keyword)) {
-        return { ...e, keywords: [...e.keywords, keyword] };
-      } else {
-        return e;
-      }
-    })
-  );
-};
-
-export const $deleteKeyWord = (key, keyword) => {
-  $treemap.set(
-    $treemap.get().map((e) => {
-      if (e.key === key) {
-        return { ...e, keywords: e.keywords.filter((k) => k !== keyword) };
-      } else {
-        return e;
-      }
-    })
-  );
-};
-
-export const $updatePercentage = () => {
-  const treemapData = $treemap.get();
-  let globalLength = 0;
-  treemapData.forEach((child) => {
-    globalLength = globalLength + child.keywords.length;
+  const result = await saveUserSeaData({
+    id_sae: $sae.get(),
+    user_id: $user.get().id,
+    completed: true,
+    competences,
+    contexte,
+    demarche,
+    livrable,
+    fichiers,
+    hardskills,
+    softskills,
+    outils,
+    actions,
+    axe_amelioration,
+    competence_cle,
+    sous_competences,
   });
 
-  $treemap.set(
-    treemapData.map((e) => {
-      e.percentage = (e.keywords.length / globalLength) * 100;
-      return e;
-    })
-  );
+  if (result) {
+    $setSaeData({ completed: true });
+  }
+
+  return result;
 };
 
-export const setSaeData = (data) => {
+export const $setSaeData = (data) => {
   const previousData = $saeData.get();
   $saeData.set({ ...previousData, ...data });
 };
 
-export const setUser = (data) => {
+export const $toggleTheme = () => {
+  const theme = $theme.get();
+  $theme.set(theme === "light" ? "dark" : "light");
+};
+
+//mettre pourcentage en fonction du nombre de blocs de compétences
+export const $setInitialPourcentage = () => {
+  let treemapData = $saeData.get().competences;
+  const totalSkills = treemapData.length;
+
+  const newPercentage = 100 / totalSkills;
+
+  treemapData = treemapData.map((e) => ({
+    ...e,
+    percentage: newPercentage % 5 === 0 ? newPercentage : 30,
+  }));
+
+  $setSaeData({ competences: treemapData });
+};
+
+//changer pourcentage en fonction du Slider
+export const $changeValueSlider = (key, value) => {
+  let treemapData = $saeData.get().competences;
+
+  treemapData = treemapData.map((e) => {
+    if (e.key === key) {
+      return { ...e, percentage: value };
+    } else {
+      return e;
+    }
+  });
+
+  $setSaeData({ competences: treemapData });
+};
+
+//total pourcentage
+export const $totalPourcentage = () => {
+  const total = $saeData.get().competences.reduce((acc, e) => {
+    return acc + Number(e.percentage);
+  }, 0);
+
+  return total;
+};
+
+export const $addKeyWord = (key, keyword) => {
+  let treemapData = $saeData.get().competences;
+
+  treemapData = treemapData.map((e) => {
+    if (e.key === key && !e.keywords.includes(keyword)) {
+      return { ...e, keywords: [...e.keywords, keyword] };
+    } else {
+      return e;
+    }
+  });
+
+  $setSaeData({ competences: treemapData });
+};
+
+export const $deleteKeyWord = (key, keyword) => {
+  let treemapData = $saeData.get().competences;
+
+  treemapData = treemapData.map((e) => {
+    if (e.key === key) {
+      return { ...e, keywords: e.keywords.filter((k) => k !== keyword) };
+    } else {
+      return e;
+    }
+  });
+
+  $setSaeData({ competences: treemapData });
+};
+
+export const $updatePercentage = () => {
+  let treemapData = $saeData.get().competences;
+  let globalLength = 0;
+
+  treemapData.forEach((child) => {
+    globalLength = globalLength + child.keywords.length;
+  });
+
+  treemapData = treemapData.map((e) => {
+    e.percentage = (e.keywords.length / globalLength) * 100;
+    return e;
+  });
+
+  $setSaeData({ competences: treemapData });
+};
+
+export const $updateHardskills = ({ competence, label, value }) => {
+  const updatedHardSkills = $saeData.get().hardskills.map((comp) => {
+    if (comp.name === competence) {
+      return { ...comp, data: { ...comp.data, [label]: value } };
+    }
+    return comp;
+  });
+
+  console.log("updated hardskills", updatedHardSkills);
+
+  $setSaeData({ hardskills: updatedHardSkills });
+};
+
+export const $updateTools = ({ label, value }) => {
+  $setSaeData({ outils: { ...$saeData.get().outils, [label]: value } });
+};
+
+export const $updateCompetenceCle = (competenceName) => {
+  $setSaeData({ competenceCle: competenceName });
+};
+
+export const $updateSousCompetences = (value) => {
+  $setSaeData({ sousCompetences: value });
+};
+
+export const $updateAxeAmelioration = (value) => {
+  $setSaeData({ axeAmelioration: value });
+};
+
+export const $setUser = (data) => {
   $user.set({ ...$user.get(), ...data });
 };
 
-export const login = async () => {
-  const user = await getUser($user.get());
-  if (user?.username) {
-    $user.set({ ...user, valide: true });
+export const $login = async () => {
+  const { username, password, but } = $user.get();
+  const data = await authenticateUser({ username, password, but });
+
+  if (data?.identifiant) {
+    $user.set({
+      id: data.id,
+      firstname: data.prenom,
+      username,
+      // password,
+      but,
+      valide: true,
+    });
     return true;
   }
   return false;
+};
+
+export const $logout = async () => {
+  $user.set({
+    ...$user.get(),
+    valide: false,
+  });
 };
 
 export const competences = async () => {

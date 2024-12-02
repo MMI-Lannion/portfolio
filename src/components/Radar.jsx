@@ -1,19 +1,76 @@
 import PlotFigure from "@/PlotFigure";
 import * as Plot from "@observablehq/plot";
 import * as d3 from "d3";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
 
-import phones from "./phones.json";
 import { Box, Flex } from "@radix-ui/themes";
 import { Dialog } from "./Dialog";
 import LikertScale from "@/components/LikertScale";
 
-export function Radar({ datas = [] }) {
-  // console.log("datas", datas);
+function calculateYPosition(index, numAxes) {
+  if (index === 0 || (numAxes % 2 === 0 && index === numAxes / 2)) {
+    return 90 - 0.7;
+  }
 
-  const points = datas.flatMap(({ name, ...values }) =>
-    Object.entries(values).map(([key, value]) => ({ name, key, value }))
-  );
+  return 90 - 0.74;
+}
+
+function getLabelTextFromNode(element) {
+  let label = "";
+
+  if (element.hasChildNodes()) {
+    const children = element.childNodes;
+
+    for (const node of children) {
+      label += " " + node.textContent;
+    }
+  } else {
+    label = element.textContent;
+  }
+
+  return label.trim();
+}
+
+function splitTextIntoLines(text, wordsPerLine) {
+  const words = text.split(" ");
+  const lines = [];
+
+  // Split the text into lines based on the number of words per line
+  for (let i = 0; i < words.length; i += wordsPerLine) {
+    lines.push(words.slice(i, i + wordsPerLine).join(" "));
+  }
+
+  return lines;
+}
+
+function splitText(el, maxWordsPerLine = 3) {
+  const svg = d3.select(el);
+
+  svg.selectAll(".radar-el-label text").each(function () {
+    const text = d3.select(this);
+    const originalText = getLabelTextFromNode(this);
+
+    const lines = splitTextIntoLines(originalText, maxWordsPerLine);
+
+    text.text("");
+    lines.forEach((line, index) => {
+      text
+        .append("tspan")
+        .text(line)
+        .attr("x", 0)
+        .attr("dy", index === 0 ? "0em" : "1.1em");
+    });
+  });
+}
+
+export function Radar({ datas = [], onChange }) {
+  const points = datas.flatMap(({ name, ...values }) => {
+    return Object.entries(values).map(([key, value]) => ({
+      name,
+      key,
+      value: +value,
+    }));
+  });
 
   const longitude = d3
     .scalePoint(new Set(Plot.valueof(points, "key")), [180, -180])
@@ -24,6 +81,14 @@ export function Radar({ datas = [] }) {
   const [open, setOpen] = useState(false);
 
   const labelRef = useRef();
+
+  useLayoutEffect(() => {
+    if (!ref?.current) {
+      return;
+    }
+
+    splitText(ref.current);
+  }, [ref]);
 
   useEffect(() => {
     if (!ref?.current) {
@@ -40,20 +105,7 @@ export function Radar({ datas = [] }) {
         element = element.parentNode;
       }
 
-      let label = "";
-      if (element.hasChildNodes()) {
-        let children = element.childNodes;
-
-        for (const node of children) {
-          label += " " + node.textContent;
-        }
-      } else {
-        label = element.textContent;
-      }
-
-      console.log("handleLabelClick", label);
-
-      labelRef.current = label?.trim();
+      labelRef.current = getLabelTextFromNode(element);
 
       setOpen(true);
     };
@@ -72,24 +124,25 @@ export function Radar({ datas = [] }) {
         onCancel={() => {
           setOpen(false);
         }}
-        title={
-          <Flex gap="2">
-            <Box>{datas[0]?.name}</Box> - <Box>{labelRef.current}</Box>
-          </Flex>
-        }
+        title="Evaluer votre niveau de maitrise"
         content={
-          <LikertScale competence={datas[0]?.name} label={labelRef.current} />
+          <LikertScale
+            competence={datas[0]?.name}
+            label={labelRef.current}
+            value={points.find((d) => d.key === labelRef.current)?.value}
+            onChange={onChange}
+          />
         }
       />
 
       <PlotFigure
         options={{
-          width: 420,
+          width: 730,
           projection: {
             type: "azimuthal-equidistant",
             rotate: [0, -90],
             // Note: 0.625° corresponds to max. length (here, 0.5), plus enough room for the labels
-            domain: d3.geoCircle().center([0, 90]).radius(0.625)(),
+            domain: d3.geoCircle().center([0, 90]).radius(1)(),
           },
           color: { legend: false },
           marks: [
@@ -120,7 +173,7 @@ export function Radar({ datas = [] }) {
               y: (d) => 90 - d,
               dx: 2,
               textAnchor: "start",
-              text: (d) => `${100 * d}%`,
+              text: (d) => `${10 * d}`,
               fill: "currentColor",
               stroke: "white",
               fontSize: 8,
@@ -129,7 +182,7 @@ export function Radar({ datas = [] }) {
             // axes labels
             Plot.text(longitude.domain(), {
               x: longitude,
-              y: 90 - 0.57,
+              y: (_, i) => calculateYPosition(i, points.length),
               text: Plot.identity,
               lineWidth: 5,
               className: "radar-el-label",
@@ -155,19 +208,19 @@ export function Radar({ datas = [] }) {
             }),
 
             // interactive labels
-            Plot.text(
-              points,
-              Plot.pointer({
-                x: ({ key }) => longitude(key),
-                y: ({ value }) => 90 - value,
-                text: (d) => `${(100 * d.value).toFixed(0)}%`,
-                textAnchor: "start",
-                dx: 4,
-                fill: "currentColor",
-                stroke: "white",
-                maxRadius: 10,
-              })
-            ),
+            // Plot.text(
+            //   points,
+            //   Plot.pointer({
+            //     x: ({ key }) => longitude(key),
+            //     y: ({ value }) => 90 - value,
+            //     text: (d) => `${(100 * d.value).toFixed(0)}%`,
+            //     textAnchor: "start",
+            //     dx: 4,
+            //     fill: "currentColor",
+            //     stroke: "white",
+            //     maxRadius: 10,
+            //   })
+            // ),
 
             // interactive opacity on the areas
             //       () =>

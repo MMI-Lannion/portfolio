@@ -2,12 +2,12 @@ import * as Slider from "@radix-ui/react-slider";
 import { Flex, Text } from "@radix-ui/themes";
 // import "./tree-map.css";
 import { useStore } from "@nanostores/react";
-import { $treemap, $changeValueSlider, $totalPourcentage } from "@/store/Store";
+import { $changeValueSlider, $totalPourcentage, $saeData } from "@/store/Store";
 import React from "react";
 
 export function Sliders() {
   //données store
-  const data = useStore($treemap);
+  const data = useStore($saeData).competences;
 
   //total pour vérifier si 100%
   let total = $totalPourcentage();

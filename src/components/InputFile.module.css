@@ -1,0 +1,42 @@
+.inputFile__fileInputContainer {
+  display: flex;
+  align-items: center;
+  padding: 12px;
+  background-color: #f5f5f5;
+  border-radius: 30px;
+  border: 1px solid #eaeaea;
+  cursor: pointer;
+}
+.inputFile__fileInputContainer:hover {
+  border-color: #005bb5;
+}
+
+.inputFile__hiddenInput {
+  display: none;
+}
+
+.inputFile__label {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  gap: 3px;
+}
+.inputFile__label:hover {
+  color: #005bb5;
+}
+
+.inputFile__fileList {
+  margin-top: 16px;
+  list-style: none;
+  padding: 0;
+}
+.inputFile__fileList li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px;
+  border: 1px solid #eaeaea;
+  border-radius: 6px;
+  margin-bottom: 8px;
+  background-color: #f9f9f9;
+}

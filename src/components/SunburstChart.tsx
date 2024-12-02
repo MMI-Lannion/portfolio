@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from "react";
 import * as d3 from "d3";
 import data from "./flare-2.json";
-import { useStore } from '@nanostores/react';
-import { $saeData, setSoftskills } from "@/store/Store.js";
-
+import { useStore } from "@nanostores/react";
+import { $saeData, setSoftskills } from "@/store/Store";
 
 const SIZE = 520;
 const RADIUS = SIZE / 2;
@@ -19,14 +18,9 @@ export const SunburstChart = () => {
   // create an array for selected arcs
   const [selectedArc, setSelectedArc] = React.useState<string | null>(null);
 
-  const saeDataState = useStore($saeData);
-  const softskills = saeDataState.softskills;
-
+  const softskills = useStore($saeData).softskills;
 
   const [selectedKeywords, setSelectedKeywords] = React.useState<string[]>([]);
-
-
-
 
   useEffect(() => {
     console.log("selectedKeywords", selectedKeywords);
@@ -38,9 +32,10 @@ export const SunburstChart = () => {
       setSelectedKeywords(softskills);
     }
   }, []);
+
   console.log($saeData);
 
-  console.log('softskills = '+ saeDataState.softskills);
+  console.log("softskills = " + softskills);
 
   // const color = d3.scaleOrdinal(
   //   d3.quantize(d3.interpolateRainbow, data.children.length + 1)
@@ -205,9 +200,9 @@ export const SunburstChart = () => {
         if (!d.children) {
           // Use d.data.id instead of d.data.name
           d3.select(event.currentTarget).attr("fill", "pink");
-    
+
           setSelectedArc(d.data.id); // Use id here too
-    
+
           // Check if the id is already in the array
           setSelectedKeywords((prevSelectedKeywords) => {
             if (!prevSelectedKeywords.includes(d.data.id)) {
@@ -220,15 +215,12 @@ export const SunburstChart = () => {
               );
             }
           });
-        } 
+        }
         // supprimer le sunburst chart ET le tableau de mots-clés ET AFFCIHER LES COULEURS SELECTIONNEES SUR LE SUNBURST CHART QUI VA ETRE RECONSTRUIT
         d3.select(svgRef.current).selectAll("*").remove();
         // remove all hover elements
         d3.selectAll(".tooltip").remove();
-
-        
-
-    });
+      });
 
     // Make them clickable if they have children.
     path
@@ -260,11 +252,12 @@ export const SunburstChart = () => {
       .attr("transform", (d) => labelTransform(d.current))
       .each(function (d) {
         const text = d3.select(this);
-        const lines = d.data.name.split(" "); 
+        const lines = d.data.name.split(" ");
         lines.forEach((line, i) => {
-          text.append("tspan")
+          text
+            .append("tspan")
             .attr("x", 0)
-            .attr("dy", i === 0 ? "0em" : "0.8em")  // La première ligne est à 0, les suivantes à 1.2em
+            .attr("dy", i === 0 ? "0em" : "0.8em") // La première ligne est à 0, les suivantes à 1.2em
             .text(line);
         });
       });

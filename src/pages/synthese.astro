@@ -1,31 +1,31 @@
 ---
-import { Combobox } from "@components/Combobox";
 import { ButtonNext, ButtonPrev } from "@/components/ButtonNext";
-import Layout from "../layouts/Layout.astro";
-import {
-  Link,
-  Heading,
-  Box,
-  Flex,
-  Separator,
-  Badge,
-  Text,
-} from "@radix-ui/themes";
 import EditableTextArea from "@/components/EditableTextArea";
-import { TreeMap } from "@/components/TreeMap";
-import InputFile from "@/components/InputFile";
-import { PageHeading, PageSubHeading, PageText } from "@/components/Typography";
-import { file } from "astro/loaders";
 import SyntheseFiles from "@/components/SyntheseFiles";
+import { TreeMap } from "@/components/TreeMap";
+import { PageHeading, PageSubHeading, PageText } from "@/components/Typography";
+import { Flex, Separator } from "@radix-ui/themes";
+import Layout from "../layouts/Layout.astro";
+import { QuickNav } from "@/components/QuickNav";
 ---
 
 <Layout title="Synthèse SAE">
+  <QuickNav client:load />
+
   <PageHeading title="Synthèse" badgeTitle="Etape 1" badgeColor="pink" />
 
-  <Flex direction="column" gap="5" align="center" width="100%" mb="6">
+  <Flex
+    id="treemap"
+    direction="column"
+    gap="5"
+    align="center"
+    width="100%"
+    mb="6"
+  >
     <Flex direction="column" gap="2">
       <PageSubHeading title="Compétences" />
-      <TreeMap client:load />
+
+      <TreeMap client:only />
     </Flex>
 
     <Separator style={{ width: "30%" }} />
@@ -35,7 +35,7 @@ import SyntheseFiles from "@/components/SyntheseFiles";
 
       <EditableTextArea
         placeholder={"Expliquer en quelques lignes : le contexte du projet, de l'entreprise, ses valeurs, ses enjeux. Formuler l'objectif de la SAE, ce qui vous est demandé"}
-        key="contexte"
+        dataKey="contexte"
         client:load
       />
     </Flex>
@@ -47,7 +47,7 @@ import SyntheseFiles from "@/components/SyntheseFiles";
 
       <EditableTextArea
         placeholder={"Expliquer en quelques lignes votre démarche projet ainsi quel es étapes/actions que vous avez mis en place pour réaliser les livrables"}
-        key="demarche"
+        dataKey="demarche"
         client:load
       />
     </Flex>
@@ -59,7 +59,7 @@ import SyntheseFiles from "@/components/SyntheseFiles";
 
       <EditableTextArea
         placeholder={"Nommer les livrables réalisés"}
-        key="livrable"
+        dataKey="livrable"
         client:load
       />
     </Flex>
