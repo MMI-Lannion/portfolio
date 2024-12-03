@@ -1,7 +1,11 @@
 import React from "react";
-import { Flex, Box, Radio, Text } from "@radix-ui/themes";
+import { Flex, Box, Radio, Text, Em } from "@radix-ui/themes";
 import "../assets/styles/action-plan.css";
-import { InfoCircledIcon } from "@radix-ui/react-icons";
+import {
+  InfoCircledIcon,
+  ArrowLeftIcon,
+  ArrowRightIcon,
+} from "@radix-ui/react-icons";
 import InfoCircled from "./InfoCircled";
 import { $saeData, $setSaeData, $updateAxeAmelioration } from "@/store/Store";
 import { useStore } from "@nanostores/react";
@@ -11,6 +15,43 @@ const titles = [
   "Excellente connaissance / Mise en application forte",
   "Peu de connaissance / Peu de mise en pratique",
   "Excellente connaissance / Peu de mise en application",
+];
+
+const commentaites = [
+  // appliquer le savoir
+  `
+  « Je révise mon savoir pour le mettre en application »
+<br />
+> Je relis mes cours, réalise des fiches-notes.
+> J’utilise les connaissances, méthodes et outils de mes cours pour proposer des solutions professionnelles (complètes et adaptées au contexte).
+> Je suis force de proposition sur des démarches à mettre en place (méthodologie/outils, nombre de propositions…).
+  `,
+  // se perfectionner
+  `
+  « J’y suis arrivé … Je continue dans cette lancée ! »
+  <br />
+> Je suis exigeant, j’approfondis.
+> J’aide les autres à monter en compétences.
+  `,
+  // appliquer
+  `
+« Je ne lâche rien, je m’accroche »
+<br />
+> Identifier mes points bloquants (les causes)
+> Identifier mes leviers de motivation
+> Identifier un plan de progression
+> Identifier les personnes « ressources » (qui vont m’aider à progresser)
+> Organiser et proposer des points réguliers avec l’enseignant tuteur par rapport à mon plan de progression.
+`,
+  // oser
+  `
+« Je sais et c’est le moment de mettre en application »
+<br />
+> Définir un plan de développement
+> Saisir les opportunités pour mettre en pratique (au sein d’un projet, d’une association, de l’IUT)
+> Organiser et proposer des points réguliers avec l’enseignant tuteur par rapport à mon plan de progression.
+
+`,
 ];
 
 const colors = ["yellow", "purple", "teal", "grey"];
@@ -37,15 +78,25 @@ function TableActionPlan() {
             gap: "5px",
             textAlign: "center",
             textOrientation: "mixed",
-            writingMode: "vertical-lr",
+            // writingMode: "vertical-lr",
             width: "fit-content",
           }}
         >
-          <span style={{ transform: "rotate(180deg)" }}>Savoir faire</span>
+          <Flex direction="column">
+            <Text weight="bold">Savoir faire</Text>
+            <Text>
+              <Em>
+                Ce que je mets <br /> en application{" "}
+              </Em>
+            </Text>
+          </Flex>
           <InfoCircled text="Ce que je mets en application" />
         </div>
         <div>
           <Flex direction="column" gap="2">
+            <ArrowRightIcon
+              style={{ transform: "rotate(-90deg) translate(-18px, -7px)" }}
+            />
             <Box
               style={{
                 display: "grid",
@@ -69,10 +120,12 @@ function TableActionPlan() {
                     key={label}
                     direction="column"
                     justify="center"
+                    gap="2"
                     className={`flex-item ${colors[index]}`}
                     onClick={$updateAxeAmelioration.bind(null, label)}
                   >
-                    <InfoCircled text={titles[index]} />
+                    <InfoCircled text={commentaites[index]} />
+                    <Text style={{ color: "#fff" }}>{titles[index]}</Text>
                     <Text weight="medium" size="4" className="flex-item-span">
                       {label}
                     </Text>
@@ -86,6 +139,12 @@ function TableActionPlan() {
                 );
               })}
             </Box>
+            <ArrowRightIcon
+              style={{
+                marginLeft: "auto",
+                transform: "translate(7px, -17px)",
+              }}
+            />
           </Flex>
         </div>
         <div id="empty"></div>
@@ -99,7 +158,12 @@ function TableActionPlan() {
             textAlign: "center",
           }}
         >
-          <span>Savoir</span>
+          <Flex direction="column">
+            <Text weight="bold">Savoir</Text>
+            <Text>
+              <Em>Ce que je connais </Em>
+            </Text>
+          </Flex>
           <InfoCircled text="Ce que je connais" />
         </div>
       </div>

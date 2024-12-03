@@ -22,8 +22,10 @@ import { QuickNav } from "@/components/QuickNav";
     width="100%"
     mb="6"
   >
-    <Flex direction="column" gap="2">
-      <PageSubHeading title="Compétences" />
+    <Flex direction="column" gap="4">
+      <PageText>Je rédige une fiche de synthèse du projet</PageText>
+
+      <PageSubHeading title="Treemap" />
 
       <TreeMap client:only />
     </Flex>
@@ -34,7 +36,7 @@ import { QuickNav } from "@/components/QuickNav";
       <PageSubHeading title="Contexte et Objectifs" />
 
       <EditableTextArea
-        placeholder={"Expliquer en quelques lignes : le contexte du projet, de l'entreprise, ses valeurs, ses enjeux. Formuler l'objectif de la SAE, ce qui vous est demandé"}
+        placeholder="Expliquer en quelques lignes : le contexte du projet, de l'entreprise, ses valeurs, ses enjeux. Formuler l'objectif de la SAE, ce qui vous est demandé"
         dataKey="contexte"
         client:load
       />
@@ -70,8 +72,9 @@ import { QuickNav } from "@/components/QuickNav";
       <PageSubHeading title="Pièces Jointes" />
 
       <PageText>
-        Indiquer une preuve (ou plusieurs) de vos réalisations (jpeg, pdf,
-        video, doc, docx, odt)
+        Importer une ou plusieurs « traces » de vos réalisations (jpeg, png,
+        pdf, mp4, doc). Ne pas dépasser « indiquer la valeur maximum pour le
+        téléchargement »
       </PageText>
 
       <SyntheseFiles client:load />
@@ -81,7 +84,7 @@ import { QuickNav } from "@/components/QuickNav";
   </Flex>
 
   <Flex justify="end" direction="row" m="3" gapX="3">
-    <ButtonPrev name="Précendent" href="/" />
+    <ButtonPrev name="Précédent" href="/" />
     <ButtonNext name="Suivant" href="/auto-evaluation" />
   </Flex>
 </Layout>

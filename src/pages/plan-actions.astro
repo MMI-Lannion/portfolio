@@ -14,7 +14,7 @@ import { QuickNav } from "@/components/QuickNav";
 <Layout title="Plan d'actions">
   <QuickNav client:load />
 
-  <PageHeading title="Plan d'Actions" badgeTitle="Etape 3" badgeColor="green" />
+  <PageHeading title="Plan d'actions" badgeTitle="Etape 3" badgeColor="green" />
 
   <PageText
     >Je mets en place un plan d'actions pour progresser sur mes hardskills</PageText
@@ -22,10 +22,10 @@ import { QuickNav } from "@/components/QuickNav";
 
   <Flex direction="column" gap="5" width="100%" mb="6" mt="6">
     <Flex direction="column" gap="2" width="100%">
-      <PageSubHeading title="Compétence clé" />
+      <PageSubHeading title="Hardskills" />
 
       <Text size="3">
-        Identifier une compétence clé sur lequel vous souhaitez vous améliorer
+        Sélectionner la compétence que vous souhaitez améliorer
       </Text>
 
       <Combobox client:load />
@@ -37,8 +37,8 @@ import { QuickNav } from "@/components/QuickNav";
       <PageSubHeading title="Mes axes d'améliorations" />
 
       <PageText>
-        Selectionnez un cadran sur lequel vous affectez la compétence choisie
-        précedemment
+        Selon votre compétence à améliorer, cliquez sur un des quatre cadrans de
+        progression
       </PageText>
 
       <TableActionPlan client:load />
@@ -60,7 +60,7 @@ import { QuickNav } from "@/components/QuickNav";
       <PageSubHeading title="Actions à mener" />
 
       <EditableTextArea
-        placeholder={"Présentez votre projet en quelques phrases"}
+        placeholder="Décrire le ou les actions SMART à mettre en place"
         dataKey="actions"
         client:load
       />
@@ -68,7 +68,7 @@ import { QuickNav } from "@/components/QuickNav";
   </Flex>
 
   <Flex justify="end" align="end" direction="row" m="3" gapX="3">
-    <ButtonPrev name="Précendent" href="/auto-evaluation" />
+    <ButtonPrev name="Précédent" href="/auto-evaluation" />
     <ButtonValidate client:load />
   </Flex>
 </Layout>

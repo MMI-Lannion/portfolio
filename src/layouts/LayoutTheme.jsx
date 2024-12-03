@@ -12,7 +12,7 @@ export function LayoutTheme({ children }) {
         </Box>
         <Box
           m="auto"
-          maxWidth={{ base: "100%", lg: "900px" }}
+          maxWidth={{ base: "100%", lg: "850px" }}
           width="100%"
           px={{ base: "4", md: "6" }}
           flex="1"

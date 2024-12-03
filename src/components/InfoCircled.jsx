@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { InfoCircledIcon } from "@radix-ui/react-icons";
 import * as Tooltip from "@radix-ui/react-tooltip";
+import { Box } from "@radix-ui/themes";
 
 function InfoCircled({ text }) {
   const [open, setOpen] = useState(false);
@@ -22,9 +23,14 @@ function InfoCircled({ text }) {
               backgroundColor: "white",
               padding: "10px",
               borderRadius: "5px",
+              maxWidth: 300,
             }}
           >
-            {text}
+            <Box
+              dangerouslySetInnerHTML={{
+                __html: text,
+              }}
+            ></Box>
             <Tooltip.Arrow />
           </Tooltip.Content>
         </Tooltip.Portal>

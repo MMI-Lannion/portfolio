@@ -5,7 +5,12 @@ import {
   $userSeas,
 } from "@/store/Store";
 import { useStore } from "@nanostores/react";
-import { ArrowRightIcon, CheckIcon, Cross2Icon } from "@radix-ui/react-icons";
+import {
+  ArrowRightIcon,
+  ChatBubbleIcon,
+  CheckIcon,
+  Cross2Icon,
+} from "@radix-ui/react-icons";
 import {
   Badge,
   Button,
@@ -100,6 +105,27 @@ export function Home() {
                       }}
                     >
                       <ArrowRightIcon />
+                    </Button>
+                  </Link>
+
+                  <Link href="/synthese">
+                    <Button
+                      size="3"
+                      variant="solid"
+                      color="indigo"
+                      disabled={loading}
+                      onClick={async (e) => {
+                        e.preventDefault();
+                        setLoading(true);
+                        // await $setSae(element.name);
+                        // await $loadUserSaeData();
+                        setTimeout(() => {
+                          navigate("/feedback");
+                        }, 10);
+                        // window.location.href = "/synthese";
+                      }}
+                    >
+                      <ChatBubbleIcon />
                     </Button>
                   </Link>
                 </Flex>

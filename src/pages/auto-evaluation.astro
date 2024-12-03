@@ -11,22 +11,29 @@ import Layout from "../layouts/Layout.astro";
 import { QuickNav } from "@/components/QuickNav";
 ---
 
-<Layout title="Auto Evaluation">
+<Layout title="Auto-évaluation">
   <QuickNav client:load />
 
   <PageHeading
-    title="Auto Evaluation"
+    title="Auto-évaluation"
     badgeTitle="Etape 2"
     badgeColor="purple"
   />
 
   <Flex direction="column" gap="5" align="center" width="100%" mb="6">
-    <Flex direction="column" gap="2">
+    <Flex direction="column" gap="4">
+      <PageText
+        >Je m’auto-évalue sur les hardskills, softksills ainsi que sur les
+        outils et méthodes utilisés en projet</PageText
+      >
       <PageSubHeading title="Hardskills" />
 
       <PageText>
-        Estimez votre niveau de maitrise pour chaque sous compétence sur une
-        échelle de 1 à 5 (1 = Pas du tout maitrisé ; 5 = Tout à fait maitrisé)
+        Estimez votre niveau de maitrise de chaque sous compétence, dans chaque
+        onglets, sur une échelle de 1 à 5<br />
+
+        <strong>1</strong> = Pas du tout maitrisé ; <strong>5</strong> = Tout à fait
+        maitrisé
       </PageText>
 
       <HardskillsRadar client:only />
@@ -38,8 +45,8 @@ import { QuickNav } from "@/components/QuickNav";
       <PageSubHeading title="Softskills" />
 
       <PageText>
-        Identifiez le ou les softskills que vous avez utilisé lors de votre SAE
-        ou de votre projet en ressource
+        Parcourir et sélectionner le ou les softskill(s) que vous avez
+        utilisé(s), directement sur le dernier niveau du graphique
       </PageText>
 
       <SoftskillsSunburst client:only />
@@ -51,8 +58,10 @@ import { QuickNav } from "@/components/QuickNav";
       <PageSubHeading title="Outils et méthodes" />
 
       <PageText>
-        Estimer votre niveau de maitrise pour chaque outil et méthode sur une
-        échelle de 1 à 5 (1 = Pas du tout maitrisé ; 5 = Tout à fait maitrisé)
+        Estimez votre niveau de maitrise pour chaque outil et/ou méthode sur une
+        échelle de 1 à 5 <br />
+        <strong>1</strong> = Pas du tout maitrisé ; <strong>5</strong> = Tout à fait
+        maitrisé
       </PageText>
 
       <ToolsRadar client:only />
@@ -65,7 +74,7 @@ import { QuickNav } from "@/components/QuickNav";
   <!-- <LikertScaleEmoji name="test" /> -->
 
   <Flex justify="end" direction="row" m="3" gapX="3">
-    <ButtonPrev name="Précendent" href="/synthese" />
+    <ButtonPrev name="Précédent" href="/synthese" />
     <ButtonNext name="Suivant" href="/plan-actions" />
   </Flex>
 </Layout>

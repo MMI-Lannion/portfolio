@@ -28,11 +28,11 @@ export function Footer() {
         </Flex>
         <Flex width="200px" justify="end">
           <Link
-            href="#"
+            href="/mentions-legales"
             color="white"
             style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}
           >
-            <Text>Données et vie privée</Text>
+            <Text>Mentions légales</Text>
           </Link>
         </Flex>
       </Flex>

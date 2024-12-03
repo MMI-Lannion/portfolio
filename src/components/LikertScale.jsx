@@ -25,31 +25,31 @@ function LikertScale({ competence, label, value, onChange }) {
         <Flex direction="column" align="center">
           <Box>😲</Box>
           <Text as="label" size="2" align="center">
-            Pas du tout maitrisé
+            1 - Pas du tout maitrisé
           </Text>
         </Flex>
         <Flex direction="column" align="center">
           <Box>🤔</Box>
           <Text as="label" size="2" align="center">
-            Un peu maitrisé
+            2 - Un peu maitrisé
           </Text>
         </Flex>
         <Flex direction="column" align="center">
           <Box>😊</Box>
           <Text as="label" size="2" align="center">
-            Moyennement maitrisé
+            3 - Moyennement maitrisé
           </Text>
         </Flex>
         <Flex direction="column" align="center">
           <Box>😁</Box>
           <Text as="label" size="2" align="center">
-            Plutôt maitrisé
+            4 - Plutôt maitrisé
           </Text>
         </Flex>
         <Flex direction="column" align="center">
           <Box>🤩</Box>
           <Text as="label" size="2" align="center">
-            Tout à fait maitrisé
+            5 - Tout à fait maitrisé
           </Text>
         </Flex>
       </Grid>

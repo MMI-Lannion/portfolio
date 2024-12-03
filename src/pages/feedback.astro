@@ -1,0 +1,15 @@
+---
+import { PageHeading } from "@/components/Typography";
+import Layout from "../layouts/Layout.astro";
+import EditableTextArea from "@/components/EditableTextArea";
+---
+
+<Layout title="Feedback">
+  <PageHeading title="Feedback" />
+
+  <EditableTextArea
+    placeholder={"Donner un feedback à l'étudiant.e"}
+    dataKey="feedback"
+    client:load
+  />
+</Layout>
