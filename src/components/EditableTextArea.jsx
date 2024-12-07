@@ -1,19 +1,19 @@
-import TextArea from "@/components/TextAreaComponent";
-import { $saeData, $setSaeData } from "@/store/Store";
-import { useStore } from "@nanostores/react";
-import { useEffect, useState } from "react";
+import TextArea from '@/components/TextAreaComponent'
+import { $saeData, $setSaeData } from '@/store/Store'
+import { useStore } from '@nanostores/react'
+import { useEffect, useState } from 'react'
 
 export default function EditableTextArea({ dataKey, ...rest }) {
-  const saeData = useStore($saeData);
+  const saeData = useStore($saeData)
 
-  const [value, setValue] = useState("");
+  const [value, setValue] = useState('')
 
   useEffect(() => {
-    const val = saeData?.[dataKey];
+    const val = saeData?.[dataKey]
     // if (val) {
-    setValue(val);
+    setValue(val)
     // }
-  }, [saeData, dataKey]);
+  }, [saeData, dataKey])
 
   return (
     <>
@@ -21,9 +21,9 @@ export default function EditableTextArea({ dataKey, ...rest }) {
         {...rest}
         value={value}
         onChange={(v) => {
-          $setSaeData({ [dataKey]: v });
+          $setSaeData({ [dataKey]: v })
         }}
       />
     </>
-  );
+  )
 }

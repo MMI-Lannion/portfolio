@@ -1,6 +1,6 @@
-import { atom, map } from "nanostores";
+import { atom, map } from 'nanostores'
 
-export const isCartOpen = atom(false);
+export const isCartOpen = atom(false)
 
 /**
  * @typedef {Object} CartItem
@@ -11,19 +11,16 @@ export const isCartOpen = atom(false);
  */
 
 /** @type {import('nanostores').MapStore<Record<string, CartItem>>} */
-export const cartItems = map({});
+export const cartItems = map({})
 
 export function addCartItem({ id, name, imageSrc }) {
-  const existingEntry = cartItems.get()[id];
+  const existingEntry = cartItems.get()[id]
   if (existingEntry) {
     cartItems.setKey(id, {
       ...existingEntry,
       quantity: existingEntry.quantity + 1,
     })
   } else {
-    cartItems.setKey(
-      id,
-      { id, name, imageSrc, quantity: 1 }
-    );
+    cartItems.setKey(id, { id, name, imageSrc, quantity: 1 })
   }
 }

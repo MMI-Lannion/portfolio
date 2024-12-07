@@ -1,4 +1,4 @@
-import { supabase } from "@/lib/supabase";
+import { supabase } from '@/lib/supabase'
 
 export async function getCompetences({ id }) {
   // const { data, error } = await supabase
@@ -13,5 +13,5 @@ export async function getCompetences({ id }) {
   // }
   // console.log("compétence récupérée", id);
 
-  return null;
+  return null
 }

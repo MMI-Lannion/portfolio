@@ -1,13 +1,8 @@
-import React from 'react';
-import * as Plot from "@observablehq/plot";
+import React from 'react'
+import * as Plot from '@observablehq/plot'
 
 const Radar = () => {
-  return (
-    
-    <div>
-      
-    </div>
-  );
-};
+  return <div></div>
+}
 
-export default Radar;
+export default Radar

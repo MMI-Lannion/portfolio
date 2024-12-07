@@ -1,41 +1,41 @@
-import React, { useEffect, useState } from "react";
-import * as d3 from "d3";
-import data from "./flare-2.json";
-import { useStore } from "@nanostores/react";
-import { $saeData, setSoftskills } from "@/store/Store";
+import React, { useEffect, useState } from 'react'
+import * as d3 from 'd3'
+import data from './flare-2.json'
+import { useStore } from '@nanostores/react'
+import { $saeData, setSoftskills } from '@/store/Store'
 
-const SIZE = 520;
-const RADIUS = SIZE / 2;
+const SIZE = 520
+const RADIUS = SIZE / 2
 
 interface Data {
-  name: string;
-  value?: number;
+  name: string
+  value?: number
 }
 
 export const SunburstChart = () => {
-  const svgRef = React.useRef<SVGSVGElement>(null);
-  const [viewBox, setViewBox] = React.useState("0 -700 300 1300");
+  const svgRef = React.useRef<SVGSVGElement>(null)
+  const [viewBox, setViewBox] = React.useState('0 -700 300 1300')
   // create an array for selected arcs
-  const [selectedArc, setSelectedArc] = React.useState<string | null>(null);
+  const [selectedArc, setSelectedArc] = React.useState<string | null>(null)
 
-  const softskills = useStore($saeData).softskills;
+  const softskills = useStore($saeData).softskills
 
-  const [selectedKeywords, setSelectedKeywords] = React.useState<string[]>([]);
+  const [selectedKeywords, setSelectedKeywords] = React.useState<string[]>([])
 
   useEffect(() => {
-    console.log("selectedKeywords", selectedKeywords);
-    setSoftskills(selectedKeywords);
-  }, [svgRef, selectedArc, selectedKeywords]);
+    console.log('selectedKeywords', selectedKeywords)
+    setSoftskills(selectedKeywords)
+  }, [svgRef, selectedArc, selectedKeywords])
 
   useState(() => {
     if (softskills && Array.isArray(softskills)) {
-      setSelectedKeywords(softskills);
+      setSelectedKeywords(softskills)
     }
-  }, []);
+  }, [])
 
-  console.log($saeData);
+  console.log($saeData)
 
-  console.log("softskills = " + softskills);
+  console.log('softskills = ' + softskills)
 
   // const color = d3.scaleOrdinal(
   //   d3.quantize(d3.interpolateRainbow, data.children.length + 1)
@@ -132,28 +132,26 @@ export const SunburstChart = () => {
 
   useEffect(() => {
     if (!svgRef.current) {
-      return;
+      return
     }
 
     // Specify the chart’s dimensions.
-    const width = SIZE;
-    const height = SIZE;
-    const radius = width / 6;
+    const width = SIZE
+    const height = SIZE
+    const radius = width / 6
 
     // Create the color scale.
     const color = d3.scaleOrdinal(
-      d3.quantize(d3.interpolateRainbow, data.children.length + 1)
-    );
+      d3.quantize(d3.interpolateRainbow, data.children.length + 1),
+    )
 
     // Compute the layout.
     const hierarchy = d3
       .hierarchy(data)
       .sum((d) => d.value)
-      .sort((a, b) => b.value - a.value);
-    const root = d3.partition().size([2 * Math.PI, hierarchy.height + 1])(
-      hierarchy
-    );
-    root.each((d) => (d.current = d));
+      .sort((a, b) => b.value - a.value)
+    const root = d3.partition().size([2 * Math.PI, hierarchy.height + 1])(hierarchy)
+    root.each((d) => (d.current = d))
 
     // modifier le style des titres
 
@@ -165,207 +163,200 @@ export const SunburstChart = () => {
       .padAngle((d) => Math.min((d.x1 - d.x0) / 2, 0.005))
       .padRadius(radius * 1.5)
       .innerRadius((d) => d.y0 * radius)
-      .outerRadius((d) => Math.max(d.y0 * radius, d.y1 * radius - 1));
+      .outerRadius((d) => Math.max(d.y0 * radius, d.y1 * radius - 1))
 
     // Create the SVG container.
     // const svg = d3.create("svg")
     //     .attr("viewBox", [-width / 2, -height / 2, width, width])
     //     .style("font", "10px sans-serif");
 
-    const svg = d3.select(svgRef.current);
+    const svg = d3.select(svgRef.current)
 
     svg
-      .attr("viewBox", [-width / 2, -height / 2, width, width])
-      .style("font", "13px sans-serif");
+      .attr('viewBox', [-width / 2, -height / 2, width, width])
+      .style('font', '13px sans-serif')
 
     // Append the arcs.
     const path = svg
-      .append("g")
-      .selectAll("path")
+      .append('g')
+      .selectAll('path')
       .data(root.descendants().slice(1))
-      .join("path")
-      .attr("fill", (d) => {
+      .join('path')
+      .attr('fill', (d) => {
         // Si l'arc est dans selectedKeywords, colorer en orange
-        const isSelected = selectedKeywords.includes(d.data.id);
-        while (d.depth > 1) d = d.parent;
-        return isSelected ? "orange" : color(d.data.name);
+        const isSelected = selectedKeywords.includes(d.data.id)
+        while (d.depth > 1) d = d.parent
+        return isSelected ? 'orange' : color(d.data.name)
       })
-      .attr("fill-opacity", (d) =>
-        arcVisible(d.current) ? (d.children ? 0.6 : 0.4) : 0
-      )
-      .attr("pointer-events", (d) => (arcVisible(d.current) ? "auto" : "none"))
+      .attr('fill-opacity', (d) => (arcVisible(d.current) ? (d.children ? 0.6 : 0.4) : 0))
+      .attr('pointer-events', (d) => (arcVisible(d.current) ? 'auto' : 'none'))
 
-      .attr("d", (d) => arc(d.current))
-      .on("dblclick", (event, d) => {
+      .attr('d', (d) => arc(d.current))
+      .on('dblclick', (event, d) => {
         if (!d.children) {
           // Use d.data.id instead of d.data.name
-          d3.select(event.currentTarget).attr("fill", "pink");
+          d3.select(event.currentTarget).attr('fill', 'pink')
 
-          setSelectedArc(d.data.id); // Use id here too
+          setSelectedArc(d.data.id) // Use id here too
 
           // Check if the id is already in the array
           setSelectedKeywords((prevSelectedKeywords) => {
             if (!prevSelectedKeywords.includes(d.data.id)) {
               // Add id to the array if it's not present
-              return [...prevSelectedKeywords, d.data.id];
+              return [...prevSelectedKeywords, d.data.id]
             } else {
               // Remove id if it's already present
-              return prevSelectedKeywords.filter(
-                (keyword) => keyword !== d.data.id
-              );
+              return prevSelectedKeywords.filter((keyword) => keyword !== d.data.id)
             }
-          });
+          })
         }
         // supprimer le sunburst chart ET le tableau de mots-clés ET AFFCIHER LES COULEURS SELECTIONNEES SUR LE SUNBURST CHART QUI VA ETRE RECONSTRUIT
-        d3.select(svgRef.current).selectAll("*").remove();
+        d3.select(svgRef.current).selectAll('*').remove()
         // remove all hover elements
-        d3.selectAll(".tooltip").remove();
-      });
+        d3.selectAll('.tooltip').remove()
+      })
 
     // Make them clickable if they have children.
     path
       .filter((d) => d.children)
-      .style("cursor", "pointer")
-      .on("dblclick", clicked);
+      .style('cursor', 'pointer')
+      .on('dblclick', clicked)
 
-    const format = d3.format(",d");
-    path.append("title").text(
+    const format = d3.format(',d')
+    path.append('title').text(
       (d) =>
         `${d
           .ancestors()
           .map((d) => d.data.name)
           .reverse()
-          .join("/")}<br />${format(d.value)}`
-    );
+          .join('/')}<br />${format(d.value)}`,
+    )
 
     const label = svg
-      .append("g")
-      .attr("pointer-events", "none")
-      .attr("text-anchor", "middle")
-      .style("user-select", "none")
-      .selectAll("text")
+      .append('g')
+      .attr('pointer-events', 'none')
+      .attr('text-anchor', 'middle')
+      .style('user-select', 'none')
+      .selectAll('text')
       .data(root.descendants().slice(1))
-      .join("text")
-      .style("font-size", "10px") // Définir la taille du texte ici
-      .attr("dy", "0.35em")
-      .attr("fill-opacity", (d) => +labelVisible(d.current))
-      .attr("transform", (d) => labelTransform(d.current))
+      .join('text')
+      .style('font-size', '10px') // Définir la taille du texte ici
+      .attr('dy', '0.35em')
+      .attr('fill-opacity', (d) => +labelVisible(d.current))
+      .attr('transform', (d) => labelTransform(d.current))
       .each(function (d) {
-        const text = d3.select(this);
-        const lines = d.data.name.split(" ");
+        const text = d3.select(this)
+        const lines = d.data.name.split(' ')
         lines.forEach((line, i) => {
           text
-            .append("tspan")
-            .attr("x", 0)
-            .attr("dy", i === 0 ? "0em" : "0.8em") // La première ligne est à 0, les suivantes à 1.2em
-            .text(line);
-        });
-      });
+            .append('tspan')
+            .attr('x', 0)
+            .attr('dy', i === 0 ? '0em' : '0.8em') // La première ligne est à 0, les suivantes à 1.2em
+            .text(line)
+        })
+      })
 
     // Ajouter un élément div pour le tooltip dans le corps du document
     const tooltip = d3
-      .select("body")
-      .append("div")
-      .attr("class", "tooltip")
-      .style("position", "absolute")
-      .style("visibility", "hidden")
-      .style("background", "#fff")
-      .style("border", "1px solid #ccc")
-      .style("padding", "5px")
-      .style("border-radius", "3px")
-      .style("box-shadow", "0 0 5px rgba(0,0,0,0.3)");
+      .select('body')
+      .append('div')
+      .attr('class', 'tooltip')
+      .style('position', 'absolute')
+      .style('visibility', 'hidden')
+      .style('background', '#fff')
+      .style('border', '1px solid #ccc')
+      .style('padding', '5px')
+      .style('border-radius', '3px')
+      .style('box-shadow', '0 0 5px rgba(0,0,0,0.3)')
 
     // Ajouter des événements mouseover et mouseout aux éléments path
     path
-      .on("click", function (event, d) {
-        tooltip.style("visibility", "visible").text(d.data.description); // Assurez-vous que chaque élément de données a une propriété 'description'
+      .on('click', function (event, d) {
+        tooltip.style('visibility', 'visible').text(d.data.description) // Assurez-vous que chaque élément de données a une propriété 'description'
       })
-      .on("mousemove", function (event) {
+      .on('mousemove', function (event) {
         tooltip
-          .style("top", event.pageY - 10 + "px")
-          .style("left", event.pageX + 10 + "px");
+          .style('top', event.pageY - 10 + 'px')
+          .style('left', event.pageX + 10 + 'px')
       })
-      .on("mouseout", function () {
-        tooltip.style("visibility", "hidden");
-      });
+      .on('mouseout', function () {
+        tooltip.style('visibility', 'hidden')
+      })
 
     const parent = svg
-      .append("circle")
+      .append('circle')
       .datum(root)
-      .attr("r", radius)
-      .attr("fill", "none")
-      .attr("pointer-events", "all")
-      .on("click", clicked);
+      .attr('r', radius)
+      .attr('fill', 'none')
+      .attr('pointer-events', 'all')
+      .on('click', clicked)
 
     // Handle zoom on click.
     function clicked(event, p) {
-      parent.datum(p.parent || root);
+      parent.datum(p.parent || root)
 
       root.each(
         (d) =>
           (d.target = {
-            x0:
-              Math.max(0, Math.min(1, (d.x0 - p.x0) / (p.x1 - p.x0))) *
-              2 *
-              Math.PI,
-            x1:
-              Math.max(0, Math.min(1, (d.x1 - p.x0) / (p.x1 - p.x0))) *
-              2 *
-              Math.PI,
+            x0: Math.max(0, Math.min(1, (d.x0 - p.x0) / (p.x1 - p.x0))) * 2 * Math.PI,
+            x1: Math.max(0, Math.min(1, (d.x1 - p.x0) / (p.x1 - p.x0))) * 2 * Math.PI,
             y0: Math.max(0, d.y0 - p.depth),
             y1: Math.max(0, d.y1 - p.depth),
-          })
-      );
+          }),
+      )
 
-      const t = svg.transition().duration(1000);
+      const t = svg.transition().duration(1000)
 
-      console.log("root", root.descendants());
+      console.log('root', root.descendants())
 
       // Transition the data on all arcs, even the ones that aren’t visible,
       // so that if this transition is interrupted, entering arcs will start
       // the next transition from the desired position.
       path
         .transition(t)
-        .tween("data", (d) => {
-          const i = d3.interpolate(d.current, d.target);
-          return (t) => (d.current = i(t));
+        .tween('data', (d) => {
+          const i = d3.interpolate(d.current, d.target)
+          return (t) => (d.current = i(t))
         })
         .filter(function (d) {
-          return +this.getAttribute("fill-opacity") || arcVisible(d.target);
+          return +this.getAttribute('fill-opacity') || arcVisible(d.target)
         })
-        .attr("fill-opacity", (d) =>
-          arcVisible(d.target) ? (d.children ? 0.6 : 0.4) : 0
+        .attr('fill-opacity', (d) =>
+          arcVisible(d.target) ? (d.children ? 0.6 : 0.4) : 0,
         )
-        .attr("pointer-events", (d) => (arcVisible(d.target) ? "auto" : "none"))
+        .attr('pointer-events', (d) => (arcVisible(d.target) ? 'auto' : 'none'))
 
-        .attrTween("d", (d) => () => arc(d.current));
+        .attrTween('d', (d) => () => arc(d.current))
 
       label
         .filter(function (d) {
-          return +this.getAttribute("fill-opacity") || labelVisible(d.target);
+          return +this.getAttribute('fill-opacity') || labelVisible(d.target)
         })
         .transition(t)
-        .attr("fill-opacity", (d) => +labelVisible(d.target))
-        .attrTween("transform", (d) => () => labelTransform(d.current));
+        .attr('fill-opacity', (d) => +labelVisible(d.target))
+        .attrTween('transform', (d) => () => labelTransform(d.current))
     }
 
     function arcVisible(d) {
-      return d.y1 <= 3 && d.y0 >= 1 && d.x1 > d.x0;
+      return d.y1 <= 3 && d.y0 >= 1 && d.x1 > d.x0
     }
 
     function labelVisible(d) {
-      return d.y1 <= 3 && d.y0 >= 1 && (d.y1 - d.y0) * (d.x1 - d.x0) > 0.03;
+      return d.y1 <= 3 && d.y0 >= 1 && (d.y1 - d.y0) * (d.x1 - d.x0) > 0.03
     }
 
     function labelTransform(d) {
-      const x = (((d.x0 + d.x1) / 2) * 180) / Math.PI;
-      const y = ((d.y0 + d.y1) / 2) * radius;
-      return `rotate(${x - 90}) translate(${y},0) rotate(${x < 180 ? 0 : 180})`;
+      const x = (((d.x0 + d.x1) / 2) * 180) / Math.PI
+      const y = ((d.y0 + d.y1) / 2) * radius
+      return `rotate(${x - 90}) translate(${y},0) rotate(${x < 180 ? 0 : 180})`
     }
-  }, [svgRef, selectedArc, selectedKeywords]);
+  }, [svgRef, selectedArc, selectedKeywords])
 
   return (
-    <svg width={SIZE} height={SIZE} ref={svgRef}>
+    <svg
+      width={SIZE}
+      height={SIZE}
+      ref={svgRef}>
       {/* <g fillOpacity={0.6}>
         {newData
           .filter((d) => d.depth)
@@ -405,5 +396,5 @@ export const SunburstChart = () => {
           ))}
       </g> */}
     </svg>
-  );
-};
+  )
+}

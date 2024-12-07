@@ -1,10 +1,7 @@
-import { $login, $setUser } from "@/store/Store";
-import {
-  EyeClosedIcon,
-  EyeOpenIcon,
-  InfoCircledIcon,
-} from "@radix-ui/react-icons";
-import { Label } from "@radix-ui/react-label";
+import { $login, $setUser, $user } from '@/store/Store'
+import { useStore } from '@nanostores/react'
+import { EyeClosedIcon, EyeOpenIcon, InfoCircledIcon } from '@radix-ui/react-icons'
+import { Label } from '@radix-ui/react-label'
 import {
   Button,
   Callout,
@@ -14,65 +11,81 @@ import {
   RadioCards,
   Text,
   TextField,
-} from "@radix-ui/themes";
-import { useState } from "react";
+} from '@radix-ui/themes'
+import { useState } from 'react'
 
 const LoginForm = () => {
-  const [showPassword, setShowPassword] = useState(false);
-  const [showError, setShowError] = useState();
+  const user = useStore($user)
+  const [showPassword, setShowPassword] = useState(false)
+  const [showError, setShowError] = useState()
 
   const handleTogglePassword = () => {
-    setShowPassword(!showPassword);
-  };
+    setShowPassword(!showPassword)
+  }
 
   return (
-    <Flex direction="column" align="center" justify="center">
-      <Card style={{ width: "100%", maxWidth: "400px", padding: 24 }}>
+    <Flex
+      direction='column'
+      align='center'
+      justify='center'>
+      <Card style={{ width: '100%', maxWidth: '400px', padding: 24 }}>
         {showError && (
-          <Callout.Root color="red">
+          <Callout.Root color='red'>
             <Callout.Icon>
               <InfoCircledIcon />
             </Callout.Icon>
-            <Callout.Text>
-              Nom utilisateur ou mot de passe invalide
-            </Callout.Text>
+            <Callout.Text>Nom utilisateur ou mot de passe invalide</Callout.Text>
           </Callout.Root>
         )}
         <form
-          style={{ width: "100%" }}
+          style={{ width: '100%' }}
           onSubmit={async (e) => {
-            e.preventDefault();
-            const valide = await $login();
-            setShowError(!valide);
-          }}
-        >
-          <Flex gap="4" direction="column" width="100%">
-            <Flex gap="2" direction="column" width="100%">
-              <Label htmlFor="email" size="2" display="block">
-                <Text size="6">BUT</Text>
+            e.preventDefault()
+            const valide = await $login()
+            setShowError(!valide)
+          }}>
+          <Flex
+            gap='4'
+            direction='column'
+            width='100%'>
+            <Flex
+              gap='2'
+              direction='column'
+              width='100%'>
+              <Label
+                htmlFor='email'
+                size='2'
+                display='block'>
+                <Text size='6'>BUT</Text>
               </Label>
 
-              <Flex justify="center" width="100%">
+              <Flex
+                justify='center'
+                width='100%'>
                 <RadioCards.Root
-                  columns="3"
+                  columns='3'
                   onValueChange={(value) => {
-                    console.log("value radio", value);
-                    $setUser({ but: value });
-                  }}
-                >
-                  <RadioCards.Item value="BUT1">
-                    <Flex direction="column" width="100%">
-                      <Text weight="bold">BUT 1</Text>
+                    $setUser({ but: value })
+                  }}>
+                  <RadioCards.Item value='BUT1'>
+                    <Flex
+                      direction='column'
+                      width='100%'>
+                      <Text weight='bold'>BUT 1</Text>
                     </Flex>
                   </RadioCards.Item>
-                  <RadioCards.Item value="BUT2">
-                    <Flex direction="column" width="100%">
-                      <Text weight="bold">BUT 2</Text>
+                  <RadioCards.Item value='BUT2'>
+                    <Flex
+                      direction='column'
+                      width='100%'>
+                      <Text weight='bold'>BUT 2</Text>
                     </Flex>
                   </RadioCards.Item>
-                  <RadioCards.Item value="BUT3">
-                    <Flex direction="column" width="100%">
-                      <Text weight="bold">BUT 3</Text>
+                  <RadioCards.Item value='BUT3'>
+                    <Flex
+                      direction='column'
+                      width='100%'>
+                      <Text weight='bold'>BUT 3</Text>
                     </Flex>
                   </RadioCards.Item>
                 </RadioCards.Root>
@@ -80,62 +93,73 @@ const LoginForm = () => {
             </Flex>
 
             {/* Email Input */}
-            <Flex gap="2" direction="column" width="100%">
-              <Label htmlFor="username" size="2" display="block">
-                <Text size="6">Nom utilisateur</Text>
+            <Flex
+              gap='2'
+              direction='column'
+              width='100%'>
+              <Label
+                htmlFor='username'
+                size='2'
+                display='block'>
+                <Text size='6'>Nom utilisateur</Text>
               </Label>
 
               <TextField.Root
-                size="3"
-                type="text"
-                id="username"
-                name="username"
+                size='3'
+                type='text'
+                id='username'
+                name='username'
                 required
-                placeholder="Nom utilisateur"
+                placeholder='Nom utilisateur'
                 onChange={(e) => {
-                  console.log("Email field value:", e.target.value);
-                  $setUser({ username: e.target.value });
+                  console.log('Email field value:', e.target.value)
+                  $setUser({ username: e.target.value })
                 }}
               />
             </Flex>
 
             {/* Password Input with Show/Hide Password Button */}
-            <Flex gap="2" direction="column">
+            <Flex
+              gap='2'
+              direction='column'>
               <Label
-                htmlFor="password"
-                size="2"
-                marginBottom="1"
-                display="block"
-              >
-                <Text size="6">Mot de passe</Text>
+                htmlFor='password'
+                size='2'
+                marginBottom='1'
+                display='block'>
+                <Text size='6'>Mot de passe</Text>
               </Label>
               <TextField.Root
-                size="3"
-                type={showPassword ? "text" : "password"}
-                id="password"
-                name="password"
+                size='3'
+                type={showPassword ? 'text' : 'password'}
+                id='password'
+                name='password'
                 required
-                autoComplete="current-password"
-                placeholder="Mot de passe"
+                autoComplete='current-password'
+                placeholder='Mot de passe'
                 onChange={(e) => {
-                  console.log("Password field value:", e.target.value);
-                  $setUser({ password: e.target.value });
-                }}
-              >
+                  console.log('Password field value:', e.target.value)
+                  $setUser({ password: e.target.value })
+                }}>
                 <TextField.Slot></TextField.Slot>
-                <TextField.Slot pr="3">
+                <TextField.Slot pr='3'>
                   <IconButton
-                    size="4"
-                    variant="ghost"
+                    size='4'
+                    variant='ghost'
                     onClick={(e) => {
-                      e.preventDefault();
-                      handleTogglePassword(); // Call toggle password function
-                    }}
-                  >
+                      e.preventDefault()
+                      handleTogglePassword() // Call toggle password function
+                    }}>
                     {showPassword ? (
-                      <EyeClosedIcon height="16" width="16" />
+                      <EyeClosedIcon
+                        height='16'
+                        width='16'
+                      />
                     ) : (
-                      <EyeOpenIcon height="16" width="16" />
+                      <EyeOpenIcon
+                        height='16'
+                        width='16'
+                      />
                     )}
                   </IconButton>
                 </TextField.Slot>
@@ -143,14 +167,19 @@ const LoginForm = () => {
             </Flex>
 
             {/* Submit Button */}
-            <Button size="4" type="submit" variant="solid" width="100%">
+            <Button
+              size='4'
+              type='submit'
+              variant='solid'
+              width='100%'
+              disabled={!user?.username || !user?.password || !user?.but}>
               Login
             </Button>
           </Flex>
         </form>
       </Card>
     </Flex>
-  );
-};
+  )
+}
 
-export default LoginForm;
+export default LoginForm

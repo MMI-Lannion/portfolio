@@ -1,65 +1,65 @@
-import PlotFigure from "@/PlotFigure";
-import * as Plot from "@observablehq/plot";
-import { Flex, Text } from "@radix-ui/themes";
-import * as d3 from "d3";
-import { useEffect, useLayoutEffect, useState } from "react";
-import { $saeData } from "@/store/Store";
-import { useStore } from "@nanostores/react";
-import { AddWordsToTreeMap } from "./AddWordsToTreeMap";
-import { Dialog } from "./Dialog";
+import PlotFigure from '@/lib/PlotFigure'
+import * as Plot from '@observablehq/plot'
+import { Flex, Text } from '@radix-ui/themes'
+import * as d3 from 'd3'
+import { useEffect, useLayoutEffect, useState } from 'react'
+import { $saeData } from '@/store/Store'
+import { useStore } from '@nanostores/react'
+import { AddWordsToTreeMap } from './AddWordsToTreeMap'
+import { Dialog } from './Dialog'
 
 export function TreeMap() {
-  const data = useStore($saeData)?.competences;
+  const data = useStore($saeData)?.competences
 
   // configuration du layout du treemap
   const createTreemapData = (data) => {
-    const root = d3.hierarchy(data).sum((d) => d.percentage);
+    const root = d3.hierarchy(data).sum((d) => d.percentage)
 
-    const treemapLayout = d3.treemap().size([1500, 1000]).padding(5);
-    const leaves = treemapLayout(root).leaves();
+    const treemapLayout = d3.treemap().size([1500, 1000]).padding(5)
+    const leaves = treemapLayout(root).leaves()
 
     leaves.forEach((leaf) => {
-      const { data } = leaf;
-      data.x0 = leaf.x0;
-      data.y0 = leaf.y0;
-      data.x1 = leaf.x1;
-      data.y1 = leaf.y1;
-    });
+      const { data } = leaf
+      data.x0 = leaf.x0
+      data.y0 = leaf.y0
+      data.x1 = leaf.x1
+      data.y1 = leaf.y1
+    })
 
-    return leaves;
-  };
+    return leaves
+  }
 
   const treemapData = createTreemapData({
     children: data?.filter((d) => d.percentage > 0),
-  });
+  })
 
   //ouverture des popup
-  const [openPourcentage, setOpenPourcentage] = useState(false);
-  const [openKeyword, setOpenKeyword] = useState(false);
+  const [openPourcentage, setOpenPourcentage] = useState(false)
+  const [openKeyword, setOpenKeyword] = useState(false)
 
   //clic sur un rectangle
   useLayoutEffect(() => {
-    const gtext = document.querySelector(".treemap-text-label");
-    const grect = document.querySelector(".treemap-rect-label");
+    const gtext = document.querySelector('.treemap-text-label')
+    const grect = document.querySelector('.treemap-rect-label')
 
     const handleLabelClick = (e) => {
-      let element = e.target;
-      const nodeName = e.target.nodeName;
+      let element = e.target
+      const nodeName = e.target.nodeName
 
-      if (nodeName === "tspan") {
-        element = element.parentNode;
+      if (nodeName === 'tspan') {
+        element = element.parentNode
       }
 
-      let label = "";
+      let label = ''
       if (element.hasChildNodes()) {
-        const child = element.childNodes[0];
+        const child = element.childNodes[0]
 
-        label = child.textContent;
+        label = child.textContent
       }
-      label = label?.split(":")?.[0]?.trim();
-      console.log("label", label);
+      label = label?.split(':')?.[0]?.trim()
+      console.log('label', label)
 
-      setOpenKeyword(true);
+      setOpenKeyword(true)
 
       // const clickedBlock = treemapData.find(
       //   (block) => block.data.key === label.trim()
@@ -70,52 +70,35 @@ export function TreeMap() {
       //   setOpenKeyword(true); // Ouvrir la dialog
       // }
       // Récupérer les données du bloc correspondant au label cliqué
-    };
+    }
 
-    gtext?.addEventListener("click", handleLabelClick);
-    grect?.addEventListener("click", handleLabelClick);
+    gtext?.addEventListener('click', handleLabelClick)
+    grect?.addEventListener('click', handleLabelClick)
 
     return () => {
-      gtext?.removeEventListener("click", handleLabelClick);
-      grect?.removeEventListener("click", handleLabelClick);
-    };
-  }, []);
+      gtext?.removeEventListener('click', handleLabelClick)
+      grect?.removeEventListener('click', handleLabelClick)
+    }
+  }, [])
 
   return (
     <>
-      <Flex gap="5" direction="column">
-        <Flex direction="row" justify="between">
-          <Flex direction="column" gap="2">
-            <Text size="4">
-              Cliquer sur chaque forme pour saisir des mots clés correspondants
-              aux blocs de compétences concernés. <br />
-              Ne pas dépasser : « indiquer la valeur max. par bloc ».
-            </Text>
-            {/* Tooltip : Plus vous renseignez de mots clés pour définir une compétence, plus la compétence est conséquente visuellement. Le treemap fait référence aux 5 compétences du BUT d'après le PN: Comprendre/Concevoir/Exprimer/Développer/Entreprendre*/}
-          </Flex>
-          <Flex gap="3" align="center">
-            {/* <Dialog
-              open={openPourcentage}
-              onCancel={() => {
-                setOpenPourcentage(false);
-              }}
-              title="Choix du pourcentage"
-              content={<AddWordsToTreeMap data={data} />}
-            >
-              <Button size="4" onClick={() => setOpenPourcentage(true)}>
-                <MixerHorizontalIcon />
-              </Button>
-            </Dialog> */}
-
-            {/* popup mots cles */}
+      <Flex
+        gap='4'
+        direction='column'>
+        <Flex
+          direction='row'
+          justify='between'>
+          <Flex
+            gap='3'
+            align='center'>
             <Dialog
               open={openKeyword}
               onCancel={() => {
-                setOpenKeyword(false);
+                setOpenKeyword(false)
               }}
-              title="Ajouter vos mots clés aux compétences"
-              content={<AddWordsToTreeMap data={data} />}
-            ></Dialog>
+              title='Ajouter vos mots clés aux compétences'
+              content={<AddWordsToTreeMap data={data} />}></Dialog>
           </Flex>
         </Flex>
 
@@ -128,25 +111,25 @@ export function TreeMap() {
             marks: [
               // Rectangles pour le treemap
               Plot.rect(treemapData, {
-                x1: "x0",
-                x2: "x1",
-                y1: "y0",
-                y2: "y1",
-                className: "treemap-rect-label",
+                x1: 'x0',
+                x2: 'x1',
+                y1: 'y0',
+                y2: 'y1',
+                className: 'treemap-rect-label',
                 fill: (d) => {
                   switch (d.data.key) {
-                    case "Comprendre":
-                      return "#b20000";
-                    case "Concevoir":
-                      return "#ed7d31";
-                    case "Exprimer":
-                      return "#ffc000";
-                    case "Développer":
-                      return "#a9d08e";
-                    case "Entreprendre":
-                      return "#2f75b5";
+                    case 'Comprendre':
+                      return '#b20000'
+                    case 'Concevoir':
+                      return '#ed7d31'
+                    case 'Exprimer':
+                      return '#ffc000'
+                    case 'Développer':
+                      return '#a9d08e'
+                    case 'Entreprendre':
+                      return '#2f75b5'
                     default:
-                      return "grey";
+                      return 'grey'
                   }
                 },
                 title: (d) => `${d.data.key} : ${d.data.percentage}%`,
@@ -157,17 +140,15 @@ export function TreeMap() {
                 y: (d) => (d.y0 + d.y1) / 2,
                 dx: 0,
                 dy: 0,
-                className: "treemap-text-label",
+                className: 'treemap-text-label',
                 text: (d) => {
-                  const percentage = d.data.percentage;
-                  const key = d.data.key;
-                  const keywords = d.data.keywords;
-                  return `${key} :\t${parseInt(
-                    percentage
-                  )}%\n\nMots-clés : ${keywords}`;
+                  const percentage = d.data.percentage
+                  const key = d.data.key
+                  const keywords = d.data.keywords
+                  return `${key} :\t${parseInt(percentage)}%\n\nMots-clés : ${keywords}`
                 },
-                fill: "#fff",
-                textAnchor: "middle",
+                fill: '#fff',
+                textAnchor: 'middle',
                 fontSize: 20,
               }),
             ],
@@ -175,5 +156,5 @@ export function TreeMap() {
         />
       </Flex>
     </>
-  );
+  )
 }

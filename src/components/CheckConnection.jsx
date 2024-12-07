@@ -1,35 +1,29 @@
-import { useEffect } from 'react';
-import { supabase } from '../lib/supabase.js';
+import { useEffect } from 'react'
+import { supabase } from '../lib/supabase.js'
 
 const CheckConnection = () => {
-
   useEffect(() => {
     const checkConnection = async () => {
       try {
-
-        const { data, error } = await supabase.from('users').select('');
-        
+        const { data, error } = await supabase.from('users').select('')
 
         if (error) {
-          console.log('Connection failed: ' + error);
+          console.log('Connection failed: ' + error)
         } else {
-          console.log('Connected');
-          console.log(data);
+          console.log('Connected')
+          console.log(data)
         }
       } catch (error) {
-        console.log('Error: ' + error);
+        console.log('Error: ' + error)
       }
-    };
+    }
 
-    (async () => {
-await checkConnection();
-    }) ()
-  }, []);
+    ;(async () => {
+      await checkConnection()
+    })()
+  }, [])
 
-  return (
-    <div>
-    </div>
-  );
-};
+  return <div></div>
+}
 
-export default CheckConnection;
+export default CheckConnection
