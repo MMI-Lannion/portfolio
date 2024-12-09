@@ -1,11 +1,11 @@
 import PlotFigure from '@/lib/PlotFigure'
 import * as Plot from '@observablehq/plot'
 import * as d3 from 'd3'
-import React, { useEffect, useLayoutEffect, useRef, useState } from 'react'
+import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 
-import { Box, Flex } from '@radix-ui/themes'
-import { Dialog } from './Dialog'
 import LikertScale from '@/components/LikertScale'
+import { Box } from '@radix-ui/themes'
+import { Dialog } from './Dialog'
 
 function calculateYPosition(index, numAxes) {
   if (index === 0 || (numAxes % 2 === 0 && index === numAxes / 2)) {
@@ -63,14 +63,12 @@ function splitText(el, maxWordsPerLine = 3) {
   })
 }
 
-export function Radar({ datas = [], onChange }) {
-  const points = datas.flatMap(({ name, ...values }) => {
-    return Object.entries(values).map(([key, value]) => ({
-      name,
-      key,
-      value: +value,
-    }))
-  })
+export function Radar({ name, data = [], onChange }) {
+  if (!data?.length) {
+    return null
+  }
+
+  const points = data.map((d) => ({ name, ...d }))
 
   const longitude = d3
     .scalePoint(new Set(Plot.valueof(points, 'key')), [180, -180])
@@ -127,9 +125,9 @@ export function Radar({ datas = [], onChange }) {
         title='Evaluer votre niveau de maitrise'
         content={
           <LikertScale
-            competence={datas[0]?.name}
+            competence={name}
             label={labelRef.current}
-            value={points.find((d) => d.key === labelRef.current)?.value}
+            data={points.find((d) => d.key === labelRef.current)}
             onChange={onChange}
           />
         }
@@ -206,30 +204,6 @@ export function Radar({ datas = [], onChange }) {
               fill: 'name',
               stroke: 'white',
             }),
-
-            // interactive labels
-            // Plot.text(
-            //   points,
-            //   Plot.pointer({
-            //     x: ({ key }) => longitude(key),
-            //     y: ({ value }) => 90 - value,
-            //     text: (d) => `${(100 * d.value).toFixed(0)}%`,
-            //     textAnchor: "start",
-            //     dx: 4,
-            //     fill: "currentColor",
-            //     stroke: "white",
-            //     maxRadius: 10,
-            //   })
-            // ),
-
-            // interactive opacity on the areas
-            //       () =>
-            //         svg`<style>
-            //       g[aria-label=area] path {fill-opacity: 0.1; transition: fill-opacity .2s;}
-            //       g[aria-label=area]:hover path:not(:hover) {fill-opacity: 0.05; transition: fill-opacity .2s;}
-            //       g[aria-label=area] path:hover {fill-opacity: 0.3; transition: fill-opacity .2s;}
-            //   `
-
             ,
           ],
         }}

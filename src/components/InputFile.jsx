@@ -31,6 +31,9 @@ const InputFile = ({ onChange = null }) => {
   const folder = `sae${removeSpecialCharacters(saeId)}_${user.username}_${user.userId}`
 
   const handleFileChange = (event) => {
+    setUploadSuccess(false)
+    setUploadError(false)
+
     const selectedFiles = Array.from(event.target.files)
     const maxSize = 5 * 1024 * 1024
     const validFiles = []
@@ -163,12 +166,15 @@ const InputFile = ({ onChange = null }) => {
         </ul>
       )}
 
-      <FileViewer folderPath={folder} />
+      <FileViewer
+        folderPath={folder}
+        uploadSuccess={uploadSuccess}
+      />
     </Flex>
   )
 }
 
-const FileViewer = ({ folderPath }) => {
+const FileViewer = ({ folderPath, uploadSuccess }) => {
   const [files, setFiles] = useState([])
   const [error, setError] = useState(null)
 
@@ -194,7 +200,7 @@ const FileViewer = ({ folderPath }) => {
     }
 
     fetchFiles()
-  }, [folderPath])
+  }, [folderPath, uploadSuccess])
 
   const handleDeleteFile = async (fileName) => {
     const bucket = 'saeFiles'

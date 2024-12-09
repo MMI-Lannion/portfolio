@@ -8,7 +8,6 @@ export default function MentionsLegales() {
       <PageHeading title='Mentions légales' />
 
       <Flex
-        id='treemap'
         direction='column'
         gap='5'
         width='100%'

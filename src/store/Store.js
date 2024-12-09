@@ -1,10 +1,9 @@
-import { getCompetences } from '@/actions/getCompetences'
 import {
   authenticateUser,
   getSaesByUserId,
   getUserSeaData,
   saveUserSeaData,
-} from '@/actions/getSaesByUserId'
+} from '@/actions'
 import { persistentAtom } from '@nanostores/persistent'
 import { atom, computed } from 'nanostores'
 
@@ -15,9 +14,6 @@ export const $userSeas = atom([])
 export const $user = persistentAtom(
   'user',
   {
-    // username: "mmi1",
-    // but: "BUT1",
-    // id: 1,
     valide: false,
   },
   {
@@ -40,12 +36,15 @@ export const $saeData = persistentAtom(
     // page : auto-evaluation
     hardskills: [],
     softskills: [],
+    softkillsData: [],
     outils: {},
     // page : plan d'action
     axeAmelioration: '',
     competenceCle: '',
     sousCompetences: [],
     actions: '',
+    // feedback
+    feedback: '',
   },
   {
     encode: JSON.stringify,
@@ -70,7 +69,10 @@ export const $sousCompetences = computed([$saeData], (saeData) => {
 
 export const $loadUserSaes = async () => {
   const userId = $user.get().id
+
   const data = await getSaesByUserId(userId)
+  console.log('userId', data)
+
   $userSeas.set(data)
   $forceReload.set(true)
 }
@@ -85,10 +87,9 @@ export const $loadUserSaeData = async () => {
     $setSaeData(data)
     $forceReload.set(false)
   }
-  console.log('load data loadUserSaeData', $saeData.get())
 }
 
-export const $saveSaeData = async () => {
+export const $saveSaeData = async ({ isFeedback = false }) => {
   const {
     competences,
     contexte,
@@ -102,12 +103,14 @@ export const $saveSaeData = async () => {
     axeAmelioration: axe_amelioration,
     competenceCle: competence_cle,
     sousCompetences: sous_competences,
+    feedback,
+    completed,
   } = $saeData.get()
 
   const result = await saveUserSeaData({
     id_sae: $sae.get(),
     user_id: $user.get().id,
-    completed: true,
+    completed: isFeedback ? completed : true,
     competences,
     contexte,
     demarche,
@@ -120,6 +123,7 @@ export const $saveSaeData = async () => {
     axe_amelioration,
     competence_cle,
     sous_competences,
+    feedback,
   })
 
   if (result) {
@@ -223,20 +227,36 @@ export const $updatePercentage = () => {
 }
 
 export const $updateHardskills = ({ competence, label, value }) => {
-  const updatedHardSkills = $saeData.get().hardskills.map((comp) => {
+  const data = $saeData.get().hardskills
+  const updatedHardSkills = data.map((comp) => {
     if (comp.name === competence) {
-      return { ...comp, data: { ...comp.data, [label]: value } }
+      return {
+        ...comp,
+        data: comp.data.map((d) => {
+          if (d.key === label) {
+            return { ...d, value: value }
+          }
+
+          return d
+        }),
+      }
     }
     return comp
   })
-
-  console.log('updated hardskills', updatedHardSkills)
 
   $setSaeData({ hardskills: updatedHardSkills })
 }
 
 export const $updateTools = ({ label, value }) => {
-  $setSaeData({ outils: { ...$saeData.get().outils, [label]: value } })
+  const data = $saeData.get().outils.map((d) => {
+    if (d.key === label) {
+      return { ...d, value: value }
+    }
+
+    return d
+  })
+
+  $setSaeData({ outils: data })
 }
 
 export const $updateCompetenceCle = (competenceName) => {
@@ -251,20 +271,28 @@ export const $updateAxeAmelioration = (value) => {
   $setSaeData({ axeAmelioration: value })
 }
 
+export const $updateSoftskills = ({ label }) => {
+  const softskills = $saeData.get().softskills || []
+
+  const index = softskills.indexOf(label)
+  index > -1 ? softskills.splice(index, 1) : softskills.push(label)
+
+  // Re-assign to trigger a new reference
+  $setSaeData({ softskills: [...softskills] })
+}
+
 export const $setUser = (data) => {
   $user.set({ ...$user.get(), ...data })
 }
 
 export const $login = async () => {
   const { username, password, but } = $user.get()
-  const data = await authenticateUser({ username, password, but })
+  const userId = await authenticateUser({ username, password, but })
 
-  if (data?.identifiant) {
+  if (userId) {
     $user.set({
-      id: data.id,
-      firstname: data.prenom,
+      id: userId,
       username,
-      // password,
       but,
       valide: true,
     })
@@ -277,20 +305,4 @@ export const $logout = async () => {
   $user.set({
     valide: false,
   })
-}
-
-export const competences = async () => {
-  const competences = await getCompetences($saeData.get().saeId)
-  if (competences?.saeId) {
-    $saeData.set({ ...competences, valide: true })
-    return true
-  }
-  return false
-}
-
-export const setSoftskills = async (softskills) => {
-  const previousData = $saeData.get()
-  const { userId, saeId } = previousData
-  $saeData.set({ ...previousData, softskills })
-  await updateSoftskillsInDatabase(userId, saeId, softskills)
 }

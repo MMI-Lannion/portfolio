@@ -1,10 +1,9 @@
-import React from 'react'
-import { Flex, Box, Radio, Text, Em } from '@radix-ui/themes'
-import '../assets/styles/action-plan.css'
-import { InfoCircledIcon, ArrowLeftIcon, ArrowRightIcon } from '@radix-ui/react-icons'
-import InfoCircled from './InfoCircled'
-import { $saeData, $setSaeData, $updateAxeAmelioration } from '@/store/Store'
+import { $saeData, $updateAxeAmelioration } from '@/store/Store'
 import { useStore } from '@nanostores/react'
+import { ArrowRightIcon } from '@radix-ui/react-icons'
+import { Box, Em, Flex, Radio, Text } from '@radix-ui/themes'
+import InfoCircled from './InfoCircled'
+import './action-plan.css'
 
 const titles = [
   'Peu de connaissance / Mise en pratique forte',

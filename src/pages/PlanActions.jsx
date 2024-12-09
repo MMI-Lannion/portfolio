@@ -7,6 +7,7 @@ import { QuickNav } from '@/components/QuickNav'
 import { PageHeading, PageSubHeading, PageText } from '@/components/Typography'
 import { Flex, Separator, Text } from '@radix-ui/themes'
 import TableActionPlan from '../components/TableActionPlan'
+import { $sae } from '@/store/Store'
 
 export default function PlanActions() {
   return (
@@ -15,7 +16,7 @@ export default function PlanActions() {
 
       <PageHeading
         title="Plan d'actions"
-        badgeTitle='Etape 3'
+        badgeTitle={`${$sae.get()} - Etape 3/3`}
         badgeColor='green'
       />
 

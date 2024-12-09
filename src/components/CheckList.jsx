@@ -1,17 +1,10 @@
-import {
-  $saeData,
-  $setSaeData,
-  $sousCompetences,
-  $updateSousCompetences,
-} from '@/store/Store'
+import { $saeData, $sousCompetences, $updateSousCompetences } from '@/store/Store'
 import { useStore } from '@nanostores/react'
 import { CheckboxGroup, Flex, Text } from '@radix-ui/themes'
 
 export function CheckList() {
-  const sousCompetences = useStore($sousCompetences) || {}
+  const sousCompetences = useStore($sousCompetences) || []
   const checked = useStore($saeData).sousCompetences || []
-
-  console.log('sousCompetences', checked)
 
   return (
     <CheckboxGroup.Root
@@ -19,16 +12,16 @@ export function CheckList() {
       defaultValue={[]}
       name='sous-competences'
       onValueChange={$updateSousCompetences}>
-      {Object.keys(sousCompetences).map((key) => (
+      {sousCompetences.map((option) => (
         <Text
           as='label'
           size='4'
-          key={key}>
+          key={option.key}>
           <Flex gap='2'>
             <CheckboxGroup.Item
-              checked={checked.includes(key)}
-              value={key}>
-              {key}
+              checked={checked.includes(option.key)}
+              value={option.key}>
+              {option.key}
             </CheckboxGroup.Item>
           </Flex>
         </Text>

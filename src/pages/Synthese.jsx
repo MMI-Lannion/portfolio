@@ -5,6 +5,7 @@ import { TreeMap } from '@/components/TreeMap'
 import { PageHeading, PageSubHeading, PageText } from '@/components/Typography'
 import { Flex, Separator } from '@radix-ui/themes'
 import { QuickNav } from '@/components/QuickNav'
+import { $sae } from '@/store/Store'
 
 export default function Synthese() {
   return (
@@ -13,7 +14,7 @@ export default function Synthese() {
 
       <PageHeading
         title='Synthèse'
-        badgeTitle='Etape 1'
+        badgeTitle={`${$sae.get()} - Etape 1/3`}
         badgeColor='pink'
       />
 
