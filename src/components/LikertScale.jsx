@@ -1,14 +1,12 @@
-import { Flex, Text, Radio, Grid, Box } from '@radix-ui/themes'
-import { $saeData, $updateHardskills, $setSaeData } from '@/store/Store.js'
-import { useStore } from '@nanostores/react'
-import React, { useEffect, useRef, useState } from 'react'
+import { Box, Code, Em, Flex, Grid, Radio, Text } from '@radix-ui/themes'
 
-function LikertScale({ competence, label, value, onChange }) {
+function LikertScale({ competence, label, data, onChange }) {
   const handleChange = (e) => {
     const value = e.target.value
     onChange({ competence, label, value })
-    // $updateHardskills(competence, label, value);
   }
+
+  const { value, detail } = data || {}
 
   return (
     <Flex
@@ -17,23 +15,22 @@ function LikertScale({ competence, label, value, onChange }) {
       <Text
         size='2'
         weight='bold'>
-        {competence} - {label}
+        Hardskill : {competence}
+      </Text>
+      <Text
+        size='2'
+        weight='medium'>
+        <Code>{label}</Code>
       </Text>
       <Flex
         direction='column'
-        gap='8'>
+        gap='4'>
         <Grid
           p='2'
           columns='5'
           gap='1'
           rows='repeat(1, 44px)'
           width='100%'>
-          {/* <Flex direction="column" align="center">
-          <Box>😔</Box>
-          <Text as="label" size="2">
-            Galère
-          </Text>
-        </Flex> */}
           <Flex
             direction='column'
             align='center'>
@@ -96,14 +93,6 @@ function LikertScale({ competence, label, value, onChange }) {
           gap='3'
           rows='repeat(1, 44px)'
           width='auto'>
-          {/* <Flex direction="column">
-          <Radio
-            value="0"
-            defaultChecked={value == "0"}
-            checked={value == "0"}
-            onChange={handleChange}
-          />
-        </Flex> */}
           <Flex direction='column'>
             <Radio
               value='0.1'
@@ -146,6 +135,17 @@ function LikertScale({ competence, label, value, onChange }) {
           </Flex>
         </Grid>
       </Flex>
+      {detail != '0' && (
+        <Text>
+          <Em>
+            Détails :{' '}
+            <Text
+              dangerouslySetInnerHTML={{
+                __html: detail,
+              }}></Text>
+          </Em>
+        </Text>
+      )}
     </Flex>
   )
 }

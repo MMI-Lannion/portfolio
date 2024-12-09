@@ -112,6 +112,8 @@ export function Home() {
                     onClick={async (e) => {
                       e.preventDefault()
                       setLoading(true)
+                      await $setSae(element.name)
+                      await $loadUserSaeData()
                       setTimeout(() => {
                         navigate('/feedback')
                       }, 10)

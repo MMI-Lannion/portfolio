@@ -7,15 +7,16 @@ import {
 } from '@/components/SkillsAndTools'
 import { Flex, Separator } from '@radix-ui/themes'
 import { QuickNav } from '@/components/QuickNav'
+import { $sae } from '@/store/Store'
 
 export default function AutoEvaluation() {
   return (
     <>
-      <QuickNav client:load />
+      <QuickNav />
 
       <PageHeading
         title='Auto-évaluation'
-        badgeTitle='Etape 2'
+        badgeTitle={`${$sae.get()} - Etape 2/3`}
         badgeColor='purple'
       />
 
@@ -41,7 +42,7 @@ export default function AutoEvaluation() {
             maitrisé
           </PageText>
 
-          <HardskillsRadar client:only />
+          <HardskillsRadar />
         </Flex>
 
         <Separator style={{ width: '30%' }} />
@@ -56,7 +57,7 @@ export default function AutoEvaluation() {
             directement sur le dernier niveau du graphique
           </PageText>
 
-          <SoftskillsSunburst client:only />
+          <SoftskillsSunburst />
         </Flex>
 
         <Separator style={{ width: '30%' }} />
@@ -73,7 +74,7 @@ export default function AutoEvaluation() {
             maitrisé
           </PageText>
 
-          <ToolsRadar client:only />
+          <ToolsRadar />
         </Flex>
 
         <Separator style={{ width: '30%' }} />

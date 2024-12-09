@@ -4,7 +4,7 @@ import { Button, Callout, Flex } from '@radix-ui/themes'
 import { useState } from 'react'
 import { navigate } from 'raviger'
 
-export function ButtonValidate() {
+export function ButtonValidate({ isFeedback = false }) {
   const [error, setError] = useState(false)
   return (
     <Flex
@@ -26,7 +26,7 @@ export function ButtonValidate() {
         size='4'
         variant='surface'
         onClick={async () => {
-          const result = $saveSaeData()
+          const result = $saveSaeData({ isFeedback })
           if (result) {
             navigate('/merci')
           } else {

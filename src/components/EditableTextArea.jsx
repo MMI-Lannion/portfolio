@@ -10,9 +10,7 @@ export default function EditableTextArea({ dataKey, ...rest }) {
 
   useEffect(() => {
     const val = saeData?.[dataKey]
-    // if (val) {
     setValue(val)
-    // }
   }, [saeData, dataKey])
 
   return (

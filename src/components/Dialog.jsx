@@ -57,13 +57,13 @@ export function Dialog({ children, title, description, content, onCancel, open }
       <StyledOverlay />
       <StyledContent
         style={{
-          maxWidth: 550,
+          maxWidth: 650,
         }}>
         <StyledTitle
           style={{
             position: 'relative',
           }}>
-          <Heading size='2'>{title}</Heading>
+          <Text size='4'>{title}</Text>
 
           <IconButton
             variant='soft'

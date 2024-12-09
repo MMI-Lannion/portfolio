@@ -1,8 +1,8 @@
+import { SunburstChart } from '@/components/SunburstChart'
 import { $saeData, $updateHardskills, $updateTools } from '@/store/Store.js'
 import { useStore } from '@nanostores/react'
 import { Box, Flex, Tabs, Text } from '@radix-ui/themes'
 import { Radar } from './Radar'
-import { SunburstChart } from './SunburstChart'
 
 export function HardskillsRadar() {
   const hardskills = useStore($saeData)?.hardskills
@@ -36,7 +36,8 @@ export function HardskillsRadar() {
                 <Text weight='bold'>{skillData.name}</Text>
 
                 <Radar
-                  datas={[{ name: skillData.name, ...skillData.data }]}
+                  name={skillData.name}
+                  data={skillData.data}
                   onChange={$updateHardskills}
                 />
               </Flex>
@@ -49,9 +50,14 @@ export function HardskillsRadar() {
 }
 
 export function SoftskillsSunburst() {
+  const { softskills, softskillsTree } = useStore($saeData)
+
   return (
     <Flex justify='center'>
-      <SunburstChart />
+      <SunburstChart
+        treeData={{ name: 'softskills', children: softskillsTree }}
+        selected={softskills}
+      />
     </Flex>
   )
 }
@@ -62,7 +68,8 @@ export function ToolsRadar() {
   return (
     <Flex justify='center'>
       <Radar
-        datas={[{ name: 'Outils et méthodes', ...outils }]}
+        name='Outils et méthodes'
+        data={outils}
         onChange={$updateTools}
       />
     </Flex>

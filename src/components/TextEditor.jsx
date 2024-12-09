@@ -4,30 +4,20 @@ import StarterKit from '@tiptap/starter-kit'
 
 const extensions = [StarterKit]
 
-const Tiptap = () => {
-  // usestate qui servira à récupérer le contenu de l'éditeur
-  const [content, setContent] = useState('<p>Hello World!</p>')
-
-  // fonction qui permet de detecter les changements dans l'éditeur et de le recup ensuite dans "content"
+const Tiptap = ({ placeholder, onChange, content }) => {
   const handleChange = ({ editor }) => {
-    setContent(editor.getHTML())
+    onChange?.(editor.getHTML())
   }
 
   return (
     <>
       <EditorProvider
+        placeholder={placeholder}
         extensions={extensions}
         content={content}
         onUpdate={handleChange}>
-        <EditorContent style={{ height: 120 }} />
-        <FloatingMenu>This is the floating menu</FloatingMenu>
-        <BubbleMenu>This is the bubble menu</BubbleMenu>
+        <EditorContent style={{ height: 300 }} />
       </EditorProvider>
-
-      <div>
-        <h3>Editor Content:</h3>
-        <div dangerouslySetInnerHTML={{ __html: content }} />
-      </div>
     </>
   )
 }
