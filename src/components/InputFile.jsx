@@ -12,7 +12,7 @@ import { useEffect, useState } from 'react'
 import { supabase } from '../lib/supabase.js'
 import styles from './InputFile.module.css'
 
-const STORAGE_URL = 'https://studio.pinfig.com/storage/v1/object/public'
+const STORAGE_URL = import.meta.env.VITE_PUBLIC_STORAGE_URL
 
 function removeSpecialCharacters(str) {
   return str
