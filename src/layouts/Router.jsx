@@ -20,7 +20,7 @@ const routes = {
   '/merci': () => <Merci />,
   '/tutoriel': () => <Tutoriel />,
   '/mentions-legales': () => <MentionsLegales />,
-  '/demarche-portfollio': () => <DemarchePortfollio />,
+  '/demarche-portfolio': () => <DemarchePortfollio />,
 }
 
 export function Router() {

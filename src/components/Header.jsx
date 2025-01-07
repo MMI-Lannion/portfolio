@@ -8,7 +8,8 @@ import {
   RocketIcon,
   SunIcon,
 } from '@radix-ui/react-icons'
-import { Button, Flex, Link } from '@radix-ui/themes'
+import { Button, Flex } from '@radix-ui/themes'
+import { Link } from 'raviger'
 import { navigate } from 'raviger'
 
 export function Header() {

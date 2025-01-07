@@ -7,7 +7,8 @@ import {
   TrashIcon,
   UploadIcon,
 } from '@radix-ui/react-icons'
-import { Button, Callout, Flex, Link, Text } from '@radix-ui/themes'
+import { Button, Callout, Flex, Text } from '@radix-ui/themes'
+import { Link } from 'raviger'
 import { useEffect, useState } from 'react'
 import { supabase } from '../lib/supabase.js'
 import styles from './InputFile.module.css'

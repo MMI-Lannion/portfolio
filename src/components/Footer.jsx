@@ -1,4 +1,5 @@
-import { Text, Link, Flex, Separator } from '@radix-ui/themes'
+import { Text, Flex, Separator } from '@radix-ui/themes'
+import { Link } from 'raviger'
 
 export function Footer() {
   return (
