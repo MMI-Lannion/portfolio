@@ -104,7 +104,7 @@ export function Home() {
                     <ArrowRightIcon />
                   </Button>
 
-                  <Button
+                  {/* <Button
                     size='3'
                     variant='solid'
                     color='indigo'
@@ -119,7 +119,7 @@ export function Home() {
                       }, 10)
                     }}>
                     <ChatBubbleIcon />
-                  </Button>
+                  </Button> */}
                 </Flex>
               </Flex>
             </Card>

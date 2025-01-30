@@ -18,7 +18,7 @@ export default function TextArea({ onChange, placeholder, value }) {
   return (
     <StyledTextArea
       placeholder={placeholder}
-      value={value}
+      defaultValue={value}
       onChange={handleInputChange}
       rows='4'
       size='3'

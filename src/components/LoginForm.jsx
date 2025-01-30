@@ -7,12 +7,22 @@ import {
   Callout,
   Card,
   Flex,
+  Heading,
   IconButton,
   RadioCards,
   Text,
   TextField,
 } from '@radix-ui/themes'
 import { useState } from 'react'
+import { PageSubHeading } from './Typography'
+import { styled } from '@/lib/stitches'
+
+const RadioItem = styled(RadioCards.Item, {
+  cursor: 'pointer !important',
+  '&:hover': {
+    background: 'var(--accent-10)',
+  },
+})
 
 const LoginForm = () => {
   const user = useStore($user)
@@ -28,6 +38,24 @@ const LoginForm = () => {
       direction='column'
       align='center'
       justify='center'>
+      <Flex
+        direction='column'
+        align='center'
+        mb='4'>
+        <Text
+          size='6'
+          mb='8'
+          align='center'>
+          Bienvenue sur le site dédié à la Démarche Portfolio : Synthétiser vos projets,
+          réaliser un bilan sur vos compétences et miser sur vos axes d'améliorations tout
+          au long de votre cursus MMI. La finalité de ce site est de vous apporter des
+          contenus pour ensuite enrichir votre profil LinkedIn et votre propre site web
+          personnel
+        </Text>
+
+        <PageSubHeading title='Se connecter' />
+      </Flex>
+
       <Card style={{ width: '100%', maxWidth: '400px', padding: 24 }}>
         {showError && (
           <Callout.Root color='red'>
@@ -37,6 +65,7 @@ const LoginForm = () => {
             <Callout.Text>Nom utilisateur ou mot de passe invalide</Callout.Text>
           </Callout.Root>
         )}
+
         <form
           style={{ width: '100%' }}
           onSubmit={async (e) => {
@@ -67,31 +96,30 @@ const LoginForm = () => {
                   onValueChange={(value) => {
                     $setUser({ but: value })
                   }}>
-                  <RadioCards.Item value='BUT1'>
+                  <RadioItem value='BUT1'>
                     <Flex
                       direction='column'
                       width='100%'>
                       <Text weight='bold'>BUT 1</Text>
                     </Flex>
-                  </RadioCards.Item>
-                  <RadioCards.Item value='BUT2'>
+                  </RadioItem>
+                  <RadioItem value='BUT2'>
                     <Flex
                       direction='column'
                       width='100%'>
                       <Text weight='bold'>BUT 2</Text>
                     </Flex>
-                  </RadioCards.Item>
-                  <RadioCards.Item value='BUT3'>
+                  </RadioItem>
+                  <RadioItem value='BUT3'>
                     <Flex
                       direction='column'
                       width='100%'>
                       <Text weight='bold'>BUT 3</Text>
                     </Flex>
-                  </RadioCards.Item>
+                  </RadioItem>
                 </RadioCards.Root>
               </Flex>
             </Flex>
-
             {/* Email Input */}
             <Flex
               gap='2'
@@ -117,7 +145,6 @@ const LoginForm = () => {
                 }}
               />
             </Flex>
-
             {/* Password Input with Show/Hide Password Button */}
             <Flex
               gap='2'
@@ -137,6 +164,16 @@ const LoginForm = () => {
                 required
                 autoComplete='current-password'
                 placeholder='Mot de passe'
+                onKeyDown={async (e) => {
+                  if (e.key === 'Enter') {
+                    e.preventDefault()
+                    const disabled = !user?.username || !user?.password || !user?.but
+                    if (!disabled) {
+                      const valide = await $login()
+                      setShowError(!valide)
+                    }
+                  }
+                }}
                 onChange={(e) => {
                   console.log('Password field value:', e.target.value)
                   $setUser({ password: e.target.value })
@@ -165,7 +202,6 @@ const LoginForm = () => {
                 </TextField.Slot>
               </TextField.Root>
             </Flex>
-
             {/* Submit Button */}
             <Button
               size='4'

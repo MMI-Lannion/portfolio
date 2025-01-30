@@ -3,7 +3,7 @@ import EditableTextArea from '@/components/EditableTextArea'
 import SyntheseFiles from '@/components/SyntheseFiles'
 import { TreeMap } from '@/components/TreeMap'
 import { PageHeading, PageSubHeading, PageText } from '@/components/Typography'
-import { Flex, Separator } from '@radix-ui/themes'
+import { Flex, Separator, Strong } from '@radix-ui/themes'
 import { QuickNav } from '@/components/QuickNav'
 import { $sae } from '@/store/Store'
 
@@ -92,8 +92,10 @@ export default function Synthese() {
           <PageSubHeading title='Pièces Jointes' />
 
           <PageText>
-            Importer une ou plusieurs « traces » de vos réalisations (jpeg, png, pdf, mp4,
-            doc). Ne pas dépasser « indiquer la valeur maximum pour le téléchargement »
+            Sélectionner une ou plusieurs « traces » de vos réalisations (jpeg, png, pdf,
+            mp4, doc), puis <Strong>cliquer sur valider</Strong> pour les importer.
+            <br />
+            Ne pas dépasser « indiquer la valeur maximum pour le téléchargement »
           </PageText>
 
           <SyntheseFiles />
